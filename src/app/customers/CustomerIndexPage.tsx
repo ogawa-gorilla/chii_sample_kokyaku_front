@@ -53,9 +53,7 @@ export default function CustomerIndexPage () {
         </div>
       </div>
       <div className="main-content">
-        <Container>
-          <CustomerList />
-        </Container>
+        <CustomerList />
       </div>
     </div>
   )

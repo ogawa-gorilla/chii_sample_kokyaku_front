@@ -9,10 +9,12 @@ export const CustomerList = () => {
   const filteredCustomers = useAppSelector(selectFilteredCustomers);
 
   return (
-    <Row className="container mt-3 mb-5">
+    <div className="container mt-3 mb-5">
+      <Row>
       {filteredCustomers.map((customer) => (
         <Col
           md={4}
+          key={customer.id}
         >
           <CustomerCard
             id={customer.id}
@@ -23,5 +25,6 @@ export const CustomerList = () => {
         </Col>
       ))}
     </Row>
+    </div>
   );
 }; 
