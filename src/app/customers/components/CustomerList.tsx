@@ -1,14 +1,15 @@
 'use client';
 
 import { useAppSelector } from "../../../hooks";
+import { selectFilteredCustomers } from "../../../store/features/customerSlice";
 import { CustomerCard } from "./CustomerCard";
 
 export const CustomerList = () => {
-  const { customers } = useAppSelector((state) => state.customer);
+  const filteredCustomers = useAppSelector(selectFilteredCustomers);
 
   return (
     <div className="container mt-3 mb-5">
-      {customers.map((customer) => (
+      {filteredCustomers.map((customer) => (
         <CustomerCard
           key={customer.id}
           name={customer.name}

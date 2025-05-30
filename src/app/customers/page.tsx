@@ -2,8 +2,17 @@
 
 import { Button, Container, Form } from "react-bootstrap"
 import { CustomerList } from "./components/CustomerList"
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setSearchQuery } from "../../store/features/customerSlice";
 
 export default function CustomerIndexPage () {
+  const dispatch = useAppDispatch();
+  const searchQuery = useAppSelector(state => state.customer.searchQuery);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
+
   return (
     <div>
       <style>
@@ -70,7 +79,12 @@ export default function CustomerIndexPage () {
         <div className="search-area">
           <Container>
             <Form>
-              <Form.Control type="text" placeholder="名前・電話番号・会社名で検索" />
+              <Form.Control 
+                type="text" 
+                placeholder="名前・会社名で検索" 
+                value={searchQuery}
+                onChange={handleSearch}
+              />
             </Form>
           </Container>
         </div>

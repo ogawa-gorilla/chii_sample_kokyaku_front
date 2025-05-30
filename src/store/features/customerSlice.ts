@@ -99,10 +99,25 @@ const initialState: CustomerState = {
 export const customerSlice = createSlice({
   name: 'customer',
   initialState,
-  reducers: {},
+  reducers: {
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    }
+  },
 });
 
 export const {
+  setSearchQuery,
 } = customerSlice.actions;
+
+export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
+  const query = state.customer.searchQuery.toLowerCase();
+  if (!query) return state.customer.customers;
+  
+  return state.customer.customers.filter(customer => 
+    customer.name.toLowerCase().includes(query) ||
+    (customer.company && customer.company.toLowerCase().includes(query))
+  );
+};
 
 export default customerSlice.reducer; 
