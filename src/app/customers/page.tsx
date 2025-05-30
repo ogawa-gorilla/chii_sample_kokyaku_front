@@ -4,6 +4,7 @@ import { Button, Container, Form } from "react-bootstrap"
 import { CustomerList } from "./components/CustomerList"
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setSearchQuery } from "../../store/features/customerSlice";
+import { Footer } from "../components/common/Footer";
 
 export default function CustomerIndexPage () {
   const dispatch = useAppDispatch();
@@ -56,15 +57,6 @@ export default function CustomerIndexPage () {
           background: white;
           border-bottom: 1px solid #eee;
         }
-        .fixed-footer {
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          background: #f8f9fa;
-          border-top: 1px solid #ddd;
-          padding: 0.5rem 0;
-          z-index: 1000;
-        }
         .main-content {
           padding-top: 130px; /* ヘッダーと検索バーの高さ分 */
           padding-bottom: 80px; /* フッターの高さ分 */
@@ -94,24 +86,7 @@ export default function CustomerIndexPage () {
           <CustomerList />
         </Container>
       </div>
-      <div className="fixed-footer d-flex justify-content-around py-2">
-        <a href="#" className="text-center text-muted">
-          <div>🏠</div>
-          <small>ホーム</small>
-        </a>
-        <a href="#" className="text-center text-primary">
-          <div>👤</div>
-          <small>顧客</small>
-        </a>
-        <a href="#" className="text-center text-muted">
-          <div>📅</div>
-          <small>予定</small>
-        </a>
-        <a href="#" className="text-center text-muted">
-          <div>⚙️</div>
-          <small>設定</small>
-        </a>
-      </div>
+      <Footer />
     </div>
   )
 }
