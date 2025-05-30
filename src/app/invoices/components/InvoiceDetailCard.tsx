@@ -1,11 +1,14 @@
 import { Button, Card } from "react-bootstrap";
-import { Invoice } from "../../../types/invoice";
+import { Invoice, InvoiceStatus } from "../../../types/invoice";
 
 interface InvoiceDetailCardProps {
   invoice: Invoice;
 }
 
 export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
+
+  const badgeClass = props.invoice.status === InvoiceStatus.PAID ? 'bg-success text-white' : 'bg-warning text-dark';
+
   return (
     <div>
       <style>
@@ -57,7 +60,7 @@ export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
             <div className="mb-2">
               <div className="info-label">支払いステータス:</div>
               <div>
-                <span className="badge bg-warning text-dark">{props.invoice.status}</span>
+                <span className={"badge text-dark " + badgeClass}>{props.invoice.status}</span>
               </div>
             </div>
           </div>

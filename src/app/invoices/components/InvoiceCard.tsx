@@ -2,7 +2,7 @@ import { Card, Button } from "react-bootstrap"
 import { setCurrentPage } from "../../../store/navigationSlice"
 import { Page } from "../../../types/page"
 import { useAppDispatch } from "../../../hooks";
-import { Invoice } from "../../../types/invoice";
+import { Invoice, InvoiceStatus } from "../../../types/invoice";
 import { setSelectedInvoice } from "../../../store/features/invoiceSlice";
 
 interface InvoiceCardProps {
@@ -11,7 +11,10 @@ interface InvoiceCardProps {
 
 export const InvoiceCard = (props: InvoiceCardProps) => {
   const dispatch = useAppDispatch();
-  
+
+  const badgeClass = props.invoice.status === InvoiceStatus.PAID ? 'bg-success text-white' : 'bg-warning text-dark';
+  const bgClass = props.invoice.status === InvoiceStatus.PAID ? '' : 'bg-card-warning';
+
   return (
     <div>
       <style>{`
@@ -22,17 +25,17 @@ export const InvoiceCard = (props: InvoiceCardProps) => {
           font-weight: 600;
           font-size: 1.1rem;
         }
-        .invoice-meta {
-          font-size: 0.9rem;
-          color: #6c757d;
-        }
         .amount {
           font-weight: 500;
           font-size: 1.1rem;
           color: #5c4db1;
-        }`}
+        }
+        .bg-card-warning {
+          background-color: rgba(255, 193, 7, 0.15) !important;
+        }
+        `}
       </style>
-    <Card className="invoice-card shadow-sm">
+    <Card className={"invoice-card shadow-sm " + bgClass}>
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-start">
               <div>
@@ -44,7 +47,7 @@ export const InvoiceCard = (props: InvoiceCardProps) => {
               <div className="text-end d-flex flex-column justify-content-between">
                 <div>
                   <div className="amount">¥{props.invoice.amount.toLocaleString()}</div>
-                  <div className="invoice-meta">{props.invoice.status}</div>
+                  <span className={"badge " + badgeClass}>{props.invoice.status}</span>
                 </div>
                 <div className="mt-2"><Button variant="outline-primary" onClick={() => {
                                     dispatch(setSelectedInvoice(props.invoice.id))
