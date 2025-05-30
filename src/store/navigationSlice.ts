@@ -17,7 +17,7 @@ export const navigationSlice = createSlice({
   reducers: {
     setCurrentPage: (state, action: PayloadAction<Page>) => {
       state.currentPage = action.payload
-    },
+    }
   },
 })
 

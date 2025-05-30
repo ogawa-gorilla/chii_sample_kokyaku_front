@@ -4,7 +4,6 @@ import { Button, Container, Form } from "react-bootstrap"
 import { CustomerList } from "./components/CustomerList"
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { setSearchQuery } from "../../store/features/customerSlice";
-import { Footer } from "../components/common/Footer";
 
 export default function CustomerIndexPage () {
   const dispatch = useAppDispatch();

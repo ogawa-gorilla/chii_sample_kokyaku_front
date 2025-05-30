@@ -6,6 +6,7 @@ interface CustomerState {
   loading: boolean;
   error: string | null;
   searchQuery: string;
+  selectedCustomerId: string;
 }
 
 const initialState: CustomerState = {
@@ -94,6 +95,7 @@ const initialState: CustomerState = {
   loading: false,
   error: null,
   searchQuery: '',
+  selectedCustomerId: '',
 };
 
 export const customerSlice = createSlice({
@@ -102,12 +104,16 @@ export const customerSlice = createSlice({
   reducers: {
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
+    },
+    setSelectedCustomer: (state, action: PayloadAction<string>) => {
+      state.selectedCustomerId = action.payload;
     }
   },
 });
 
 export const {
   setSearchQuery,
+  setSelectedCustomer,
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
@@ -118,6 +124,10 @@ export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
     customer.name.toLowerCase().includes(query) ||
     (customer.company && customer.company.toLowerCase().includes(query))
   );
+};
+
+export const getSelectedCustomer = (state: { customer: CustomerState }): Customer | undefined => {
+  return state.customer.customers.find(customer => customer.id === state.customer.selectedCustomerId);
 };
 
 export default customerSlice.reducer; 

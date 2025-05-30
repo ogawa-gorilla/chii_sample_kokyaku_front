@@ -1,10 +1,29 @@
+'use client';
+
 import CustomerIndexPage from "./customers/CustomerIndexPage";
 import { Footer } from "./components/common/Footer";
+import { Page } from "../types/page";
+import CustomerDetailPage from "./customers/CustomerDetailPage";
+import { useAppSelector } from "../hooks";
+
+type Page = typeof Page[keyof typeof Page];
+
+const showPage = (currentPage: Page) => {
+  switch (currentPage) {
+    case Page.customerList:
+      return <CustomerIndexPage />;
+    case Page.customerDetail:
+      return <CustomerDetailPage />;
+  }
+}
 
 export default function Home() {
+
+  const currentPage = useAppSelector(state => state.navigation.currentPage);
+
   return (
     <div>
-    <CustomerIndexPage />
+    {showPage(currentPage)}
     <Footer />
     </div>
   );

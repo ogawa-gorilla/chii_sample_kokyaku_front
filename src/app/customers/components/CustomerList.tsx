@@ -12,6 +12,7 @@ export const CustomerList = () => {
       {filteredCustomers.map((customer) => (
         <CustomerCard
           key={customer.id}
+          id={customer.id}
           name={customer.name}
           phoneNumber={customer.phoneNumber}
           company={customer.company}
