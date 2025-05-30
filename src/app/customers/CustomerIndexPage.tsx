@@ -24,34 +24,6 @@ export default function CustomerIndexPage () {
           padding: 1rem;
           margin-bottom: 1rem;
         }
-        .fixed-header-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          background: white;
-          z-index: 1000;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .navbar {
-          padding: 0.75rem 1rem;
-          background: #2C3E50;
-          margin: 0;
-          color: white;
-        }
-        .navbar .navbar-brand {
-          color: white;
-          margin: 0;
-        }
-        .navbar .btn-primary {
-          background-color: #3498DB;
-          border-color: #3498DB;
-          color: white;
-        }
-        .navbar .btn-primary:hover {
-          background-color: #2980B9;
-          border-color: #2980B9;
-        }
         .search-area {
           padding: 1rem;
           background: white;
