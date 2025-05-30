@@ -25,7 +25,7 @@ const footerButtons = (currentPage: Page) => {
   }
 
 return(
-  <div>
+  <div className="fixed-footer d-flex justify-content-around py-2">
     <FooterButton icon="🏠" label="ホーム" isActive={tab === Tab.home} />
     <FooterButton icon="👤" label="顧客" isActive={tab === Tab.customer} />
     <FooterButton icon="🧾" label="請求書" isActive={tab === Tab.invoice} />
@@ -39,11 +39,8 @@ export const Footer: FC = () => {
   const currentPage = useAppSelector(state => state.navigation.currentPage)
 
   return (
-    <div className="fixed-footer d-flex justify-content-around py-2">
-      <FooterButton icon="🏠" label="ホーム" />
-      <FooterButton icon="👤" label="顧客" isActive={true} />
-      <FooterButton icon="📅" label="予定" />
-      <FooterButton icon="⚙️" label="設定" />
+    <div>
+      {footerButtons(currentPage)}
     </div>
   );
 }; 
