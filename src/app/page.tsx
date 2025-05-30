@@ -5,6 +5,7 @@ import { Footer } from "./components/common/Footer";
 import { Page } from "../types/page";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import { useAppSelector } from "../hooks";
+import HelpPage from "./customers/HelpPage";
 
 type Page = typeof Page[keyof typeof Page];
 
@@ -14,6 +15,8 @@ const showPage = (currentPage: Page) => {
       return <CustomerIndexPage />;
     case Page.customerDetail:
       return <CustomerDetailPage />;
+    case Page.help:
+      return <HelpPage />;
   }
 }
 

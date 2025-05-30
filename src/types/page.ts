@@ -3,4 +3,5 @@ export const Page = {
   customerDetail: 'customerDetail',
   customerCreate: 'customerCreate',
   customerEdit: 'customerEdit',
+  help: 'help',
 } as const;

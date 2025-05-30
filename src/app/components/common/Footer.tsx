@@ -11,7 +11,7 @@ const Tab = {
   home: 'home',
   customer: 'customer',
   invoice: 'invoice',
-  setting: 'setting',
+  help: 'help',
 }
 
 type Tab = typeof Tab[keyof typeof Tab];
@@ -20,16 +20,18 @@ const footerButtons = (currentPage: Page) => {
   var tab: Tab;
   if (currentPage === Page.customerList || currentPage === Page.customerDetail || currentPage === Page.customerCreate || currentPage === Page.customerEdit) {
     tab = Tab.customer
+  } else if (currentPage === Page.help) {
+    tab = Tab.help
   } else {
     tab = Tab.home
   }
 
 return(
   <div className="fixed-footer d-flex justify-content-around py-2">
-    <FooterButton icon="🏠" label="ホーム" isActive={tab === Tab.home} />
-    <FooterButton icon="👤" label="顧客" isActive={tab === Tab.customer} />
-    <FooterButton icon="🧾" label="請求書" isActive={tab === Tab.invoice} />
-    <FooterButton icon="⚙️" label="設定" isActive={tab === Tab.setting} />
+    <FooterButton icon="🏠" label="ホーム" isActive={tab === Tab.home} pageTo={Page.customerList} />
+    <FooterButton icon="👤" label="顧客" isActive={tab === Tab.customer} pageTo={Page.customerList} />
+    <FooterButton icon="🧾" label="請求書" isActive={tab === Tab.invoice} pageTo={Page.customerList} />
+    <FooterButton icon="❓" label="ヘルプ" isActive={tab === Tab.help} pageTo={Page.help} />
   </div>
 )
 }
