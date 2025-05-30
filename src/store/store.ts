@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import customerReducer from './features/customerSlice';
+import navigationReducer from './navigationSlice';
 
 export const store = configureStore({
     reducer: {
         customer: customerReducer,
+        navigation: navigationReducer,
     },
 });
 
