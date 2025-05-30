@@ -1,7 +1,7 @@
 import { Card, Button } from "react-bootstrap"
-import { setCurrentPage } from "../../store/navigationSlice"
-import { Page } from "../../types/page"
-import { useAppDispatch } from "../../hooks";
+import { setCurrentPage } from "../../../store/navigationSlice"
+import { Page } from "../../../types/page"
+import { useAppDispatch } from "../../../hooks";
 
 export const InvoiceCard = () => {
   const dispatch = useAppDispatch();

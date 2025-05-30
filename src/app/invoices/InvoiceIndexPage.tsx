@@ -4,7 +4,7 @@ import { Button, Card, Container, Form } from "react-bootstrap";
 import { setCurrentPage } from "../../store/navigationSlice";
 import { useAppDispatch } from "../../hooks";
 import { Page } from "../../types/page";
-import { InvoiceCardList } from "./InvoiceCardList";
+import { InvoiceCardList } from "./components/InvoiceCardList";
 
 type Page = typeof Page[keyof typeof Page];
 

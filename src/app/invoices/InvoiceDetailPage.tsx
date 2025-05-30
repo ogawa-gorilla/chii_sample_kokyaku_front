@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Container } from "react-bootstrap";
-import { InvoiceDetailCard } from "./InvoiceDetailCard";
+import { InvoiceDetailCard } from "./components/InvoiceDetailCard";
 
 export const InvoiceDetailPage = () => {
   return (
