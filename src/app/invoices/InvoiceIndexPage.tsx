@@ -68,9 +68,12 @@ export const InvoiceIndexPage = () => {
                 <div className="invoice-meta">請求日：2025/05/20</div>
                 <div className="invoice-meta">請求番号：INV-00123</div>
               </div>
-              <div className="text-end">
-                <div className="amount">¥120,000</div>
-                <div className="invoice-meta">未払い</div>
+              <div className="text-end d-flex flex-column justify-content-between">
+                <div>
+                  <div className="amount">¥120,000</div>
+                  <div className="invoice-meta">未払い</div>
+                </div>
+                <div className="mt-2"><Button variant="outline-primary">詳細</Button></div>
               </div>
             </div>
           </div>
