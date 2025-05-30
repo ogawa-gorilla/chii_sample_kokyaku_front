@@ -1,5 +1,5 @@
 export interface Invoice {
-  id: number;
+  id: string;
   customerId: string;
   customerName: string;
   company: string;

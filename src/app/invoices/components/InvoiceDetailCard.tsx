@@ -1,6 +1,11 @@
 import { Button, Card } from "react-bootstrap";
+import { Invoice } from "../../../types/invoice";
 
-export const InvoiceDetailCard = () => {
+interface InvoiceDetailCardProps {
+  invoice: Invoice;
+}
+
+export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
   return (
     <div>
       <style>
@@ -17,7 +22,7 @@ export const InvoiceDetailCard = () => {
             <div className="mb-2">
               <div className="info-label">名前:</div>
               <div className="d-flex align-items-center">
-                <span className="me-2">山田 太郎</span>
+                <span className="me-2">{props.invoice.customerName}</span>
                 <Button 
                   size="sm" 
                   variant="outline-secondary"
@@ -31,28 +36,28 @@ export const InvoiceDetailCard = () => {
 
             <div className="mb-2">
               <div className="info-label">会社名:</div>
-              <div>株式会社サンプル</div>
+              <div>{props.invoice.company}</div>
             </div>
 
             <div className="mb-2">
               <div className="info-label">請求日:</div>
-              <div>2025年5月30日</div>
+              <div>{props.invoice.date}</div>
             </div>
 
             <div className="mb-2">
               <div className="info-label">請求番号:</div>
-              <div>#INV-20250530-001</div>
+              <div>#{props.invoice.invoiceNumber}</div>
             </div>
 
             <div className="mb-2">
               <div className="info-label">金額:</div>
-              <div>¥120,000</div>
+              <div>¥{props.invoice.amount.toLocaleString()}</div>
             </div>
 
             <div className="mb-2">
               <div className="info-label">支払いステータス:</div>
               <div>
-                <span className="badge bg-warning text-dark">未払い</span>
+                <span className="badge bg-warning text-dark">{props.invoice.status}</span>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { setCurrentPage } from "../../../store/navigationSlice"
 import { Page } from "../../../types/page"
 import { useAppDispatch } from "../../../hooks";
 import { Invoice } from "../../../types/invoice";
+import { setSelectedInvoice } from "../../../store/features/invoiceSlice";
 
 interface InvoiceCardProps {
   invoice: Invoice;
@@ -45,7 +46,10 @@ export const InvoiceCard = (props: InvoiceCardProps) => {
                   <div className="amount">¥{props.invoice.amount.toLocaleString()}</div>
                   <div className="invoice-meta">{props.invoice.status}</div>
                 </div>
-                <div className="mt-2"><Button variant="outline-primary" onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}>詳細</Button></div>
+                <div className="mt-2"><Button variant="outline-primary" onClick={() => {
+                                    dispatch(setSelectedInvoice(props.invoice.id))
+                                    dispatch(setCurrentPage(Page.invoiceDetail))
+                  }}>詳細</Button></div>
               </div>
             </div>
           </div>
