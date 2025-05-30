@@ -27,7 +27,8 @@ export default function HelpPage () {
             <p className="card-text mb-2">データの新規作成や保存、削除もできます。</p>
             <p className="card-text mb-2">ブラウザをリロードするとデータは初期状態に戻ります。</p>
             <p className="card-text">自由に触ってみてください。</p>
-    </div>
+            <p className="card-text">PCやタブレットをお持ちの方は、そちらでも開いてみてください。画面が切り替わります。</p>
+        </div>
   </div>
         </Container>
       </div>
