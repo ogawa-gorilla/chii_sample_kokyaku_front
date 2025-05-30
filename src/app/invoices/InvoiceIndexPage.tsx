@@ -1,15 +1,9 @@
 'use client';
 
-import { Button, Card, Container, Form } from "react-bootstrap";
-import { setCurrentPage } from "../../store/navigationSlice";
-import { useAppDispatch } from "../../hooks";
-import { Page } from "../../types/page";
+import { Button, Container, Form } from "react-bootstrap";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
 export const InvoiceIndexPage = () => {
-
-  const dispatch = useAppDispatch();
-
   return (
     <div>
       <style>{`
