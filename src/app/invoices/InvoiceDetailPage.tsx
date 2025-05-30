@@ -30,7 +30,17 @@ export const InvoiceDetailPage = () => {
 
             <div className="mb-2">
               <div className="info-label">名前:</div>
-              <div >山田 太郎</div>
+              <div className="d-flex align-items-center">
+                <span className="me-2">山田 太郎</span>
+                <Button 
+                  size="sm" 
+                  variant="outline-secondary"
+                  onClick={() => window.location.href = '/customers/1'}
+                  style={{ padding: '0.25rem 0.5rem' }}
+                >
+                  <i className="bi bi-person"></i> 顧客詳細
+                </Button>
+              </div>
             </div>
 
             <div className="mb-2">
