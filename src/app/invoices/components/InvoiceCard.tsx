@@ -42,7 +42,7 @@ export const InvoiceCard = (props: InvoiceCardProps) => {
               </div>
               <div className="text-end d-flex flex-column justify-content-between">
                 <div>
-                  <div className="amount">¥{props.invoice.amount}</div>
+                  <div className="amount">¥{props.invoice.amount.toLocaleString()}</div>
                   <div className="invoice-meta">{props.invoice.status}</div>
                 </div>
                 <div className="mt-2"><Button variant="outline-primary" onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}>詳細</Button></div>
