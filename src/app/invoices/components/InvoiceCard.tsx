@@ -2,8 +2,13 @@ import { Card, Button } from "react-bootstrap"
 import { setCurrentPage } from "../../../store/navigationSlice"
 import { Page } from "../../../types/page"
 import { useAppDispatch } from "../../../hooks";
+import { Invoice } from "../../../types/invoice";
 
-export const InvoiceCard = () => {
+interface InvoiceCardProps {
+  invoice: Invoice;
+}
+
+export const InvoiceCard = (props: InvoiceCardProps) => {
   const dispatch = useAppDispatch();
   
   return (
@@ -30,15 +35,15 @@ export const InvoiceCard = () => {
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-start">
               <div>
-                <div className="invoice-title">加藤 博司</div>
-                <div className="invoice-meta">株式会社サンプル</div>
-                <div className="invoice-meta">請求日：2025/05/20</div>
-                <div className="invoice-meta">請求番号：INV-00123</div>
+                <div className="invoice-title">{props.invoice.customerName}</div>
+                <div className="invoice-meta">{props.invoice.company}</div>
+                <div className="invoice-meta">請求日：{props.invoice.date}</div>
+                <div className="invoice-meta">請求番号：{props.invoice.invoiceNumber}</div>
               </div>
               <div className="text-end d-flex flex-column justify-content-between">
                 <div>
-                  <div className="amount">¥120,000</div>
-                  <div className="invoice-meta">未払い</div>
+                  <div className="amount">¥{props.invoice.amount}</div>
+                  <div className="invoice-meta">{props.invoice.status}</div>
                 </div>
                 <div className="mt-2"><Button variant="outline-primary" onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}>詳細</Button></div>
               </div>

@@ -1,16 +1,19 @@
 import { Row, Col } from "react-bootstrap";
 import { InvoiceCard } from "./InvoiceCard";
+import { useAppSelector } from "../../../hooks";
 
 export const InvoiceCardList = () => {
+
+  const invoices = useAppSelector(state => state.invoice  .invoices);
+
   return (
     <div>
       <Row>
-        <Col md={4} key="1">
-          <InvoiceCard />
+        {invoices.map(invoice =>
+          <Col md={4} key={invoice.id}>
+            <InvoiceCard invoice={invoice} />
         </Col>
-        <Col md={4} key="2">
-          <InvoiceCard />
-        </Col>
+        )}
       </Row>
       
       
