@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Col } from 'react-bootstrap';
 import { useAppDispatch } from '../../../hooks';
 import { Page } from '../../../types/page';
 import { setCurrentPage } from '../../../store/navigationSlice';
@@ -18,7 +18,7 @@ export const CustomerCard: FC<CustomerCardProps> = (props: CustomerCardProps) =>
   const dispatch = useAppDispatch();
 
   return (
-    <div 
+    <div
       className="customer-card bg-white shadow-sm p-3" 
       role="button"
       style={{ cursor: "pointer" }}
