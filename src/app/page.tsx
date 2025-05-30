@@ -6,6 +6,7 @@ import { Page } from "../types/page";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import { useAppSelector } from "../hooks";
 import HelpPage from "./customers/HelpPage";
+import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 
 type Page = typeof Page[keyof typeof Page];
 
@@ -15,6 +16,8 @@ const showPage = (currentPage: Page) => {
       return <CustomerIndexPage />;
     case Page.customerDetail:
       return <CustomerDetailPage />;
+    case Page.invoiceList:
+      return <InvoiceIndexPage />;
     case Page.help:
       return <HelpPage />;
   }

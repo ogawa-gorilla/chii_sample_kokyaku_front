@@ -3,5 +3,9 @@ export const Page = {
   customerDetail: 'customerDetail',
   customerCreate: 'customerCreate',
   customerEdit: 'customerEdit',
+  invoiceList: 'invoiceList',
+  invoiceDetail: 'invoiceDetail',
+  invoiceCreate: 'invoiceCreate',
+  invoiceEdit: 'invoiceEdit',
   help: 'help',
 } as const;
