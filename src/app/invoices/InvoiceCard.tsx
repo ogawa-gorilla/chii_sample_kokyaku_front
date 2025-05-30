@@ -1,53 +1,50 @@
-import { Button, Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap"
+import { setCurrentPage } from "../../store/navigationSlice"
+import { Page } from "../../types/page"
+import { useAppDispatch } from "../../hooks";
 
 export const InvoiceCard = () => {
+  const dispatch = useAppDispatch();
+  
   return (
-    <Card className="shadow-sm">
+    <div>
+      <style>{`
+      .invoice-card {
+          margin-bottom: 1rem;
+        }
+        .invoice-title {
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+        .invoice-meta {
+          font-size: 0.9rem;
+          color: #6c757d;
+        }
+        .amount {
+          font-weight: 500;
+          font-size: 1.1rem;
+          color: #5c4db1;
+        }`}
+      </style>
+    <Card className="invoice-card shadow-sm">
           <div className="card-body">
-            <h5 className="card-title mb-3">請求書詳細</h5>
-
-            <div className="mb-2">
-              <div className="info-label">名前:</div>
-              <div className="d-flex align-items-center">
-                <span className="me-2">山田 太郎</span>
-                <Button 
-                  size="sm" 
-                  variant="outline-secondary"
-                  onClick={() => window.location.href = '/customers/1'}
-                  style={{ padding: '0.25rem 0.5rem' }}
-                >
-                  <i className="bi bi-person"></i> 顧客詳細
-                </Button>
-              </div>
-            </div>
-
-            <div className="mb-2">
-              <div className="info-label">会社名:</div>
-              <div>株式会社サンプル</div>
-            </div>
-
-            <div className="mb-2">
-              <div className="info-label">請求日:</div>
-              <div>2025年5月30日</div>
-            </div>
-
-            <div className="mb-2">
-              <div className="info-label">請求番号:</div>
-              <div>#INV-20250530-001</div>
-            </div>
-
-            <div className="mb-2">
-              <div className="info-label">金額:</div>
-              <div>¥120,000</div>
-            </div>
-
-            <div className="mb-2">
-              <div className="info-label">支払いステータス:</div>
+            <div className="d-flex justify-content-between align-items-start">
               <div>
-                <span className="badge bg-warning text-dark">未払い</span>
+                <div className="invoice-title">加藤 博司</div>
+                <div className="invoice-meta">株式会社サンプル</div>
+                <div className="invoice-meta">請求日：2025/05/20</div>
+                <div className="invoice-meta">請求番号：INV-00123</div>
+              </div>
+              <div className="text-end d-flex flex-column justify-content-between">
+                <div>
+                  <div className="amount">¥120,000</div>
+                  <div className="invoice-meta">未払い</div>
+                </div>
+                <div className="mt-2"><Button variant="outline-primary" onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}>詳細</Button></div>
               </div>
             </div>
           </div>
         </Card>
-  );
-};
+        </div>
+  )
+}

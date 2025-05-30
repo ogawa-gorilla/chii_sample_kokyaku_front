@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Card, Container } from "react-bootstrap";
-import { InvoiceCard } from "./InvoiceCard";
+import { Button, Container } from "react-bootstrap";
+import { InvoiceCardList } from "./InvoiceCardList";
 
 export const InvoiceDetailPage = () => {
   return (
@@ -25,7 +25,7 @@ export const InvoiceDetailPage = () => {
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceCard />
+        <InvoiceCardList />
       </Container>
     </div>
   );
