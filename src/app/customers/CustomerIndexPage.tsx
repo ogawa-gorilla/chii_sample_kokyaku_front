@@ -86,7 +86,6 @@ export default function CustomerIndexPage () {
           <CustomerList />
         </Container>
       </div>
-      <Footer />
     </div>
   )
 }

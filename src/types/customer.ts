@@ -1,5 +1,3 @@
-import { Company } from "./company"
-
 export interface Customer {
   id: string;
   name: string;
