@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Page } from "../types/page";
 
-type Page = typeof Page[keyof typeof Page];
-
 interface NavigationState {
   currentPage: Page
 }

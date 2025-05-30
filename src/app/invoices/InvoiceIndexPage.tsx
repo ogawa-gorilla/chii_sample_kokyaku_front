@@ -6,8 +6,6 @@ import { useAppDispatch } from "../../hooks";
 import { Page } from "../../types/page";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
-type Page = typeof Page[keyof typeof Page];
-
 export const InvoiceIndexPage = () => {
 
   const dispatch = useAppDispatch();

@@ -9,3 +9,5 @@ export const Page = {
   invoiceEdit: 'invoiceEdit',
   help: 'help',
 } as const;
+
+export type Page = typeof Page[keyof typeof Page];

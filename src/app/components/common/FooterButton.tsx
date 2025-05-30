@@ -3,8 +3,6 @@ import { Page } from '../../../types/page';
 import { useAppDispatch } from '../../../hooks';
 import { setCurrentPage } from '../../../store/navigationSlice';
 
-type Page = typeof Page[keyof typeof Page];
-
 interface FooterButtonProps {
   icon: string;
   label: string;

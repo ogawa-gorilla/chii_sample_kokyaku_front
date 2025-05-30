@@ -5,8 +5,6 @@ import { FooterButton } from './FooterButton';
 import { useAppSelector } from '../../../hooks';
 import { Page } from '../../../types/page';
 
-type Page = typeof Page[keyof typeof Page];
-
 const Tab = {
   home: 'home',
   customer: 'customer',

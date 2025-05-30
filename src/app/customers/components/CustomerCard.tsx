@@ -12,8 +12,6 @@ interface CustomerCardProps {
   company?: string;
 }
 
-type Page = typeof Page[keyof typeof Page];
-
 export const CustomerCard: FC<CustomerCardProps> = (props: CustomerCardProps) => {
   const dispatch = useAppDispatch();
 

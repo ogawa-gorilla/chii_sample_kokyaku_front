@@ -9,8 +9,6 @@ import HelpPage from "./customers/HelpPage";
 import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
 
-type Page = typeof Page[keyof typeof Page];
-
 const showPage = (currentPage: Page) => {
   switch (currentPage) {
     case Page.customerList:
