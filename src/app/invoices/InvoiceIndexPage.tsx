@@ -1,8 +1,16 @@
 'use client';
 
 import { Button, Card, Container, Form } from "react-bootstrap";
+import { setCurrentPage } from "../../store/navigationSlice";
+import { useAppDispatch } from "../../hooks";
+import { Page } from "../../types/page";
+
+type Page = typeof Page[keyof typeof Page];
 
 export const InvoiceIndexPage = () => {
+
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       <style>{`
@@ -73,7 +81,7 @@ export const InvoiceIndexPage = () => {
                   <div className="amount">¥120,000</div>
                   <div className="invoice-meta">未払い</div>
                 </div>
-                <div className="mt-2"><Button variant="outline-primary">詳細</Button></div>
+                <div className="mt-2"><Button variant="outline-primary" onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}>詳細</Button></div>
               </div>
             </div>
           </div>
