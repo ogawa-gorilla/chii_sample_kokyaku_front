@@ -1,8 +1,11 @@
-import { configureStore, Action } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import customerReducer from './features/customerSlice';
 
 export const store = configureStore({
-    reducer: {}
-})
+    reducer: {
+        customer: customerReducer,
+    },
+});
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;
