@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, Container } from "react-bootstrap";
-import { InvoiceCardList } from "./InvoiceCardList";
+import { InvoiceDetailCard } from "./InvoiceDetailCard";
 
 export const InvoiceDetailPage = () => {
   return (
@@ -12,10 +12,6 @@ export const InvoiceDetailPage = () => {
             padding-top: 80px; /* ヘッダーの高さ分 */
             padding-bottom: 80px; /* フッターの高さ分 */
         }
-        .info-label {
-          color: #6c757d;
-          font-size: 0.9rem;
-        }
         `}
       </style>
       <div className="fixed-header-container">
@@ -25,7 +21,7 @@ export const InvoiceDetailPage = () => {
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceCardList />
+        <InvoiceDetailCard />
       </Container>
     </div>
   );

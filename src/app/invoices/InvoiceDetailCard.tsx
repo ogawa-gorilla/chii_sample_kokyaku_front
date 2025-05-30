@@ -2,6 +2,14 @@ import { Button, Card } from "react-bootstrap";
 
 export const InvoiceDetailCard = () => {
   return (
+    <div>
+      <style>
+      .info-label {`
+          color: #6c757d;
+          font-size: 0.9rem;
+        }
+          `}
+      </style>
     <Card className="shadow-sm">
           <div className="card-body">
             <h5 className="card-title mb-3">請求書詳細</h5>
@@ -49,5 +57,6 @@ export const InvoiceDetailCard = () => {
             </div>
           </div>
         </Card>
+        </div>
   );
 };
