@@ -53,3 +53,12 @@ body {
   background-color: #2980B9;
   border-color: #2980B9;
 }
+
+.form-label {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+
+.form-label.modified {
+  color: #dc3545;
+}
