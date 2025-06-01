@@ -1,24 +1,16 @@
-import { Button, Card, Form } from 'react-bootstrap';
+import { Card, Form } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { cancelEditing, saveDraft, updateDraft } from '../../../store/features/customerSlice';
+import { updateDraft } from '../../../store/features/customerSlice';
 import { Customer } from '../../../types/customer';
 
 interface CustomerDetailEditorProps {
   customer: Customer;
+  onSubmit: (e: React.FormEvent) => void;
 }
 
-export default function CustomerDetailEditor({ customer }: CustomerDetailEditorProps) {
+export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDetailEditorProps) {
   const dispatch = useAppDispatch();
   const draftCustomer = useAppSelector(state => state.customer.draftCustomer);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(saveDraft());
-  };
-
-  const handleCancel = () => {
-    dispatch(cancelEditing());
-  };
 
   const handleChange = (field: keyof Customer, value: string) => {
     dispatch(updateDraft({ [field]: value }));
@@ -29,7 +21,7 @@ export default function CustomerDetailEditor({ customer }: CustomerDetailEditorP
   return (
     <Card className="mb-3">
       <Card.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3">
             <Form.Label className="info-label">名前</Form.Label>
             <Form.Control
@@ -59,15 +51,6 @@ export default function CustomerDetailEditor({ customer }: CustomerDetailEditorP
               placeholder="未設定"
             />
           </Form.Group>
-
-          <div className="d-flex gap-2 justify-content-end">
-            <Button variant="secondary" onClick={handleCancel}>
-              キャンセル
-            </Button>
-            <Button variant="primary" type="submit">
-              保存
-            </Button>
-          </div>
         </Form>
       </Card.Body>
     </Card>

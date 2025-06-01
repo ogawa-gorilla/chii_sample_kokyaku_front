@@ -2,12 +2,13 @@
 
 import { Button, Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { deleteCustomer, startEditing } from '../../store/features/customerSlice';
+import { deleteCustomer, saveDraft, startEditing } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
 import { Page } from '../../types/page';
 import CustomerDetailActionBar from './components/CustomerDetailActionBar';
 import CustomerDetailCard from './components/CustomerDetailCard';
 import CustomerDetailEditor from './components/CustomerDetailEditor';
+import CustomerDetailEditorActionBar from './components/CustomerDetailEditorActionBar';
 
 export default function CustomerDetailPage() {
   const selectedCustomerId = useAppSelector(state => state.customer.selectedCustomerId);
@@ -24,6 +25,11 @@ export default function CustomerDetailPage() {
 
   const handleEdit = () => {
     dispatch(startEditing());
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    dispatch(saveDraft());
   };
 
   if (!customer) {
@@ -91,7 +97,13 @@ export default function CustomerDetailPage() {
       <div className="main-content">
         <Container>
           {isEditing ? (
-            <CustomerDetailEditor customer={customer} />
+            <>
+              <CustomerDetailEditor 
+                customer={customer}
+                onSubmit={handleSubmit}
+              />
+              <CustomerDetailEditorActionBar onSubmit={handleSubmit} />
+            </>
           ) : (
             <>
               <CustomerDetailCard customer={customer} />
