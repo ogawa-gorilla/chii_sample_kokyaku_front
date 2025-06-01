@@ -52,6 +52,13 @@ export const Footer: FC = () => {
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
             z-index: 900;
           }
+          .fixed-footer a {
+            text-decoration: none;
+            color: inherit;
+          }
+          .fixed-footer a:hover {
+            text-decoration: none;
+          }
         `}
       </style>
       {footerButtons(currentPage)}

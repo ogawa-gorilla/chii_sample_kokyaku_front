@@ -22,25 +22,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.fixed-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: #f8f9fa;
-  border-top: 1px solid #ddd;
-  padding: 0.5rem 0;
-  z-index: 1000;
-}
-
-.fixed-footer a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.fixed-footer a:hover {
-  text-decoration: none;
-}
-
 .fixed-header-container {
   position: fixed;
   top: 0;
