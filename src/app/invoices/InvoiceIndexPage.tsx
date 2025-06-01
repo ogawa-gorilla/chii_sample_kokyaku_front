@@ -13,9 +13,15 @@ export const InvoiceIndexPage = () => {
           border-bottom: 1px solid #eee;
         }
         .main-content {
-          padding-top: 200px; /* ヘッダーと検索バーの高さ分 */
-          padding-bottom: 80px; /* フッターの高さ分 */
-        }`}
+          padding-top: 200px;
+          padding-bottom: 80px;
+        }
+        @media (max-width: 575.98px) {
+          .main-content {
+            padding-top: 280px;
+          }
+        }
+        `}
       </style>
       
       <div className="fixed-header-container">
@@ -34,10 +40,18 @@ export const InvoiceIndexPage = () => {
             <Form>
               <Form.Check className="mt-2 mb-2" type="checkbox" label="未払いのみ表示" />
             </Form>
-            <Form className="d-flex align-items-center gap-2">
-              <input type="date" className="form-control" />
-              <span>～</span>
-              <input type="date" className="form-control" />
+            <Form>
+              <div className="row g-2 align-items-center">
+                <div className="col-sm-5">
+                  <Form.Control type="date" />
+                </div>
+                <div className="col-sm-auto">
+                  <span>～</span>
+                </div>
+                <div className="col-sm-5">
+                  <Form.Control type="date" />
+                </div>
+              </div>
             </Form>
           </Container>
         </div>
