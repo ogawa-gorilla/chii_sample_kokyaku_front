@@ -5,9 +5,10 @@ import { Customer } from '../../../types/customer';
 interface CustomerDetailActionBarProps {
   customer: Customer;
   onDelete: (customerId: string) => void;
+  onEdit: () => void;
 }
 
-export default function CustomerDetailActionBar({ customer, onDelete }: CustomerDetailActionBarProps) {
+export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: CustomerDetailActionBarProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
@@ -30,6 +31,7 @@ export default function CustomerDetailActionBar({ customer, onDelete }: Customer
             <Button 
               variant="primary"
               className="action-button"
+              onClick={onEdit}
             >
               編集
             </Button>

@@ -2,17 +2,20 @@
 
 import { Button, Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { deleteCustomer } from '../../store/features/customerSlice';
+import { cancelEditing, deleteCustomer, startEditing, updateCustomer } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
+import { Customer } from '../../types/customer';
 import { Page } from '../../types/page';
 import CustomerDetailActionBar from './components/CustomerDetailActionBar';
 import CustomerDetailCard from './components/CustomerDetailCard';
+import CustomerDetailEditor from './components/CustomerDetailEditor';
 
 export default function CustomerDetailPage() {
   const selectedCustomerId = useAppSelector(state => state.customer.selectedCustomerId);
   const customer = useAppSelector(state => 
     state.customer.customers.find(c => c.id === selectedCustomerId)
   );
+  const isEditing = useAppSelector(state => state.customer.editing);
   const dispatch = useAppDispatch();
 
   const handleDelete = (customerId: string) => {
@@ -20,11 +23,23 @@ export default function CustomerDetailPage() {
     dispatch(setCurrentPage(Page.customerList));
   };
 
+  const handleEdit = () => {
+    dispatch(startEditing());
+  };
+
+  const handleCancelEdit = () => {
+    dispatch(cancelEditing());
+  };
+
+  const handleSave = (updatedCustomer: Customer) => {
+    dispatch(updateCustomer(updatedCustomer));
+  };
+
   if (!customer) {
     return (
       <Container className="mt-4">
         <div>顧客が見つかりませんでした。</div>
-        <Button>
+        <Button onClick={() => dispatch(setCurrentPage(Page.customerList))}>
           戻る
         </Button>
       </Container>
@@ -76,19 +91,32 @@ export default function CustomerDetailPage() {
           <Button variant="primary" size="sm" onClick={() => dispatch(setCurrentPage(Page.customerList))}>
             ← 戻る
           </Button>
-          <span className="navbar-brand mb-0 h5">顧客詳細</span>
+          <span className="navbar-brand mb-0 h5">
+            {isEditing ? '顧客情報編集' : '顧客詳細'}
+          </span>
           <span></span>
         </nav>
       </div>
       <div className="main-content">
         <Container>
-          <CustomerDetailCard customer={customer} />
+          {isEditing ? (
+            <CustomerDetailEditor
+              customer={customer}
+              onSave={handleSave}
+              onCancel={handleCancelEdit}
+            />
+          ) : (
+            <>
+              <CustomerDetailCard customer={customer} />
+              <CustomerDetailActionBar 
+                customer={customer}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+              />
+            </>
+          )}
         </Container>
       </div>
-      <CustomerDetailActionBar 
-        customer={customer}
-        onDelete={handleDelete}
-      />
     </div>
   );
 } 

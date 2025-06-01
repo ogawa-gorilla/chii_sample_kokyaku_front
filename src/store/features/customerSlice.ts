@@ -7,6 +7,7 @@ interface CustomerState {
   error: string | null;
   searchQuery: string;
   selectedCustomerId: string;
+  editing: boolean;
 }
 
 const initialState: CustomerState = {
@@ -96,6 +97,7 @@ const initialState: CustomerState = {
   error: null,
   searchQuery: '',
   selectedCustomerId: '',
+  editing: false,
 };
 
 export const customerSlice = createSlice({
@@ -107,10 +109,28 @@ export const customerSlice = createSlice({
     },
     setSelectedCustomer: (state, action: PayloadAction<string>) => {
       state.selectedCustomerId = action.payload;
+      state.editing = false;
     },
     deleteCustomer: (state, action: PayloadAction<string>) => {
       state.customers = state.customers.filter(customer => customer.id !== action.payload);
       state.selectedCustomerId = '';
+      state.editing = false;
+    },
+    startEditing: (state) => {
+      state.editing = true;
+    },
+    cancelEditing: (state) => {
+      state.editing = false;
+    },
+    updateCustomer: (state, action: PayloadAction<Customer>) => {
+      const index = state.customers.findIndex(c => c.id === action.payload.id);
+      if (index !== -1) {
+        state.customers[index] = {
+          ...action.payload,
+          updatedAt: new Date().toISOString()
+        };
+      }
+      state.editing = false;
     }
   },
 });
@@ -118,7 +138,10 @@ export const customerSlice = createSlice({
 export const {
   setSearchQuery,
   setSelectedCustomer,
-  deleteCustomer
+  deleteCustomer,
+  startEditing,
+  cancelEditing,
+  updateCustomer
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
