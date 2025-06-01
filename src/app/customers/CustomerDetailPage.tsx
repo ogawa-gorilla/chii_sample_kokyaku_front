@@ -1,7 +1,9 @@
 'use client';
 
-import { Button, Card, Container } from 'react-bootstrap';
+import { useState } from 'react';
+import { Button, Card, Container, Modal } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { deleteCustomer } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
 import { Page } from '../../types/page';
 
@@ -10,8 +12,14 @@ export default function CustomerDetailPage() {
   const customer = useAppSelector(state => 
     state.customer.customers.find(c => c.id === selectedCustomerId)
   );
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const dispatch = useAppDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteCustomer(selectedCustomerId));
+    dispatch(setCurrentPage(Page.customerList));
+  };
 
   if (!customer) {
     return (
@@ -110,12 +118,31 @@ export default function CustomerDetailPage() {
             <Button 
               variant="danger"
               className="action-button"
+              onClick={() => setShowDeleteConfirm(true)}
             >
               削除
             </Button>
           </div>
         </Container>
       </div>
+
+      <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>削除の確認</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>本当に{customer.name}さんを削除してもよろしいですか？</p>
+          <p className="text-danger">この操作は取り消せません。</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
+            キャンセル
+          </Button>
+          <Button variant="danger" onClick={handleDelete}>
+            削除する
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 } 

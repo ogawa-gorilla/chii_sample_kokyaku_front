@@ -107,6 +107,10 @@ export const customerSlice = createSlice({
     },
     setSelectedCustomer: (state, action: PayloadAction<string>) => {
       state.selectedCustomerId = action.payload;
+    },
+    deleteCustomer: (state, action: PayloadAction<string>) => {
+      state.customers = state.customers.filter(customer => customer.id !== action.payload);
+      state.selectedCustomerId = '';
     }
   },
 });
@@ -114,6 +118,7 @@ export const customerSlice = createSlice({
 export const {
   setSearchQuery,
   setSelectedCustomer,
+  deleteCustomer
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
