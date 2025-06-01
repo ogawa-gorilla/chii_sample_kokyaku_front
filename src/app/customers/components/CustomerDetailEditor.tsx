@@ -18,12 +18,29 @@ export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDet
 
   if (!draftCustomer) return null;
 
+  const isFieldChanged = (field: keyof Customer) => {
+    return draftCustomer[field] !== customer[field];
+  };
+
+  const getLabelStyle = (field: keyof Customer) => {
+    return {
+      color: isFieldChanged(field) ? '#dc3545' : '#6c757d',
+      fontSize: '0.9rem'
+    };
+  };
+
+  const getLabelText = (field: keyof Customer, label: string) => {
+    return `${label}${isFieldChanged(field) ? ' *' : ''}`;
+  };
+
   return (
     <Card className="mb-3">
       <Card.Body>
         <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label className="info-label">名前</Form.Label>
+            <Form.Label style={getLabelStyle('name')}>
+              {getLabelText('name', '名前')}
+            </Form.Label>
             <Form.Control
               type="text"
               value={draftCustomer.name}
@@ -33,7 +50,9 @@ export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDet
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="info-label">電話番号</Form.Label>
+            <Form.Label style={getLabelStyle('phoneNumber')}>
+              {getLabelText('phoneNumber', '電話番号')}
+            </Form.Label>
             <Form.Control
               type="tel"
               value={draftCustomer.phoneNumber}
@@ -43,7 +62,9 @@ export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDet
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label className="info-label">会社名</Form.Label>
+            <Form.Label style={getLabelStyle('company')}>
+              {getLabelText('company', '会社名')}
+            </Form.Label>
             <Form.Control
               type="text"
               value={draftCustomer.company}
