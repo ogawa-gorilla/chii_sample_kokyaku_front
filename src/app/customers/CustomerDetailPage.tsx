@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-import { Button, Container, Form, Modal } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { deleteCustomer } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
 import { Page } from '../../types/page';
+import CustomerDetailActionBar from './components/CustomerDetailActionBar';
 import CustomerDetailCard from './components/CustomerDetailCard';
 
 export default function CustomerDetailPage() {
@@ -13,21 +13,11 @@ export default function CustomerDetailPage() {
   const customer = useAppSelector(state => 
     state.customer.customers.find(c => c.id === selectedCustomerId)
   );
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [deleteConfirmText, setDeleteConfirmText] = useState('');
-
   const dispatch = useAppDispatch();
 
-  const handleDelete = () => {
-    if (deleteConfirmText === '削除する') {
-      dispatch(deleteCustomer(selectedCustomerId));
-      dispatch(setCurrentPage(Page.customerList));
-    }
-  };
-
-  const handleCloseModal = () => {
-    setShowDeleteConfirm(false);
-    setDeleteConfirmText('');
+  const handleDelete = (customerId: string) => {
+    dispatch(deleteCustomer(customerId));
+    dispatch(setCurrentPage(Page.customerList));
   };
 
   if (!customer) {
@@ -95,56 +85,10 @@ export default function CustomerDetailPage() {
           <CustomerDetailCard customer={customer} />
         </Container>
       </div>
-      <div className="action-bar">
-        <Container>
-          <div className="action-buttons">
-            <Button 
-              variant="primary"
-              className="action-button"
-            >
-              編集
-            </Button>
-            <Button 
-              variant="danger"
-              className="action-button"
-              onClick={() => setShowDeleteConfirm(true)}
-            >
-              削除
-            </Button>
-          </div>
-        </Container>
-      </div>
-
-      <Modal show={showDeleteConfirm} onHide={handleCloseModal} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>削除の確認</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>本当に{customer.name}さんを削除してもよろしいですか？</p>
-          <p className="text-danger">この操作は取り消せません。</p>
-          <Form.Group className="mt-3">
-            <Form.Label>確認のため「削除する」と入力してください：</Form.Label>
-            <Form.Control
-              type="text"
-              value={deleteConfirmText}
-              onChange={(e) => setDeleteConfirmText(e.target.value)}
-              placeholder="削除する"
-            />
-          </Form.Group>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseModal}>
-            キャンセル
-          </Button>
-          <Button 
-            variant="danger" 
-            onClick={handleDelete}
-            disabled={deleteConfirmText !== '削除する'}
-          >
-            削除する
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <CustomerDetailActionBar 
+        customer={customer}
+        onDelete={handleDelete}
+      />
     </div>
   );
 } 
