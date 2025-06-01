@@ -1,27 +1,30 @@
-import { useState } from 'react';
 import { Button, Card, Form } from 'react-bootstrap';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import { cancelEditing, saveDraft, updateDraft } from '../../../store/features/customerSlice';
 import { Customer } from '../../../types/customer';
 
 interface CustomerDetailEditorProps {
   customer: Customer;
-  onSave: (customer: Customer) => void;
-  onCancel: () => void;
 }
 
-export default function CustomerDetailEditor({ customer, onSave, onCancel }: CustomerDetailEditorProps) {
-  const [formData, setFormData] = useState({
-    name: customer.name,
-    phoneNumber: customer.phoneNumber,
-    company: customer.company || '',
-  });
+export default function CustomerDetailEditor({ customer }: CustomerDetailEditorProps) {
+  const dispatch = useAppDispatch();
+  const draftCustomer = useAppSelector(state => state.customer.draftCustomer);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({
-      ...customer,
-      ...formData,
-    });
+    dispatch(saveDraft());
   };
+
+  const handleCancel = () => {
+    dispatch(cancelEditing());
+  };
+
+  const handleChange = (field: keyof Customer, value: string) => {
+    dispatch(updateDraft({ [field]: value }));
+  };
+
+  if (!draftCustomer) return null;
 
   return (
     <Card className="mb-3">
@@ -31,8 +34,8 @@ export default function CustomerDetailEditor({ customer, onSave, onCancel }: Cus
             <Form.Label className="info-label">名前</Form.Label>
             <Form.Control
               type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              value={draftCustomer.name}
+              onChange={(e) => handleChange('name', e.target.value)}
               required
             />
           </Form.Group>
@@ -41,8 +44,8 @@ export default function CustomerDetailEditor({ customer, onSave, onCancel }: Cus
             <Form.Label className="info-label">電話番号</Form.Label>
             <Form.Control
               type="tel"
-              value={formData.phoneNumber}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              value={draftCustomer.phoneNumber}
+              onChange={(e) => handleChange('phoneNumber', e.target.value)}
               required
             />
           </Form.Group>
@@ -51,14 +54,14 @@ export default function CustomerDetailEditor({ customer, onSave, onCancel }: Cus
             <Form.Label className="info-label">会社名</Form.Label>
             <Form.Control
               type="text"
-              value={formData.company}
-              onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+              value={draftCustomer.company}
+              onChange={(e) => handleChange('company', e.target.value)}
               placeholder="未設定"
             />
           </Form.Group>
 
           <div className="d-flex gap-2 justify-content-end">
-            <Button variant="secondary" onClick={onCancel}>
+            <Button variant="secondary" onClick={handleCancel}>
               キャンセル
             </Button>
             <Button variant="primary" type="submit">

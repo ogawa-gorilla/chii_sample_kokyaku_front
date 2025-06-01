@@ -8,6 +8,7 @@ interface CustomerState {
   searchQuery: string;
   selectedCustomerId: string;
   editing: boolean;
+  draftCustomer: Customer | null;
 }
 
 const initialState: CustomerState = {
@@ -98,6 +99,7 @@ const initialState: CustomerState = {
   searchQuery: '',
   selectedCustomerId: '',
   editing: false,
+  draftCustomer: null,
 };
 
 export const customerSlice = createSlice({
@@ -110,27 +112,45 @@ export const customerSlice = createSlice({
     setSelectedCustomer: (state, action: PayloadAction<string>) => {
       state.selectedCustomerId = action.payload;
       state.editing = false;
+      state.draftCustomer = null;
     },
     deleteCustomer: (state, action: PayloadAction<string>) => {
       state.customers = state.customers.filter(customer => customer.id !== action.payload);
       state.selectedCustomerId = '';
       state.editing = false;
+      state.draftCustomer = null;
     },
     startEditing: (state) => {
-      state.editing = true;
+      const customer = state.customers.find(c => c.id === state.selectedCustomerId);
+      if (customer) {
+        state.draftCustomer = { ...customer };
+        state.editing = true;
+      }
     },
     cancelEditing: (state) => {
       state.editing = false;
+      state.draftCustomer = null;
     },
-    updateCustomer: (state, action: PayloadAction<Customer>) => {
-      const index = state.customers.findIndex(c => c.id === action.payload.id);
-      if (index !== -1) {
-        state.customers[index] = {
-          ...action.payload,
-          updatedAt: new Date().toISOString()
+    updateDraft: (state, action: PayloadAction<Partial<Customer>>) => {
+      if (state.draftCustomer) {
+        state.draftCustomer = {
+          ...state.draftCustomer,
+          ...action.payload
         };
       }
-      state.editing = false;
+    },
+    saveDraft: (state) => {
+      if (state.draftCustomer) {
+        const index = state.customers.findIndex(c => c.id === state.draftCustomer!.id);
+        if (index !== -1) {
+          state.customers[index] = {
+            ...state.draftCustomer,
+            updatedAt: new Date().toISOString()
+          };
+        }
+        state.editing = false;
+        state.draftCustomer = null;
+      }
     }
   },
 });
@@ -141,7 +161,8 @@ export const {
   deleteCustomer,
   startEditing,
   cancelEditing,
-  updateCustomer
+  updateDraft,
+  saveDraft
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {

@@ -2,9 +2,8 @@
 
 import { Button, Container } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { cancelEditing, deleteCustomer, startEditing, updateCustomer } from '../../store/features/customerSlice';
+import { deleteCustomer, startEditing } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
-import { Customer } from '../../types/customer';
 import { Page } from '../../types/page';
 import CustomerDetailActionBar from './components/CustomerDetailActionBar';
 import CustomerDetailCard from './components/CustomerDetailCard';
@@ -25,14 +24,6 @@ export default function CustomerDetailPage() {
 
   const handleEdit = () => {
     dispatch(startEditing());
-  };
-
-  const handleCancelEdit = () => {
-    dispatch(cancelEditing());
-  };
-
-  const handleSave = (updatedCustomer: Customer) => {
-    dispatch(updateCustomer(updatedCustomer));
   };
 
   if (!customer) {
@@ -100,11 +91,7 @@ export default function CustomerDetailPage() {
       <div className="main-content">
         <Container>
           {isEditing ? (
-            <CustomerDetailEditor
-              customer={customer}
-              onSave={handleSave}
-              onCancel={handleCancelEdit}
-            />
+            <CustomerDetailEditor customer={customer} />
           ) : (
             <>
               <CustomerDetailCard customer={customer} />
