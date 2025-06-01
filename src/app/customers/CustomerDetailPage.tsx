@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Container, Modal } from 'react-bootstrap';
+import { Button, Card, Container, Form, Modal } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { deleteCustomer } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
@@ -13,12 +13,20 @@ export default function CustomerDetailPage() {
     state.customer.customers.find(c => c.id === selectedCustomerId)
   );
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
   const dispatch = useAppDispatch();
 
   const handleDelete = () => {
-    dispatch(deleteCustomer(selectedCustomerId));
-    dispatch(setCurrentPage(Page.customerList));
+    if (deleteConfirmText === '削除する') {
+      dispatch(deleteCustomer(selectedCustomerId));
+      dispatch(setCurrentPage(Page.customerList));
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowDeleteConfirm(false);
+    setDeleteConfirmText('');
   };
 
   if (!customer) {
@@ -126,19 +134,32 @@ export default function CustomerDetailPage() {
         </Container>
       </div>
 
-      <Modal show={showDeleteConfirm} onHide={() => setShowDeleteConfirm(false)} centered>
+      <Modal show={showDeleteConfirm} onHide={handleCloseModal} centered>
         <Modal.Header closeButton>
           <Modal.Title>削除の確認</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p>本当に{customer.name}さんを削除してもよろしいですか？</p>
           <p className="text-danger">この操作は取り消せません。</p>
+          <Form.Group className="mt-3">
+            <Form.Label>確認のため「削除する」と入力してください：</Form.Label>
+            <Form.Control
+              type="text"
+              value={deleteConfirmText}
+              onChange={(e) => setDeleteConfirmText(e.target.value)}
+              placeholder="削除する"
+            />
+          </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteConfirm(false)}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             キャンセル
           </Button>
-          <Button variant="danger" onClick={handleDelete}>
+          <Button 
+            variant="danger" 
+            onClick={handleDelete}
+            disabled={deleteConfirmText !== '削除する'}
+          >
             削除する
           </Button>
         </Modal.Footer>
