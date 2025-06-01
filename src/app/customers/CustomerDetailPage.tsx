@@ -38,7 +38,7 @@ export default function CustomerDetailPage() {
           }
           .action-bar {
             position: fixed;
-            bottom: 40;
+            bottom: 20;
             left: 0;
             right: 0;
             background: white;
@@ -49,6 +49,18 @@ export default function CustomerDetailPage() {
           .action-button {
             width: 100%;
             padding: 0.8rem;
+          }
+          .action-buttons {
+            display: flex;
+            gap: 1rem;
+          }
+          .delete-button {
+            background-color: #dc3545;
+            border-color: #dc3545;
+          }
+          .delete-button:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
           }
         `}
       </style>
@@ -88,12 +100,20 @@ export default function CustomerDetailPage() {
       </div>
       <div className="action-bar">
         <Container>
-          <Button 
-            variant="primary"
-            className="action-button"
-          >
-            編集
-          </Button>
+          <div className="action-buttons">
+            <Button 
+              variant="primary"
+              className="action-button"
+            >
+              編集
+            </Button>
+            <Button 
+              variant="danger"
+              className="action-button"
+            >
+              削除
+            </Button>
+          </div>
         </Container>
       </div>
     </div>
