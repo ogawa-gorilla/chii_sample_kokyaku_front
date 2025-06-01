@@ -1,9 +1,9 @@
 'use client';
 
 import { FC } from 'react';
-import { FooterButton } from './FooterButton';
 import { useAppSelector } from '../../../hooks';
 import { Page } from '../../../types/page';
+import { FooterButton } from './FooterButton';
 
 const Tab = {
   home: 'home',
@@ -16,7 +16,7 @@ type Tab = typeof Tab[keyof typeof Tab];
 
 const footerButtons = (currentPage: Page) => {
   var tab: Tab;
-  if (currentPage === Page.customerList || currentPage === Page.customerDetail || currentPage === Page.customerCreate || currentPage === Page.customerEdit) {
+  if (currentPage === Page.customerList || currentPage === Page.customerDetail || currentPage === Page.customerCreate) {
     tab = Tab.customer
   } else if (currentPage === Page.invoiceList || currentPage === Page.invoiceDetail || currentPage === Page.invoiceCreate || currentPage === Page.invoiceEdit) {
     tab = Tab.invoice
