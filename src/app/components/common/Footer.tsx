@@ -37,11 +37,23 @@ return(
 }
 
 export const Footer: FC = () => {
-
   const currentPage = useAppSelector(state => state.navigation.currentPage)
 
   return (
     <div>
+      <style>
+        {`
+          .fixed-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 900;
+          }
+        `}
+      </style>
       {footerButtons(currentPage)}
     </div>
   );

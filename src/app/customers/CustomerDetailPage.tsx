@@ -44,26 +44,34 @@ export default function CustomerDetailPage() {
   }
 
   return (
-    <div>
+    <div className="page-container">
       <style>
         {`
+          .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            position: relative;
+          }
           .info-label {
             color: #6c757d;
             font-size: 0.9rem;
           }
           .main-content {
+            flex: 1;
             padding-top: 80px; /* ヘッダーの高さ分 */
             padding-bottom: 80px; /* フッターの高さ分 */
           }
           .action-bar {
             position: fixed;
-            bottom: 20;
+            bottom: 0;
             left: 0;
             right: 0;
             background: white;
             padding: 1rem;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
+            margin-bottom: 60px; /* フッターの高さ分 */
           }
           .action-button {
             width: 100%;
@@ -81,6 +89,21 @@ export default function CustomerDetailPage() {
             background-color: #c82333;
             border-color: #bd2130;
           }
+          .fixed-header-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          }
+          .navbar {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
         `}
       </style>
       <div className="fixed-header-container">
@@ -97,25 +120,24 @@ export default function CustomerDetailPage() {
       <div className="main-content">
         <Container>
           {isEditing ? (
-            <>
-              <CustomerDetailEditor 
-                customer={customer}
-                onSubmit={handleSubmit}
-              />
-              <CustomerDetailEditorActionBar onSubmit={handleSubmit} />
-            </>
+            <CustomerDetailEditor 
+              customer={customer}
+              onSubmit={handleSubmit}
+            />
           ) : (
-            <>
-              <CustomerDetailCard customer={customer} />
-              <CustomerDetailActionBar 
-                customer={customer}
-                onDelete={handleDelete}
-                onEdit={handleEdit}
-              />
-            </>
+            <CustomerDetailCard customer={customer} />
           )}
         </Container>
       </div>
+      {isEditing ? (
+        <CustomerDetailEditorActionBar onSubmit={handleSubmit} />
+      ) : (
+        <CustomerDetailActionBar 
+          customer={customer}
+          onDelete={handleDelete}
+          onEdit={handleEdit}
+        />
+      )}
     </div>
   );
 } 

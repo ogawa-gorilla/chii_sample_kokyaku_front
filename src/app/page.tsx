@@ -1,13 +1,13 @@
 'use client';
 
-import CustomerIndexPage from "./customers/CustomerIndexPage";
-import { Footer } from "./components/common/Footer";
-import { Page } from "../types/page";
-import CustomerDetailPage from "./customers/CustomerDetailPage";
 import { useAppSelector } from "../hooks";
+import { Page } from "../types/page";
+import { Footer } from "./components/common/Footer";
+import CustomerDetailPage from "./customers/CustomerDetailPage";
+import CustomerIndexPage from "./customers/CustomerIndexPage";
 import HelpPage from "./customers/HelpPage";
-import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
+import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 
 const showPage = (currentPage: Page) => {
   switch (currentPage) {
@@ -25,13 +25,27 @@ const showPage = (currentPage: Page) => {
 }
 
 export default function Home() {
-
   const currentPage = useAppSelector(state => state.navigation.currentPage);
 
   return (
-    <div>
-    {showPage(currentPage)}
-    <Footer />
+    <div className="app-container">
+      <style>
+        {`
+          .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+          }
+          .main-container {
+            flex: 1;
+          }
+        `}
+      </style>
+      <div className="main-container">
+        {showPage(currentPage)}
+      </div>
+      <Footer />
     </div>
   );
 }
