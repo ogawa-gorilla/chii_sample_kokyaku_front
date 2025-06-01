@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Card, Container, Form, Modal } from 'react-bootstrap';
+import { Button, Container, Form, Modal } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { deleteCustomer } from '../../store/features/customerSlice';
 import { setCurrentPage } from '../../store/navigationSlice';
 import { Page } from '../../types/page';
+import CustomerDetailCard from './components/CustomerDetailCard';
 
 export default function CustomerDetailPage() {
   const selectedCustomerId = useAppSelector(state => state.customer.selectedCustomerId);
@@ -91,27 +92,7 @@ export default function CustomerDetailPage() {
       </div>
       <div className="main-content">
         <Container>
-          <Card className="mb-3">
-            <Card.Body>
-              <h4 className="mb-3">{customer.name}</h4>
-              <div className="mb-3">
-                <div className="info-label">電話番号</div>
-                <div>{customer.phoneNumber}</div>
-              </div>
-              <div className="mb-3">
-                <div className="info-label">会社名</div>
-                <div>{customer.company || '未設定'}</div>
-              </div>
-              <div className="mb-3">
-                <div className="info-label">登録日</div>
-                <div>{new Date(customer.createdAt).toLocaleDateString('ja-JP')}</div>
-              </div>
-              <div>
-                <div className="info-label">最終更新日</div>
-                <div>{new Date(customer.updatedAt).toLocaleDateString('ja-JP')}</div>
-              </div>
-            </Card.Body>
-          </Card>
+          <CustomerDetailCard customer={customer} />
         </Container>
       </div>
       <div className="action-bar">
