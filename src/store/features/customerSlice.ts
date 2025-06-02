@@ -1,5 +1,6 @@
 import { Customer } from '@/types/customer';
 import { normalizeForSearch } from '@/utils/japanese';
+import { generateUUID } from '@/utils/uuid';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CustomerState {
@@ -150,15 +151,35 @@ export const customerSlice = createSlice({
         };
       }
     },
+    startNewCustomer: (state) => {
+      const now = new Date().toISOString();
+      state.draftCustomer = {
+        id: generateUUID(),
+        name: '',
+        nameReading: '',
+        phoneNumber: '',
+        company: '',
+        createdAt: now,
+        updatedAt: now,
+      };
+      state.editing = true;
+      state.selectedCustomerId = '';
+    },
     saveDraft: (state) => {
       if (state.draftCustomer) {
+        const now = new Date().toISOString();
+        const updatedCustomer = {
+          ...state.draftCustomer,
+          updatedAt: now
+        };
+
         const index = state.customers.findIndex(c => c.id === state.draftCustomer!.id);
         if (index !== -1) {
-          state.customers[index] = {
-            ...state.draftCustomer,
-            updatedAt: new Date().toISOString()
-          };
+          state.customers[index] = updatedCustomer;
+        } else {
+          state.customers.push(updatedCustomer);
         }
+        state.selectedCustomerId = updatedCustomer.id;
         state.editing = false;
         state.draftCustomer = null;
       }
@@ -173,7 +194,8 @@ export const {
   startEditing,
   cancelEditing,
   updateDraft,
-  saveDraft
+  saveDraft,
+  startNewCustomer
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
