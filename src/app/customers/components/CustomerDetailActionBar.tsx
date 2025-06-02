@@ -1,4 +1,5 @@
 import { useAppDispatch } from '@/hooks';
+import { resetSearchConditions, setSearchText } from '@/store/features/invoiceSlice';
 import { setCurrentPage } from '@/store/navigationSlice';
 import { Customer } from '@/types/customer';
 import { Page } from '@/types/page';
@@ -28,8 +29,11 @@ export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: 
   };
 
   const handleSearchInvoices = () => {
-    // TODO: 請求書一覧画面に遷移し、この顧客の請求書を検索する
-    dispatch(setCurrentPage(Page.invoiceList));
+    dispatch(resetSearchConditions());
+    setTimeout(() => {
+      dispatch(setSearchText(customer.name));
+      dispatch(setCurrentPage(Page.invoiceList));
+    }, 0);
   };
 
   return (

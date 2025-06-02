@@ -9,6 +9,9 @@ interface InvoiceState {
   searchText: string;
   loading: boolean;
   error: string | null;
+  showUnpaidOnly: boolean;
+  startMonth: string;
+  endMonth: string;
 }
 
 const initialState: InvoiceState = {
@@ -183,6 +186,9 @@ const initialState: InvoiceState = {
   searchText: "",
   loading: false,
   error: null,
+  showUnpaidOnly: false,
+  startMonth: "2024-03",
+  endMonth: "2024-04"
 }
 
 export const invoiceSlice = createSlice({
@@ -194,11 +200,33 @@ export const invoiceSlice = createSlice({
     },
     setSearchText: (state, action: PayloadAction<string>) => {
       state.searchText = action.payload;
+    },
+    setShowUnpaidOnly: (state, action: PayloadAction<boolean>) => {
+      state.showUnpaidOnly = action.payload;
+    },
+    setStartMonth: (state, action: PayloadAction<string>) => {
+      state.startMonth = action.payload;
+    },
+    setEndMonth: (state, action: PayloadAction<string>) => {
+      state.endMonth = action.payload;
+    },
+    resetSearchConditions: (state) => {
+      state.searchText = "";
+      state.showUnpaidOnly = false;
+      state.startMonth = "2024-03";
+      state.endMonth = "2024-04";
     }
   }
 })
 
-export const { setSelectedInvoice, setSearchText } = invoiceSlice.actions;
+export const { 
+  setSelectedInvoice, 
+  setSearchText, 
+  setShowUnpaidOnly,
+  setStartMonth,
+  setEndMonth,
+  resetSearchConditions 
+} = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す
 export const selectFilteredInvoices = (state: RootState) => {

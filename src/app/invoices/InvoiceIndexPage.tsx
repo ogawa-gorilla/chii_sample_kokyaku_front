@@ -1,21 +1,19 @@
 'use client';
 
-import { useAppDispatch } from "@/hooks";
-import { setSearchText } from "@/store/features/invoiceSlice";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setEndMonth, setSearchText, setShowUnpaidOnly, setStartMonth } from "@/store/features/invoiceSlice";
 import { Button, Container, Form } from "react-bootstrap";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
 export const InvoiceIndexPage = () => {
   const dispatch = useAppDispatch();
-  const [localSearchText, setLocalSearchText] = useState("");
-  const [startMonth, setStartMonth] = useState("2024-03");
-  const [endMonth, setEndMonth] = useState("2024-04");
+  const searchText = useAppSelector(state => state.invoice.searchText);
+  const showUnpaidOnly = useAppSelector(state => state.invoice.showUnpaidOnly);
+  const startMonth = useAppSelector(state => state.invoice.startMonth);
+  const endMonth = useAppSelector(state => state.invoice.endMonth);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const text = e.target.value;
-    setLocalSearchText(text);
-    dispatch(setSearchText(text));
+    dispatch(setSearchText(e.target.value));
   };
 
   return (
@@ -52,26 +50,32 @@ export const InvoiceIndexPage = () => {
               <Form.Control 
                 type="text" 
                 placeholder="名前・会社名・番号で検索"
-                value={localSearchText}
+                value={searchText}
                 onChange={handleSearch}
               />
             </Form>
             <Form>
-              <Form.Check className="mt-2 mb-2" type="checkbox" label="未払いのみ表示" />
+              <Form.Check 
+                className="mt-2 mb-2" 
+                type="checkbox" 
+                label="未払いのみ表示" 
+                checked={showUnpaidOnly}
+                onChange={(e) => dispatch(setShowUnpaidOnly(e.target.checked))}
+              />
             </Form>
             <Form>
               <div className="month-picker-container">
                 <Form.Control 
                   type="month" 
                   value={startMonth}
-                  onChange={(e) => setStartMonth(e.target.value)}
+                  onChange={(e) => dispatch(setStartMonth(e.target.value))}
                   className="month-picker"
                 />
                 <span>～</span>
                 <Form.Control 
                   type="month" 
                   value={endMonth}
-                  onChange={(e) => setEndMonth(e.target.value)}
+                  onChange={(e) => dispatch(setEndMonth(e.target.value))}
                   className="month-picker"
                 />
               </div>
