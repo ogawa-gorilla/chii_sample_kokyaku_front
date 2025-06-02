@@ -188,7 +188,7 @@ const initialState: InvoiceState = {
   error: null,
   showUnpaidOnly: false,
   startMonth: "2024-03",
-  endMonth: "2024-04"
+  endMonth: "2024-03"
 }
 
 export const invoiceSlice = createSlice({
