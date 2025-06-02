@@ -9,6 +9,8 @@ import { InvoiceCardList } from "./components/InvoiceCardList";
 export const InvoiceIndexPage = () => {
   const dispatch = useAppDispatch();
   const [localSearchText, setLocalSearchText] = useState("");
+  const [startMonth, setStartMonth] = useState("2024-03");
+  const [endMonth, setEndMonth] = useState("2024-03");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -58,8 +60,9 @@ export const InvoiceIndexPage = () => {
               <div className="row g-2 align-items-center">
                 <div className="col-sm-5">
                   <Form.Control 
-                    type="date" 
-                    defaultValue="2024-03-23"
+                    type="month" 
+                    value={startMonth}
+                    onChange={(e) => setStartMonth(e.target.value)}
                   />
                 </div>
                 <div className="col-sm-auto">
@@ -67,8 +70,9 @@ export const InvoiceIndexPage = () => {
                 </div>
                 <div className="col-sm-5">
                   <Form.Control 
-                    type="date" 
-                    defaultValue="2024-03-31"
+                    type="month" 
+                    value={endMonth}
+                    onChange={(e) => setEndMonth(e.target.value)}
                   />
                 </div>
               </div>
