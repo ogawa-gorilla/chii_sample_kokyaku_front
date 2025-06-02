@@ -9,7 +9,6 @@ import { CustomerSelect } from "./CustomerSelect";
 import { StatusSelect } from "./StatusSelect";
 
 interface InvoiceCreateFormProps {
-  invoice: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
 

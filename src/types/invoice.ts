@@ -10,6 +10,20 @@ export interface Invoice {
   invoiceNumber: string;
 }
 
+export const defaultInvoice = (): Invoice => {
+  return {
+    id: '',
+    customerId: '',
+    customerName: '',
+    customerReading: '',
+    company: '',
+    date: '',
+    amount: 0,
+    status: InvoiceStatus.UNPAID,
+    invoiceNumber: '',
+  }
+}
+
 export const InvoiceStatus = {
   PAID:  '支払い済み',
   UNPAID: '未払い',

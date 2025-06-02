@@ -16,6 +16,8 @@ interface InvoiceState {
   invoiceDraft: Invoice | null;
 }
 
+const now = new Date().toISOString().split('T')[0].slice(0, 7);
+
 const initialState: InvoiceState = {
   invoices: [
     {
@@ -190,7 +192,7 @@ const initialState: InvoiceState = {
   error: null,
   showUnpaidOnly: false,
   startMonth: "2024-03",
-  endMonth: "2024-03",
+  endMonth: now,
   sortOrder: 'desc',
   invoiceDraft: null
 }
@@ -218,13 +220,14 @@ export const invoiceSlice = createSlice({
       state.sortOrder = action.payload;
     },
     resetSearchConditions: (state) => {
+      const now = new Date().toISOString().split('T')[0].slice(0, 7);
       state.searchText = "";
       state.showUnpaidOnly = false;
       state.startMonth = "2024-03";
-      state.endMonth = "2024-04";
+      state.endMonth = now;
     },
     startNewInvoice: (state) => { 
-      const now = new Date().toISOString().split('T')[0];
+      const now = new Date().toISOString().split('T')[0].slice(0, 7);
       state.invoiceDraft = {
         id: '',
         customerId: '',
@@ -241,6 +244,9 @@ export const invoiceSlice = createSlice({
       if (state.invoiceDraft) {
         state.invoiceDraft = { ...state.invoiceDraft, ...action.payload };
       }
+    },
+    createInvoice: (state, action: PayloadAction<Invoice>) => {
+      state.invoices.push(action.payload);
     }
   }
 })
@@ -254,7 +260,8 @@ export const {
   setSortOrder,
   resetSearchConditions,
   startNewInvoice,
-  updateInvoiceDraft
+  updateInvoiceDraft,
+  createInvoice
 } = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す
@@ -272,7 +279,7 @@ export const selectFilteredInvoices = (state: RootState) => {
   if (searchText) {
     filteredInvoices = filteredInvoices.filter(invoice => 
       invoice.customerName.toLowerCase().includes(searchText) ||
-      invoice.customerReading.toLowerCase().includes(normalizeForSearch(searchText)) ||
+      invoice.customerReading.toLowerCase().includes(customerNameReading) ||
       invoice.company.toLowerCase().includes(searchText) ||
       invoice.invoiceNumber.toLowerCase().includes(searchText)
     );

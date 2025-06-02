@@ -1,14 +1,21 @@
 'use client';
 
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch } from "@/hooks";
+import { createInvoice } from "@/store/features/invoiceSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
+import { defaultInvoice, Invoice } from "@/types/invoice";
+import { Page } from "@/types/page";
+import { generateUUID } from "@/utils/uuid";
 import { Container } from "react-bootstrap";
 import { InvoiceCreateForm } from "./components/InvoiceCreateForm";
-
 export const InvoiceCreatePage = () => {
-  const selectedInvoiceId = useAppSelector(state => state.invoice.selectedInvoiceId);
-  const invoice = useAppSelector(state => 
-    state.invoice.invoices.find(c => c.id === selectedInvoiceId)
-  );
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (data: Partial<Invoice>) => {
+    const newEntry = { ...defaultInvoice(), ...data, id: generateUUID() };
+    dispatch(createInvoice(newEntry));
+    dispatch(setCurrentPage(Page.invoiceList));
+  }
 
   return (
     <div>
@@ -26,7 +33,7 @@ export const InvoiceCreatePage = () => {
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceCreateForm invoice={invoice!} onSubmit={() => {}}/>
+        <InvoiceCreateForm onSubmit={handleSubmit}/>
       </Container>
     </div>
   );
