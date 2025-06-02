@@ -1,4 +1,5 @@
 import { Invoice, InvoiceStatus } from "@/types/invoice";
+import { normalizeForSearch } from "@/utils/japanese";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
@@ -16,6 +17,7 @@ const initialState: InvoiceState = {
       id: "11",
       customerId: '2', // 鈴木 花子 - 東和システム株式会社
       customerName: '鈴木 花子',
+      customerReading: 'スズキ ハナコ',
       company: '東和システム株式会社',
       date: '2024/02/05',
       amount: 220000,
@@ -26,6 +28,7 @@ const initialState: InvoiceState = {
       id: "12",
       customerId: '1', // 山田 太郎 - 丸紅建設株式会社
       customerName: '山田 太郎',
+      customerReading: 'ヤマダ タロウ',
       company: '丸紅建設株式会社',
       date: '2024/02/10',
       amount: 180000,
@@ -36,6 +39,7 @@ const initialState: InvoiceState = {
       id: "13",
       customerId: '4', // 田中 美咲 - 大和物産株式会社
       customerName: '田中 美咲',
+      customerReading: 'タナカ ミサキ',
       company: '大和物産株式会社',
       date: '2024/02/15',
       amount: 340000,
@@ -46,6 +50,7 @@ const initialState: InvoiceState = {
       id: "14",
       customerId: '9', // 中村 大輔 - 日本メディカルサービス株式会社
       customerName: '中村 大輔',
+      customerReading: 'ナカムラ ダイスケ',
       company: '日本メディカルサービス株式会社',
       date: '2024/02/20',
       amount: 260000,
@@ -56,6 +61,7 @@ const initialState: InvoiceState = {
       id: "15",
       customerId: '8', // 小林 さくら - 東和システム株式会社
       customerName: '小林 さくら',
+      customerReading: 'コバヤシ サクラ',
       company: '東和システム株式会社',
       date: '2024/02/25',
       amount: 190000,
@@ -66,6 +72,7 @@ const initialState: InvoiceState = {
       id: "1",
       customerId: '1', // 山田 太郎 - 丸紅建設株式会社
       customerName: '山田 太郎',
+      customerReading: 'ヤマダ タロウ',
       company: '丸紅建設株式会社',
       date: '2024/03/15',
       amount: 250000,
@@ -76,6 +83,7 @@ const initialState: InvoiceState = {
       id: "2",
       customerId: '2', // 鈴木 花子 - 東和システム株式会社
       customerName: '鈴木 花子',
+      customerReading: 'スズキ ハナコ',
       company: '東和システム株式会社',
       date: '2024/03/18',
       amount: 180000,
@@ -86,6 +94,7 @@ const initialState: InvoiceState = {
       id: "3",
       customerId: '3', // 佐藤 一郎 - 東和システム株式会社
       customerName: '佐藤 一郎',
+      customerReading: 'サトウ イチロウ',
       company: '東和システム株式会社',
       date: '2024/03/20',
       amount: 320000,
@@ -96,6 +105,7 @@ const initialState: InvoiceState = {
       id: "4",
       customerId: '4', // 田中 美咲 - 大和物産株式会社
       customerName: '田中 美咲',
+      customerReading: 'タナカ ミサキ',
       company: '大和物産株式会社',
       date: '2024/03/22',
       amount: 150000,
@@ -106,6 +116,7 @@ const initialState: InvoiceState = {
       id: "5",
       customerId: '1', // 山田 太郎 - 丸紅建設株式会社 (2回目)
       customerName: '山田 太郎',
+      customerReading: 'ヤマダ タロウ',
       company: '丸紅建設株式会社',
       date: '2024/03/22',
       amount: 420000,
@@ -116,6 +127,7 @@ const initialState: InvoiceState = {
       id: "6",
       customerId: '9', // 中村 大輔 - 日本メディカルサービス株式会社
       customerName: '中村 大輔',
+      customerReading: 'ナカムラ ダイスケ',
       company: '日本メディカルサービス株式会社',
       date: '2024/03/27',
       amount: 280000,
@@ -126,6 +138,7 @@ const initialState: InvoiceState = {
       id: "7",
       customerId: '8', // 小林 さくら - 東和システム株式会社
       customerName: '小林 さくら',
+      customerReading: 'コバヤシ サクラ',
       company: '東和システム株式会社',
       date: '2024/03/28',
       amount: 195000,
@@ -136,6 +149,7 @@ const initialState: InvoiceState = {
       id: "8",
       customerId: '10', // 加藤 優子 - 大和物産株式会社
       customerName: '加藤 優子',
+      customerReading: 'カトウ ユウコ',
       company: '大和物産株式会社',
       date: '2024/03/29',
       amount: 230000,
@@ -146,6 +160,7 @@ const initialState: InvoiceState = {
       id: "9",
       customerId: '11', // 木村 雄二 - テクノソリューション株式会社 (新規)
       customerName: '木村 雄二',
+      customerReading: 'キムラ ユウジ',
       company: 'テクノソリューション株式会社',
       date: '2024/03/30',
       amount: 380000,
@@ -156,6 +171,7 @@ const initialState: InvoiceState = {
       id: "10",
       customerId: '12', // 松本 理恵 - グローバルトレード株式会社 (新規)
       customerName: '松本 理恵',
+      customerReading: 'マツモト リエ',
       company: 'グローバルトレード株式会社',
       date: '2024/03/31',
       amount: 290000,
@@ -187,11 +203,13 @@ export const { setSelectedInvoice, setSearchText } = invoiceSlice.actions;
 // セレクター: フィルタリングされた請求書リストを返す
 export const selectFilteredInvoices = (state: RootState) => {
   const searchText = state.invoice.searchText.toLowerCase();
+  const customerNameReading = normalizeForSearch(state.invoice.searchText);
   
   const filteredInvoices = !searchText 
     ? state.invoice.invoices
     : state.invoice.invoices.filter(invoice => 
         invoice.customerName.toLowerCase().includes(searchText) ||
+        invoice.customerReading.toLowerCase().includes(normalizeForSearch(searchText)) ||
         invoice.company.toLowerCase().includes(searchText) ||
         invoice.invoiceNumber.toLowerCase().includes(searchText)
       );

@@ -2,6 +2,7 @@ export interface Invoice {
   id: string;
   customerId: string;
   customerName: string;
+  customerReading: string;  // フリガナ
   company: string;
   date: string;
   amount: number;

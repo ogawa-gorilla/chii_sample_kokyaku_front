@@ -25,12 +25,15 @@ export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
             <div className="mb-2">
               <div className="info-label">名前:</div>
               <div className="d-flex align-items-center">
-                <span className="me-2">{props.invoice.customerName}</span>
+                <div>
+                  <div>{props.invoice.customerName}</div>
+                  <div className="text-muted small">{props.invoice.customerReading}</div>
+                </div>
                 <Button 
                   size="sm" 
                   variant="outline-secondary"
                   onClick={() => window.location.href = '/customers/1'}
-                  style={{ padding: '0.25rem 0.5rem' }}
+                  style={{ padding: '0.25rem 0.5rem', marginLeft: '0.5rem' }}
                 >
                   <i className="bi bi-person"></i> 顧客詳細
                 </Button>
