@@ -155,10 +155,10 @@ const initialState: InvoiceState = {
       customerName: '加藤 優子',
       customerReading: 'カトウ ユウコ',
       company: '大和物産株式会社',
-      date: '2024/03/29',
+      date: '2024/03/31',
       amount: 230000,
       status: InvoiceStatus.UNPAID,
-      invoiceNumber: '240329-001',
+      invoiceNumber: '240331-002',
     },
     {
       id: "9",
