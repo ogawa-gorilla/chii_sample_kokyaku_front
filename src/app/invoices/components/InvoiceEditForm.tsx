@@ -134,8 +134,8 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
             <Form.Control
               type="date"
               disabled={!isEditing}
-              value={formData.date?.replace('/', '-')}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value.replace('-', '/') })}
+              value={formData.date?.split('/').join('-')}
+              onChange={(e) => setFormData({ ...formData, date: e.target.value.split('-').join('/') })}
             />
           </div>
 
