@@ -43,13 +43,19 @@ export const InvoiceIndexPage = () => {
             <Form>
               <div className="row g-2 align-items-center">
                 <div className="col-sm-5">
-                  <Form.Control type="date" />
+                  <Form.Control 
+                    type="date" 
+                    defaultValue="2024-03-23"
+                  />
                 </div>
                 <div className="col-sm-auto">
                   <span>～</span>
                 </div>
                 <div className="col-sm-5">
-                  <Form.Control type="date" />
+                  <Form.Control 
+                    type="date" 
+                    defaultValue="2024-03-31"
+                  />
                 </div>
               </div>
             </Form>
