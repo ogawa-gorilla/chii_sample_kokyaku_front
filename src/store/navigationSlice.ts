@@ -6,7 +6,7 @@ interface NavigationState {
 }
 
 const initialState: NavigationState = {
-  currentPage: Page.customerList
+  currentPage: Page.home
 }
 
 export const navigationSlice = createSlice({

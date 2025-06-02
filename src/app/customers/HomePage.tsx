@@ -1,8 +1,8 @@
 'use client';
 
-import { Container } from "react-bootstrap"
+import { Container } from "react-bootstrap";
 
-export default function HelpPage () {
+export default function HomePage () {
   return (
     <div>
       <style>
@@ -34,4 +34,4 @@ export default function HelpPage () {
       </div>
     </div>
   )
-}
+} 

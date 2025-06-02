@@ -5,12 +5,14 @@ import { Page } from "@/types/page";
 import { Footer } from "./components/common/Footer";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import CustomerIndexPage from "./customers/CustomerIndexPage";
-import HelpPage from "./customers/HelpPage";
+import HomePage from "./customers/HomePage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
 import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 
 const showPage = (currentPage: Page) => {
   switch (currentPage) {
+    case Page.home:
+      return <HomePage />
     case Page.customerList:
       return <CustomerIndexPage />;
     case Page.customerDetail:
@@ -19,8 +21,6 @@ const showPage = (currentPage: Page) => {
       return <InvoiceIndexPage />;
     case Page.invoiceDetail:
       return <InvoiceDetailPage />;
-    case Page.help:
-      return <HelpPage />;
   }
 }
 

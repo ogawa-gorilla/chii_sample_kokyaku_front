@@ -1,12 +1,9 @@
 export const Page = {
+  home: 'home',
   customerList: 'customerList',
   customerDetail: 'customerDetail',
-  customerCreate: 'customerCreate',
   invoiceList: 'invoiceList',
-  invoiceDetail: 'invoiceDetail',
-  invoiceCreate: 'invoiceCreate',
-  invoiceEdit: 'invoiceEdit',
-  help: 'help',
+  invoiceDetail: 'invoiceDetail'
 } as const;
 
 export type Page = typeof Page[keyof typeof Page];
