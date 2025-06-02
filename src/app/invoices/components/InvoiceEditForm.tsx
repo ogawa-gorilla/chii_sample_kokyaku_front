@@ -2,9 +2,10 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
+import { normalizeForSearch } from "@/utils/japanese";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import Select, { components } from 'react-select';
+import Select, { components, FilterOptionOption } from 'react-select';
 
 interface CustomerOption {
   value: string;
@@ -60,6 +61,19 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
     dispatch(setCurrentPage(Page.customerDetail));
   };
 
+  const filterCustomerOption = (
+    option: FilterOptionOption<CustomerOption>,
+    inputValue: string
+  ) => {
+    const searchText = normalizeForSearch(inputValue.toLowerCase());
+    const nameMatch = option.label.toLowerCase().includes(searchText);
+    const nameReadingMatch = normalizeForSearch(option.data.nameReading.toLowerCase()).includes(normalizeForSearch(searchText));
+    const companyMatch = option.data.company ? 
+      option.data.company.toLowerCase().includes(searchText) : false;
+    
+    return nameMatch || nameReadingMatch || companyMatch;
+  };
+
   return (
     <Form onSubmit={handleSubmit}>
       <div className="card mb-4">
@@ -85,6 +99,7 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
                   onChange={(option) => setFormData({ ...formData, customerId: option?.value || '' })}
                   options={customerOptions}
                   components={{ Option: CustomOption }}
+                  filterOption={filterCustomerOption}
                   isClearable
                   placeholder="顧客を検索..."
                   noOptionsMessage={() => "該当する顧客がいません"}
