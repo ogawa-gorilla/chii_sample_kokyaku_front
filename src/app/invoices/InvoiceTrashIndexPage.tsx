@@ -17,7 +17,17 @@ export const InvoiceTrashIndexPage = () => {
     // TODO: 完全削除処理の実装
   };
 
-  const trashedInvoices = useAppSelector(state => state.invoice.trashedInvoices);
+  const trashedInvoices = useAppSelector(state => 
+    [...state.invoice.trashedInvoices].sort((a, b) => {
+      // deletedAtがundefinedの場合は最後尾に配置
+      if (!a.deletedAt && !b.deletedAt) return 0;
+      if (!a.deletedAt) return 1;
+      if (!b.deletedAt) return -1;
+      
+      // deletedAtが存在する場合は降順ソート
+      return new Date(b.deletedAt).getTime() - new Date(a.deletedAt).getTime();
+    })
+  );
 
   return (
     <div>
