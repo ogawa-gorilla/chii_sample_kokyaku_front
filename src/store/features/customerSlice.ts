@@ -1,4 +1,5 @@
 import { Customer } from '@/types/customer';
+import { normalizeForSearch } from '@/utils/japanese';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CustomerState {
@@ -176,13 +177,14 @@ export const {
 } = customerSlice.actions;
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
-  const query = state.customer.searchQuery.toLowerCase();
+  const query = state.customer.searchQuery;
+  const readingQuery = normalizeForSearch(state.customer.searchQuery);
   if (!query) return state.customer.customers;
   
   return state.customer.customers.filter(customer => 
-    customer.name.toLowerCase().includes(query) ||
-    customer.nameReading.toLowerCase().includes(query) ||
-    (customer.company && customer.company.toLowerCase().includes(query))
+    customer.name.includes(query) ||
+    normalizeForSearch(customer.nameReading).includes(readingQuery) ||
+    (customer.company && customer.company.includes(query))
   );
 };
 
