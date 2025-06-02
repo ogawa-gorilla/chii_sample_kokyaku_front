@@ -14,6 +14,7 @@ interface InvoiceState {
   endMonth: string;
   sortOrder: 'asc' | 'desc';
   invoiceDraft: Invoice | null;
+  trashedInvoices: Invoice[];
 }
 
 const now = new Date().toISOString().split('T')[0].slice(0, 7);
@@ -142,17 +143,6 @@ const initialState: InvoiceState = {
       invoiceNumber: '240327-001',
     },
     {
-      id: "7",
-      customerId: '8', // 小林 さくら - 東和システム株式会社
-      customerName: '小林 さくら',
-      customerReading: 'コバヤシ サクラ',
-      company: '東和システム株式会社',
-      date: '2024/03/28',
-      amount: 195000,
-      status: InvoiceStatus.UNPAID,
-      invoiceNumber: '240328-001',
-    },
-    {
       id: "8",
       customerId: '10', // 加藤 優子 - 大和物産株式会社
       customerName: '加藤 優子',
@@ -194,7 +184,21 @@ const initialState: InvoiceState = {
   startMonth: "2024-03",
   endMonth: now,
   sortOrder: 'desc',
-  invoiceDraft: null
+  invoiceDraft: null,
+  trashedInvoices: [
+        {
+      id: "7",
+      customerId: '8', // 小林 さくら - 東和システム株式会社
+      customerName: '小林 さくら',
+      customerReading: 'コバヤシ サクラ',
+      company: '東和システム株式会社',
+      date: '2024/03/28',
+      amount: 195000,
+      status: InvoiceStatus.UNPAID,
+      invoiceNumber: '240328-001',
+      deletedAt: '2024/03/28',
+    },
+  ]
 }
 
 export const invoiceSlice = createSlice({
