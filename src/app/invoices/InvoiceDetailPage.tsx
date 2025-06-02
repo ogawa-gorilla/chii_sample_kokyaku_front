@@ -4,7 +4,8 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { startEditInvoice } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
-import { Button, Container } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Container, Modal } from "react-bootstrap";
 import { InvoiceDetailCard } from "./components/InvoiceDetailCard";
 
 export const InvoiceDetailPage = () => {
@@ -13,6 +14,7 @@ export const InvoiceDetailPage = () => {
   const invoice = useAppSelector(state => 
     state.invoice.invoices.find(c => c.id === selectedInvoiceId)
   );
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleEdit = () => {
     dispatch(startEditInvoice(invoice!.id));
@@ -20,8 +22,17 @@ export const InvoiceDetailPage = () => {
   };
 
   const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = () => {
     // TODO: 削除機能の実装
     console.log('削除処理を実装予定');
+    setShowDeleteModal(false);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   if (!invoice) {
@@ -101,6 +112,31 @@ export const InvoiceDetailPage = () => {
           </div>
         </Container>
       </div>
+
+      {/* 削除確認モーダル */}
+      <Modal show={showDeleteModal} onHide={handleCancelDelete} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>削除確認</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>この請求書を削除してもよろしいですか？</p>
+          <p className="text-muted">
+            請求書番号: {invoice?.invoiceNumber}<br/>
+            顧客名: {invoice?.customerName}
+          </p>
+          <p className="text-danger small">
+            ※この操作は取り消せません。
+          </p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCancelDelete}>
+            キャンセル
+          </Button>
+          <Button variant="danger" onClick={handleConfirmDelete}>
+            削除する
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
