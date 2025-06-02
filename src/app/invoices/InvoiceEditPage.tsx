@@ -1,13 +1,12 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setSelectedCustomer } from "@/store/features/customerSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
 import { Button, Container } from "react-bootstrap";
-import { InvoiceDetailCard } from "./components/InvoiceDetailCard";
+import { InvoiceEditForm } from "./components/InvoiceEditForm";
 
-export const InvoiceDetailPage = () => {
+export const InvoiceEditPage = () => {
   const dispatch = useAppDispatch();
   const selectedInvoiceId = useAppSelector(state => state.invoice.selectedInvoiceId);
   const invoice = useAppSelector(state => 
@@ -17,20 +16,6 @@ export const InvoiceDetailPage = () => {
     state.customer.customers.some(c => c.id === invoice?.customerId)
   );
 
-  const handleCustomerClick = () => {
-    if (invoice && customerExists) {
-      dispatch(setSelectedCustomer(invoice.customerId));
-      dispatch(setCurrentPage(Page.customerDetail));
-    }
-  };
-
-  if (!invoice) {
-    return (
-      <Container className="mt-4">
-        <div>請求書が見つかりませんでした。</div>
-      </Container>
-    );
-  }
   return (
     <div>
       <style>
@@ -47,11 +32,10 @@ export const InvoiceDetailPage = () => {
               ← 一覧へ
             </Button>
             <span className="navbar-brand mb-0 h5">請求書詳細</span>
-            <Button size="sm" variant="primary" onClick={() => dispatch(setCurrentPage(Page.invoiceEdit))}>編集</Button>
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceDetailCard invoice={invoice}/>
+        <InvoiceEditForm invoice={invoice!} onSubmit={() => {}}/>
       </Container>
     </div>
   );
