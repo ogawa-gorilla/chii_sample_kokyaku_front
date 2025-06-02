@@ -227,7 +227,7 @@ export const invoiceSlice = createSlice({
       state.endMonth = now;
     },
     startNewInvoice: (state) => { 
-      const now = new Date().toISOString().split('T')[0].slice(0, 7);
+      const now = new Date().toISOString().split('T')[0]
       state.invoiceDraft = {
         id: '',
         customerId: '',
