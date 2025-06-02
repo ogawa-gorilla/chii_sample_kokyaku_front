@@ -1,6 +1,18 @@
+import { useAppDispatch } from "@/hooks";
+import { saveInvoice } from "@/store/features/invoiceSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
+import { Invoice } from "@/types/invoice";
+import { Page } from "@/types/page";
 import { Container } from "react-bootstrap";
 import { InvoiceEditForm } from "./components/InvoiceEditForm";
 export const InvoiceEditPage = () => {
+
+  const dispatch = useAppDispatch();
+
+  const handleSubmit = (data: Partial<Invoice>) => {
+    dispatch(saveInvoice(data));
+    dispatch(setCurrentPage(Page.invoiceDetail));
+  }
 
   return (
     <div>
@@ -18,7 +30,7 @@ export const InvoiceEditPage = () => {
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceEditForm onSubmit={() => {}}/>
+        <InvoiceEditForm onSubmit={handleSubmit}/>
       </Container>
     </div>
   );

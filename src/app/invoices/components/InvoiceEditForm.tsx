@@ -144,6 +144,10 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
               variant="primary"
               className="action-button"
               type="submit"
+              onClick={() => {
+                props.onSubmit(invoiceDraft);
+                dispatch(setCurrentPage(Page.invoiceDetail));
+              }}
             >
               保存
             </Button>
