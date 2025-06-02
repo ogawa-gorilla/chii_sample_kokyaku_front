@@ -2,6 +2,7 @@ import { Customer, CustomerSortOrder } from '@/types/customer';
 import { normalizeForSearch } from '@/utils/japanese';
 import { generateUUID } from '@/utils/uuid';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector } from 'reselect';
 
 interface CustomerState {
   customers: Customer[];
@@ -225,24 +226,30 @@ const sortCustomers = (customers: Customer[], sortOrder: CustomerSortOrder): Cus
   }
 };
 
-export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
-  const query = state.customer.searchQuery;
-  const readingQuery = normalizeForSearch(state.customer.searchQuery);
-  
-  let customers = state.customer.customers;
-  
-  // 検索フィルタリングを適用
-  if (query) {
-    customers = customers.filter(customer => 
-      customer.name.includes(query) ||
-      normalizeForSearch(customer.nameReading).includes(readingQuery) ||
-      (customer.company && customer.company.includes(query))
-    );
+const selectCustomers = (state: { customer: CustomerState }) => state.customer.customers;
+const selectSearchQuery = (state: { customer: CustomerState }) => state.customer.searchQuery;
+const selectSortOrder = (state: { customer: CustomerState }) => state.customer.sortOrder;
+
+export const selectFilteredCustomers = createSelector(
+  [selectCustomers, selectSearchQuery, selectSortOrder],
+  (customers, query, sortOrder) => {
+    const readingQuery = normalizeForSearch(query);
+    
+    let filteredCustomers = customers;
+    
+    // 検索フィルタリングを適用
+    if (query) {
+      filteredCustomers = filteredCustomers.filter(customer => 
+        customer.name.includes(query) ||
+        normalizeForSearch(customer.nameReading).includes(readingQuery) ||
+        (customer.company && customer.company.includes(query))
+      );
+    }
+    
+    // ソート順を適用
+    return sortCustomers(filteredCustomers, sortOrder);
   }
-  
-  // ソート順を適用
-  return sortCustomers(customers, state.customer.sortOrder);
-};
+);
 
 export const getSelectedCustomer = (state: { customer: CustomerState }): Customer | undefined => {
   return state.customer.customers.find(customer => customer.id === state.customer.selectedCustomerId);
