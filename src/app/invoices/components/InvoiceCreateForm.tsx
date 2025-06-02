@@ -172,7 +172,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
             <Button 
               variant="secondary"
               className="action-button"
-              onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}
+              onClick={() => dispatch(setCurrentPage(Page.invoiceList))}
             >
               キャンセル
             </Button>
