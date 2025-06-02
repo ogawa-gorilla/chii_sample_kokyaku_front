@@ -6,8 +6,8 @@ import { Footer } from "./components/common/Footer";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import CustomerIndexPage from "./customers/CustomerIndexPage";
 import HomePage from "./customers/HomePage";
+import { InvoiceCreatePage } from "./invoices/InvoiceCreatePage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
-import { InvoiceEditPage } from "./invoices/InvoiceEditPage";
 import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 
 const showPage = (currentPage: Page) => {
@@ -22,8 +22,8 @@ const showPage = (currentPage: Page) => {
       return <InvoiceIndexPage />;
     case Page.invoiceDetail:
       return <InvoiceDetailPage />;
-    case Page.invoiceEdit:
-      return <InvoiceEditPage />;
+    case Page.invoiceCreate:
+      return <InvoiceCreatePage />;
   }
 }
 

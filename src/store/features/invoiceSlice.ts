@@ -13,6 +13,7 @@ interface InvoiceState {
   startMonth: string;
   endMonth: string;
   sortOrder: 'asc' | 'desc';
+  invoiceDraft: Invoice | null;
 }
 
 const initialState: InvoiceState = {
@@ -190,7 +191,8 @@ const initialState: InvoiceState = {
   showUnpaidOnly: false,
   startMonth: "2024-03",
   endMonth: "2024-03",
-  sortOrder: 'desc'
+  sortOrder: 'desc',
+  invoiceDraft: null
 }
 
 export const invoiceSlice = createSlice({
@@ -220,6 +222,25 @@ export const invoiceSlice = createSlice({
       state.showUnpaidOnly = false;
       state.startMonth = "2024-03";
       state.endMonth = "2024-04";
+    },
+    startNewInvoice: (state) => { 
+      const now = new Date().toISOString().split('T')[0];
+      state.invoiceDraft = {
+        id: '',
+        customerId: '',
+        customerName: '',
+        customerReading: '',
+        company: '',
+        date: now,
+        amount: 0,
+        status: InvoiceStatus.UNPAID,
+        invoiceNumber: '',
+      }
+    },
+    updateInvoiceDraft: (state, action: PayloadAction<Partial<Invoice>>) => {
+      if (state.invoiceDraft) {
+        state.invoiceDraft = { ...state.invoiceDraft, ...action.payload };
+      }
     }
   }
 })
@@ -231,7 +252,9 @@ export const {
   setStartMonth,
   setEndMonth,
   setSortOrder,
-  resetSearchConditions 
+  resetSearchConditions,
+  startNewInvoice,
+  updateInvoiceDraft
 } = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す

@@ -1,7 +1,9 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setEndMonth, setSearchText, setShowUnpaidOnly, setSortOrder, setStartMonth } from "@/store/features/invoiceSlice";
+import { setEndMonth, setSearchText, setShowUnpaidOnly, setSortOrder, setStartMonth, startNewInvoice } from "@/store/features/invoiceSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
+import { Page } from "@/types/page";
 import { Button, Container, Form } from "react-bootstrap";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
@@ -19,6 +21,13 @@ export const InvoiceIndexPage = () => {
 
   const toggleSortOrder = () => {
     dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'));
+  };
+
+  const handleCreateInvoice = () => {
+    dispatch(startNewInvoice());
+    setTimeout(() => {
+      dispatch(setCurrentPage(Page.invoiceCreate));
+    }, 0);
   };
 
   return (
@@ -51,7 +60,7 @@ export const InvoiceIndexPage = () => {
       <div className="fixed-header-container">
         <nav className="navbar">
           <span className="navbar-brand mb-0 h5">請求書一覧</span>
-          <Button size="sm" variant="primary">＋新規登録</Button>
+          <Button size="sm" variant="primary" onClick={handleCreateInvoice}>＋新規登録</Button>
         </nav>
         <div className="search-area">
           <Container>

@@ -2,9 +2,9 @@
 
 import { useAppSelector } from "@/hooks";
 import { Container } from "react-bootstrap";
-import { InvoiceEditForm } from "./components/InvoiceEditForm";
+import { InvoiceCreateForm } from "./components/InvoiceCreateForm";
 
-export const InvoiceEditPage = () => {
+export const InvoiceCreatePage = () => {
   const selectedInvoiceId = useAppSelector(state => state.invoice.selectedInvoiceId);
   const invoice = useAppSelector(state => 
     state.invoice.invoices.find(c => c.id === selectedInvoiceId)
@@ -22,11 +22,11 @@ export const InvoiceEditPage = () => {
       </style>
       <div className="fixed-header-container">
           <nav className="navbar">
-            <span className="navbar-brand mb-0 h5">請求書編集</span>
+            <span className="navbar-brand mb-0 h5">請求書作成</span>
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceEditForm invoice={invoice!} onSubmit={() => {}}/>
+        <InvoiceCreateForm invoice={invoice!} onSubmit={() => {}}/>
       </Container>
     </div>
   );

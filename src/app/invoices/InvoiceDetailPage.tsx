@@ -1,7 +1,6 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setSelectedCustomer } from "@/store/features/customerSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
 import { Button, Container } from "react-bootstrap";
@@ -13,19 +12,9 @@ export const InvoiceDetailPage = () => {
   const invoice = useAppSelector(state => 
     state.invoice.invoices.find(c => c.id === selectedInvoiceId)
   );
-  const customerExists = useAppSelector(state => 
-    state.customer.customers.some(c => c.id === invoice?.customerId)
-  );
-
-  const handleCustomerClick = () => {
-    if (invoice && customerExists) {
-      dispatch(setSelectedCustomer(invoice.customerId));
-      dispatch(setCurrentPage(Page.customerDetail));
-    }
-  };
 
   const handleEdit = () => {
-    dispatch(setCurrentPage(Page.invoiceEdit));
+    // TODO: 編集機能の実装
   };
 
   const handleDelete = () => {

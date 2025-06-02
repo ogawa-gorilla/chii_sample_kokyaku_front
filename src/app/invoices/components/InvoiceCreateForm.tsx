@@ -1,9 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { updateInvoiceDraft } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
 import { normalizeForSearch } from "@/utils/japanese";
-import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import Select, { components, FilterOptionOption } from 'react-select';
 
@@ -14,7 +14,7 @@ interface CustomerOption {
   company?: string;
 }
 
-interface InvoiceEditFormProps {
+interface InvoiceCreateFormProps {
   invoice: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
@@ -53,17 +53,14 @@ const StatusSingleValue = ({ children, ...props }: any) => {
   );
 };
 
-export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => {
+export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
   const dispatch = useAppDispatch();
-  const [isEditing, setIsEditing] = useState(false);
   const customers = useAppSelector(state => state.customer.customers);
-  const [formData, setFormData] = useState<Partial<Invoice>>({
-    customerId: invoice.customerId,
-    date: invoice.date,
-    invoiceNumber: invoice.invoiceNumber,
-    amount: invoice.amount,
-    status: invoice.status
-  });
+  const invoiceDraft = useAppSelector(state => state.invoice.invoiceDraft);
+
+  if (!invoiceDraft) {
+    return null;
+  }
 
   const customerOptions: CustomerOption[] = customers.map(customer => ({
     value: customer.id,
@@ -72,18 +69,18 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
     company: customer.company
   }));
 
-  const selectedCustomer = customerOptions.find(option => option.value === formData.customerId);
+  const selectedCustomer = customerOptions.find(option => option.value === invoiceDraft?.customerId);
 
   const statusOptions = [
     { value: InvoiceStatus.UNPAID, label: '未払い' },
     { value: InvoiceStatus.PAID, label: '支払い済み' }
   ];
 
-  const selectedStatus = statusOptions.find(option => option.value === formData.status);
+  const selectedStatus = statusOptions.find(option => option.value === invoiceDraft?.status);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    onSubmit(invoiceDraft!);
   };
 
   const handleCreateCustomer = () => {
@@ -132,57 +129,16 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
 
       <div className="card mb-4">
         <div className="card-body">
-          <h6 className="card-title mb-3">支払い状況</h6>
-          <div className="mb-3">
-            <Form.Label>ステータス</Form.Label>
-            <Select
-              value={selectedStatus}
-              onChange={(option) => setFormData({ ...formData, status: option?.value || InvoiceStatus.UNPAID })}
-              options={statusOptions}
-              components={{
-                Option: StatusOption,
-                SingleValue: StatusSingleValue
-              }}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  minHeight: '38px'
-                }),
-                option: (base) => ({
-                  ...base,
-                  padding: 0
-                }),
-                singleValue: (base) => ({
-                  ...base,
-                  padding: 0
-                })
-              }}
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="card mb-4">
-        <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h6 className="card-title mb-0">基本情報</h6>
-            <Button
-              variant="outline-secondary"
-              size="sm"
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              {isEditing ? 'ロック' : '情報修正'}
-            </Button>
           </div>
-
           <div className="mb-3">
             <Form.Label>顧客</Form.Label>
             <div className="d-flex gap-2">
               <div style={{ flex: 1 }}>
                 <Select
-                  isDisabled={!isEditing}
                   value={selectedCustomer}
-                  onChange={(option) => setFormData({ ...formData, customerId: option?.value || '' })}
+                  onChange={(option) => updateInvoiceDraft({ ...invoiceDraft, customerId: option?.value || '' })}
                   options={customerOptions}
                   components={{ Option: CustomOption }}
                   filterOption={filterCustomerOption}
@@ -219,9 +175,8 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
             <Form.Label>請求日</Form.Label>
             <Form.Control
               type="date"
-              disabled={!isEditing}
-              value={formData.date?.split('/').join('-')}
-              onChange={(e) => setFormData({ ...formData, date: e.target.value.split('-').join('/') })}
+              value={invoiceDraft.date.split('/').join('-')}
+              onChange={(e) => dispatch(updateInvoiceDraft({ date: e.target.value.split('-').join('/') }))}
             />
           </div>
 
@@ -229,9 +184,8 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
             <Form.Label>請求番号</Form.Label>
             <Form.Control
               type="text"
-              disabled={!isEditing}
-              value={formData.invoiceNumber}
-              onChange={(e) => setFormData({ ...formData, invoiceNumber: e.target.value })}
+              value={invoiceDraft.invoiceNumber}
+              onChange={(e) => dispatch(updateInvoiceDraft({ ...invoiceDraft, invoiceNumber: e.target.value }))}
             />
           </div>
 
@@ -239,9 +193,40 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
             <Form.Label>金額</Form.Label>
             <Form.Control
               type="number"
-              disabled={!isEditing}
-              value={formData.amount}
-              onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
+              value={invoiceDraft.amount}
+              onChange={(e) => dispatch(updateInvoiceDraft({ ...invoiceDraft, amount: Number(e.target.value) }))}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="card mb-4">
+        <div className="card-body">
+          <h6 className="card-title mb-3">支払い状況</h6>
+          <div className="mb-3">
+            <Form.Label>ステータス</Form.Label>
+            <Select
+              value={selectedStatus}
+              onChange={(option) => updateInvoiceDraft({ ...invoiceDraft, status: option?.value || InvoiceStatus.UNPAID })}
+              options={statusOptions}
+              components={{
+                Option: StatusOption,
+                SingleValue: StatusSingleValue
+              }}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  minHeight: '38px'
+                }),
+                option: (base) => ({
+                  ...base,
+                  padding: 0
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  padding: 0
+                })
+              }}
             />
           </div>
         </div>
