@@ -2,11 +2,14 @@
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { permanentDeleteInvoice } from "@/store/features/invoiceSlice";
-import { Container } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Container, Modal } from "react-bootstrap";
 import { DeletedInvoiceCard } from "./components/DeletedInvoiceCard";
 
 export const InvoiceTrashIndexPage = () => {
   const dispatch = useAppDispatch();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null);
 
   const handleRestore = (id: string) => {
     console.log(`請求書 ${id} を復元`);
@@ -14,7 +17,21 @@ export const InvoiceTrashIndexPage = () => {
   };
 
   const handlePermanentDelete = (id: string) => {
-    dispatch(permanentDeleteInvoice(id));
+    setInvoiceToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmPermanentDelete = () => {
+    if (invoiceToDelete) {
+      dispatch(permanentDeleteInvoice(invoiceToDelete));
+      setShowDeleteModal(false);
+      setInvoiceToDelete(null);
+    }
+  };
+
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
+    setInvoiceToDelete(null);
   };
 
   const trashedInvoices = useAppSelector(state => 
@@ -90,6 +107,46 @@ export const InvoiceTrashIndexPage = () => {
           )}
         </Container>
       </div>
+
+      {/* 完全削除確認モーダル */}
+      <Modal show={showDeleteModal} onHide={cancelDelete} centered>
+        <Modal.Header className="border-0 bg-danger text-white">
+          <Modal.Title className="d-flex align-items-center">
+            <i className="fas fa-exclamation-triangle me-2"></i>
+            請求書の完全削除
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-center py-4">
+          <div className="mb-3">
+            <i className="fas fa-trash-alt text-danger" style={{ fontSize: '3rem' }}></i>
+          </div>
+          <h5 className="text-danger mb-3">
+            この操作は取り消すことができません
+          </h5>
+          <p className="text-muted mb-0">
+            請求書を完全に削除します。<br />
+            <strong>一度削除すると復元することはできません。</strong><br />
+            本当に削除してもよろしいですか？
+          </p>
+        </Modal.Body>
+        <Modal.Footer className="border-0 justify-content-center">
+          <Button 
+            variant="outline-secondary" 
+            onClick={cancelDelete}
+            className="me-2"
+          >
+            キャンセル
+          </Button>
+          <Button 
+            variant="danger" 
+            onClick={confirmPermanentDelete}
+            className="fw-bold"
+          >
+            <i className="fas fa-trash me-1"></i>
+            完全に削除する
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
