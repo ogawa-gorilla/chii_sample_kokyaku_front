@@ -16,7 +16,7 @@ export const InvoiceEditPage = () => {
         {`
         .main-content {
             padding-top: 80px; /* ヘッダーの高さ分 */
-            padding-bottom: 80px; /* フッターの高さ分 */
+            padding-bottom: 200px; /* フッターの高さ分 */
         }
         `}
       </style>

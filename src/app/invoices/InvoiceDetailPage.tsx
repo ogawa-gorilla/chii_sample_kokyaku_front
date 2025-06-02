@@ -24,6 +24,15 @@ export const InvoiceDetailPage = () => {
     }
   };
 
+  const handleEdit = () => {
+    dispatch(setCurrentPage(Page.invoiceEdit));
+  };
+
+  const handleDelete = () => {
+    // TODO: 削除機能の実装
+    console.log('削除処理を実装予定');
+  };
+
   if (!invoice) {
     return (
       <Container className="mt-4">
@@ -39,6 +48,34 @@ export const InvoiceDetailPage = () => {
             padding-top: 80px; /* ヘッダーの高さ分 */
             padding-bottom: 80px; /* フッターの高さ分 */
         }
+        .action-bar {
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          background: white;
+          padding: 1rem;
+          box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+          z-index: 1000;
+          margin-bottom: 60px;
+        }
+        .action-buttons {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1rem;
+        }
+        .action-button {
+          width: 100%;
+          padding: 0.8rem;
+        }
+        .delete-button {
+          background-color: #dc3545;
+          border-color: #dc3545;
+        }
+        .delete-button:hover {
+          background-color: #c82333;
+          border-color: #bd2130;
+        }
         `}
       </style>
       <div className="fixed-header-container">
@@ -47,12 +84,32 @@ export const InvoiceDetailPage = () => {
               ← 一覧へ
             </Button>
             <span className="navbar-brand mb-0 h5">請求書詳細</span>
-            <Button size="sm" variant="primary" onClick={() => dispatch(setCurrentPage(Page.invoiceEdit))}>編集</Button>
+            <span></span>
           </nav>
       </div>
       <Container className="main-content">
         <InvoiceDetailCard invoice={invoice}/>
       </Container>
+      <div className="action-bar">
+        <Container>
+          <div className="action-buttons">
+            <Button 
+              variant="primary"
+              className="action-button"
+              onClick={handleEdit}
+            >
+              編集
+            </Button>
+            <Button 
+              variant="danger"
+              className="action-button delete-button"
+              onClick={handleDelete}
+            >
+              削除
+            </Button>
+          </div>
+        </Container>
+      </div>
     </div>
   );
 };
