@@ -4,6 +4,12 @@ import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import Select from 'react-select';
+
+interface CustomerOption {
+  value: string;
+  label: string;
+}
 
 interface InvoiceEditFormProps {
   invoice: Invoice;
@@ -21,6 +27,13 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
     amount: invoice.amount,
     status: invoice.status
   });
+
+  const customerOptions: CustomerOption[] = customers.map(customer => ({
+    value: customer.id,
+    label: `${customer.name} (${customer.nameReading})`
+  }));
+
+  const selectedCustomer = customerOptions.find(option => option.value === formData.customerId);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,18 +62,27 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
           <div className="mb-3">
             <Form.Label>顧客</Form.Label>
             <div className="d-flex gap-2">
-              <Form.Select
-                disabled={!isEditing}
-                value={formData.customerId}
-                onChange={(e) => setFormData({ ...formData, customerId: e.target.value })}
-              >
-                <option value="">選択してください</option>
-                {customers.map(customer => (
-                  <option key={customer.id} value={customer.id}>
-                    {customer.name} ({customer.nameReading})
-                  </option>
-                ))}
-              </Form.Select>
+              <div style={{ flex: 1 }}>
+                <Select
+                  isDisabled={!isEditing}
+                  value={selectedCustomer}
+                  onChange={(option) => setFormData({ ...formData, customerId: option?.value || '' })}
+                  options={customerOptions}
+                  isClearable
+                  placeholder="顧客を検索..."
+                  noOptionsMessage={() => "該当する顧客がいません"}
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      borderColor: state.isFocused ? '#80bdff' : '#ced4da',
+                      boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(0,123,255,.25)' : 'none',
+                      '&:hover': {
+                        borderColor: state.isFocused ? '#80bdff' : '#ced4da'
+                      }
+                    })
+                  }}
+                />
+              </div>
               <Button
                 variant="outline-primary"
                 size="sm"
