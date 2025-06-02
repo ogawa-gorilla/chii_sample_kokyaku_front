@@ -249,10 +249,8 @@ export const invoiceSlice = createSlice({
       state.invoices.push(action.payload);
     },
     startEditInvoice: (state, action: PayloadAction<string>) => {
-      const invoice = state.invoices.find(invoice => invoice.id === action.payload);
-      if (invoice) {
-        state.invoiceDraft = { ...invoice };
-      }
+      const invoice = state.invoices.find(invoice => invoice.id === action.payload)!;
+      state.invoiceDraft = { ...invoice };
     }
   }
 })

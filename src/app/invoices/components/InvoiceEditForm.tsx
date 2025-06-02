@@ -3,17 +3,22 @@ import { updateInvoiceDraft } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice } from "@/types/invoice";
 import { Page } from "@/types/page";
+import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { StatusSelect } from "./StatusSelect";
 
 interface InvoiceEditFormProps {
-  invoiceDraft: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
 
 export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
   const dispatch = useAppDispatch();
+  const [isBasicInfoEditable, setIsBasicInfoEditable] = useState(false);
   const invoiceDraft = useAppSelector(state => state.invoice.invoiceDraft);
+
+  if (!invoiceDraft) {
+    return null;
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,28 +56,41 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
           <div className="mb-3">
             <Form.Label>ステータス</Form.Label>
             <StatusSelect
-              selectedStatus={props.invoiceDraft.status}
+              selectedStatus={invoiceDraft!.status}
               onStatusChange={(status) => dispatch(updateInvoiceDraft({ ...invoiceDraft, status }))}
             />
           </div>
         </div>
       </div>
       <div className="card mb-4">
-        <div className="card-body">
+        <div 
+          className="card-body"
+          style={{ 
+            backgroundColor: isBasicInfoEditable ? 'white' : '#f8f9fa',
+            transition: 'background-color 0.2s ease'
+          }}
+        >
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h6 className="card-title mb-0">基本情報</h6>
+            <Button 
+              variant="outline-primary" 
+              size="sm"
+              onClick={() => setIsBasicInfoEditable(!isBasicInfoEditable)}
+            >
+              {isBasicInfoEditable ? '編集完了' : '訂正'}
+            </Button>
           </div>
           <div className="mb-3">
             <Form.Label>顧客</Form.Label>
             <div className="border rounded p-3 bg-light">
               <div className="mb-2">
-                <strong>名前:</strong> {props.invoiceDraft.customerName}
+                <strong>名前:</strong> {invoiceDraft.customerName}
               </div>
               <div className="mb-2">
-                <strong>フリガナ:</strong> {props.invoiceDraft.customerReading}
+                <strong>フリガナ:</strong> {invoiceDraft.customerReading}
               </div>
               <div>
-                <strong>会社名:</strong> {props.invoiceDraft.company}
+                <strong>会社名:</strong> {invoiceDraft.company}
               </div>
             </div>
           </div>
@@ -81,8 +99,10 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
             <Form.Label>請求日</Form.Label>
             <Form.Control
               type="date"
-              value={props.invoiceDraft.date.split('/').join('-')}
+              value={invoiceDraft.date.split('/').join('-')}
               onChange={(e) => dispatch(updateInvoiceDraft({ date: e.target.value.split('-').join('/') }))}
+              disabled={!isBasicInfoEditable}
+              style={{ backgroundColor: isBasicInfoEditable ? 'white' : '#f8f9fa' }}
             />
           </div>
 
@@ -90,8 +110,10 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
             <Form.Label>請求番号</Form.Label>
             <Form.Control
               type="text"
-              value={props.invoiceDraft.invoiceNumber}
-              onChange={(e) => dispatch(updateInvoiceDraft({ ...invoiceDraft, invoiceNumber: e.target.value }))}
+              value={invoiceDraft.invoiceNumber}
+              onChange={(e) => dispatch(updateInvoiceDraft({ invoiceNumber: e.target.value }))}
+              disabled={!isBasicInfoEditable}
+              style={{ backgroundColor: isBasicInfoEditable ? 'white' : '#f8f9fa' }}
             />
           </div>
 
@@ -99,8 +121,10 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
             <Form.Label>金額</Form.Label>
             <Form.Control
               type="number"
-              value={props.invoiceDraft.amount}
-              onChange={(e) => dispatch(updateInvoiceDraft({ ...invoiceDraft, amount: Number(e.target.value) }))}
+              value={invoiceDraft.amount}
+              onChange={(e) => dispatch(updateInvoiceDraft({ amount: Number(e.target.value) }))}
+              disabled={!isBasicInfoEditable}
+              style={{ backgroundColor: isBasicInfoEditable ? 'white' : '#f8f9fa' }}
             />
           </div>
         </div>

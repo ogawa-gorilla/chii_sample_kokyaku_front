@@ -1,13 +1,6 @@
-'use client';
-
-import { useAppSelector } from "@/hooks";
 import { Container } from "react-bootstrap";
 import { InvoiceEditForm } from "./components/InvoiceEditForm";
 export const InvoiceEditPage = () => {
-  const selectedInvoiceId = useAppSelector(state => state.invoice.selectedInvoiceId);
-  const invoice = useAppSelector(state => 
-    state.invoice.invoices.find(c => c.id === selectedInvoiceId)
-  );
 
   return (
     <div>
@@ -25,7 +18,7 @@ export const InvoiceEditPage = () => {
           </nav>
       </div>
       <Container className="main-content">
-        <InvoiceEditForm invoiceDraft={invoice!} onSubmit={() => {}}/>
+        <InvoiceEditForm onSubmit={() => {}}/>
       </Container>
     </div>
   );
