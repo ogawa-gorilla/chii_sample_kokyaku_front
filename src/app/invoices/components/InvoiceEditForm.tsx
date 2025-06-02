@@ -78,14 +78,30 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
     <Form onSubmit={handleSubmit}>
       <div className="card mb-4">
         <div className="card-body">
+          <h6 className="card-title mb-3">支払い状況</h6>
+          <div className="mb-3">
+            <Form.Label>ステータス</Form.Label>
+            <Form.Select
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value as InvoiceStatus })}
+            >
+              <option value={InvoiceStatus.UNPAID}>未払い</option>
+              <option value={InvoiceStatus.PAID}>支払い済み</option>
+            </Form.Select>
+          </div>
+        </div>
+      </div>
+
+      <div className="card mb-4">
+        <div className="card-body">
           <div className="d-flex justify-content-between align-items-center mb-3">
-            <h6 className="card-title mb-0">コア情報</h6>
+            <h6 className="card-title mb-0">基本情報</h6>
             <Button
               variant="outline-secondary"
               size="sm"
               onClick={() => setIsEditing(!isEditing)}
             >
-              {isEditing ? 'ロック' : 'ロック解除'}
+              {isEditing ? 'ロック' : '情報修正'}
             </Button>
           </div>
 
@@ -157,22 +173,6 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
             />
-          </div>
-        </div>
-      </div>
-
-      <div className="card">
-        <div className="card-body">
-          <h6 className="card-title mb-3">支払い状況</h6>
-          <div className="mb-3">
-            <Form.Label>ステータス</Form.Label>
-            <Form.Select
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as InvoiceStatus })}
-            >
-              <option value={InvoiceStatus.UNPAID}>未払い</option>
-              <option value={InvoiceStatus.PAID}>支払い済み</option>
-            </Form.Select>
           </div>
         </div>
       </div>

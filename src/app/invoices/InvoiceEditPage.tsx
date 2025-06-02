@@ -1,9 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setCurrentPage } from "@/store/navigationSlice";
-import { Page } from "@/types/page";
-import { Button, Container } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 import { InvoiceEditForm } from "./components/InvoiceEditForm";
 
 export const InvoiceEditPage = () => {
@@ -28,10 +26,7 @@ export const InvoiceEditPage = () => {
       </style>
       <div className="fixed-header-container">
           <nav className="navbar">
-            <Button variant="primary" size="sm" onClick={() => dispatch(setCurrentPage(Page.invoiceList))}>
-              ← 一覧へ
-            </Button>
-            <span className="navbar-brand mb-0 h5">請求書詳細</span>
+            <span className="navbar-brand mb-0 h5">請求書編集</span>
           </nav>
       </div>
       <Container className="main-content">
