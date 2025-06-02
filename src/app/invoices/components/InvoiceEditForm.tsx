@@ -4,7 +4,7 @@ import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
 import { normalizeForSearch } from "@/utils/japanese";
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import Select, { components, FilterOptionOption } from 'react-select';
 
 interface CustomerOption {
@@ -105,6 +105,31 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
 
   return (
     <Form onSubmit={handleSubmit}>
+      <style>
+        {`
+          .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            margin-bottom: 60px;
+          }
+          .action-buttons {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 1rem;
+          }
+          .action-button {
+            width: 100%;
+            padding: 0.8rem;
+          }
+        `}
+      </style>
+
       <div className="card mb-4">
         <div className="card-body">
           <h6 className="card-title mb-3">支払い状況</h6>
@@ -222,12 +247,25 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
         </div>
       </div>
 
-      <div className="fixed-bottom p-3 bg-white border-top" style={{ marginBottom: '60px' }}>
-        <div className="container d-grid">
-          <Button type="submit" variant="primary">
-            保存
-          </Button>
-        </div>
+      <div className="action-bar">
+        <Container>
+          <div className="action-buttons">
+            <Button 
+              variant="secondary"
+              className="action-button"
+              onClick={() => dispatch(setCurrentPage(Page.invoiceDetail))}
+            >
+              キャンセル
+            </Button>
+            <Button 
+              variant="primary"
+              className="action-button"
+              type="submit"
+            >
+              保存
+            </Button>
+          </div>
+        </Container>
       </div>
     </Form>
   );
