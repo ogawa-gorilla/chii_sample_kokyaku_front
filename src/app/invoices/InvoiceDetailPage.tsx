@@ -44,7 +44,7 @@ export const InvoiceDetailPage = () => {
       <div className="fixed-header-container">
           <nav className="navbar">
             <Button variant="primary" size="sm" onClick={() => dispatch(setCurrentPage(Page.invoiceList))}>
-              ← 戻る
+              ← 一覧へ
             </Button>
             <span className="navbar-brand mb-0 h5">請求書詳細</span>
             <Button size="sm" variant="primary">編集</Button>
