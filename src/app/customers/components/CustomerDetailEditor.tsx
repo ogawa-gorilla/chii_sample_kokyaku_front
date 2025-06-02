@@ -47,6 +47,18 @@ export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDet
           </Form.Group>
 
           <Form.Group className="mb-3">
+            <Form.Label className={getLabelClassName('nameReading')}>
+              {getLabelText('nameReading', 'フリガナ')}
+            </Form.Label>
+            <Form.Control
+              type="text"
+              value={draftCustomer.nameReading}
+              onChange={(e) => handleChange('nameReading', e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
             <Form.Label className={getLabelClassName('phoneNumber')}>
               {getLabelText('phoneNumber', '電話番号')}
             </Form.Label>
