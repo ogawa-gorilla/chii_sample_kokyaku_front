@@ -1,4 +1,8 @@
+import { useAppDispatch, useAppSelector } from "@/hooks";
+import { setSelectedCustomer } from "@/store/features/customerSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
+import { Page } from "@/types/page";
 import { Button, Card } from "react-bootstrap";
 
 interface InvoiceDetailCardProps {
@@ -6,6 +10,17 @@ interface InvoiceDetailCardProps {
 }
 
 export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
+  const dispatch = useAppDispatch();
+  const customerExists = useAppSelector(state => 
+    state.customer.customers.some(c => c.id === props.invoice.customerId)
+  );
+
+  const handleCustomerClick = () => {
+    if (customerExists) {
+      dispatch(setSelectedCustomer(props.invoice.customerId));
+      dispatch(setCurrentPage(Page.customerDetail));
+    }
+  };
 
   const badgeClass = props.invoice.status === InvoiceStatus.PAID ? 'bg-success text-white' : 'bg-warning text-dark';
 
@@ -29,14 +44,16 @@ export const InvoiceDetailCard = (props: InvoiceDetailCardProps) => {
                   <div>{props.invoice.customerName}</div>
                   <div className="text-muted small">{props.invoice.customerReading}</div>
                 </div>
-                <Button 
-                  size="sm" 
-                  variant="outline-secondary"
-                  onClick={() => window.location.href = '/customers/1'}
-                  style={{ padding: '0.25rem 0.5rem', marginLeft: '0.5rem' }}
-                >
-                  <i className="bi bi-person"></i> 顧客詳細
-                </Button>
+                {customerExists && (
+                  <Button 
+                    size="sm" 
+                    variant="outline-secondary"
+                    onClick={handleCustomerClick}
+                    style={{ padding: '0.25rem 0.5rem', marginLeft: '0.5rem' }}
+                  >
+                    <i className="bi bi-person"></i> 顧客詳細
+                  </Button>
+                )}
               </div>
             </div>
 
