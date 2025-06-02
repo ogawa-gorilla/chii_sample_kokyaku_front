@@ -10,7 +10,7 @@ export const InvoiceIndexPage = () => {
   const dispatch = useAppDispatch();
   const [localSearchText, setLocalSearchText] = useState("");
   const [startMonth, setStartMonth] = useState("2024-03");
-  const [endMonth, setEndMonth] = useState("2024-03");
+  const [endMonth, setEndMonth] = useState("2024-04");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
@@ -30,10 +30,13 @@ export const InvoiceIndexPage = () => {
           padding-top: 200px;
           padding-bottom: 80px;
         }
-        @media (max-width: 575.98px) {
-          .main-content {
-            padding-top: 280px;
-          }
+        .month-picker-container {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .month-picker {
+          width: 140px;
         }
         `}
       </style>
@@ -57,24 +60,20 @@ export const InvoiceIndexPage = () => {
               <Form.Check className="mt-2 mb-2" type="checkbox" label="未払いのみ表示" />
             </Form>
             <Form>
-              <div className="row g-2 align-items-center">
-                <div className="col-sm-5">
-                  <Form.Control 
-                    type="month" 
-                    value={startMonth}
-                    onChange={(e) => setStartMonth(e.target.value)}
-                  />
-                </div>
-                <div className="col-sm-auto">
-                  <span>～</span>
-                </div>
-                <div className="col-sm-5">
-                  <Form.Control 
-                    type="month" 
-                    value={endMonth}
-                    onChange={(e) => setEndMonth(e.target.value)}
-                  />
-                </div>
+              <div className="month-picker-container">
+                <Form.Control 
+                  type="month" 
+                  value={startMonth}
+                  onChange={(e) => setStartMonth(e.target.value)}
+                  className="month-picker"
+                />
+                <span>～</span>
+                <Form.Control 
+                  type="month" 
+                  value={endMonth}
+                  onChange={(e) => setEndMonth(e.target.value)}
+                  className="month-picker"
+                />
               </div>
             </Form>
           </Container>
