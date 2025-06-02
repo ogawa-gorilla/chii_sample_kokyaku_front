@@ -1,5 +1,7 @@
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { cancelEditing } from '@/store/features/customerSlice';
+import { setCurrentPage } from '@/store/navigationSlice';
+import { Page } from '@/types/page';
 import { Button, Container } from 'react-bootstrap';
 
 interface CustomerDetailEditorActionBarProps {
@@ -8,9 +10,15 @@ interface CustomerDetailEditorActionBarProps {
 
 export default function CustomerDetailEditorActionBar({ onSubmit }: CustomerDetailEditorActionBarProps) {
   const dispatch = useAppDispatch();
+  const isEditing = useAppSelector(state => state.customer.editing);
 
   const handleCancel = () => {
     dispatch(cancelEditing());
+    if (isEditing) {
+      dispatch(setCurrentPage(Page.customerDetail));
+    } else {
+      dispatch(setCurrentPage(Page.customerList));
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
