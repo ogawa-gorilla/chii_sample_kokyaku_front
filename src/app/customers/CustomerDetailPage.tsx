@@ -107,7 +107,7 @@ export default function CustomerDetailPage() {
       <div className="fixed-header-container">
         <nav className="navbar">
           <Button variant="primary" size="sm" onClick={() => dispatch(setCurrentPage(Page.customerList))}>
-            ← 戻る
+            ← 一覧へ
           </Button>
           <span className="navbar-brand mb-0 h5">
             {isEditing ? '顧客情報編集' : '顧客詳細'}

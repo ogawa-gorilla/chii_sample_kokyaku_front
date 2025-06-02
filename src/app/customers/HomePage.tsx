@@ -24,10 +24,10 @@ export default function HomePage () {
           <div className="card-body">
             <h5 className="card-title text-primary mb-3">このサンプルについて</h5>
             <p className="card-text mb-2">すべて架空のデータです。</p>
-            <p className="card-text mb-2">データの新規作成や保存、削除もできます。</p>
-            <p className="card-text mb-2">ブラウザをリロードするとデータは初期状態に戻ります。</p>
+            <p className="card-text mb-2">データの新規作成や保存、削除もできます。<br />
+            ブラウザをリロードするとデータは初期状態に戻ります。</p>
             <p className="card-text">自由に触ってみてください。</p>
-            <p className="card-text">PCやタブレットをお持ちの方は、そちらでも開いてみてください。画面が切り替わります。</p>
+            <p className="card-text">PCやタブレットをお持ちの方は、そちらでも開いてみてください。<br />PC用レイアウトに切り替わります。</p>
         </div>
   </div>
         </Container>
