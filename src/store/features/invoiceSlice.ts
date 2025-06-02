@@ -1,4 +1,5 @@
 import { Invoice, InvoiceStatus } from "@/types/invoice";
+import { formatDate } from "@/utils/date";
 import { normalizeForSearch } from "@/utils/japanese";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
@@ -196,7 +197,7 @@ const initialState: InvoiceState = {
       amount: 195000,
       status: InvoiceStatus.UNPAID,
       invoiceNumber: '240328-001',
-      deletedAt: '2024/03/28',
+      deletedAt: '2024/03/28 12:02:03',
     },
   ]
 }
@@ -261,6 +262,12 @@ export const invoiceSlice = createSlice({
       const invoice = state.invoices[targetIndex]
       const editedInvoice = { ...invoice, ...action.payload };
       state.invoices[targetIndex] = editedInvoice;
+    },
+    trashInvoice: (state, action: PayloadAction<string>) => {
+      const targetIndex = state.invoices.findIndex(invoice => invoice.id === action.payload);
+      const invoice = { ...state.invoices[targetIndex] , deletedAt: formatDate(new Date()) }
+      state.trashedInvoices.push(invoice)
+      state.invoices.splice(targetIndex, 1)
     }
   }
 })
@@ -277,7 +284,8 @@ export const {
   updateInvoiceDraft,
   createInvoice,
   startEditInvoice,
-  saveInvoice
+  saveInvoice,
+  trashInvoice
 } = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す

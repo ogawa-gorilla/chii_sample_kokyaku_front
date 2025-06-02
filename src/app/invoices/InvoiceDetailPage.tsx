@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { startEditInvoice } from "@/store/features/invoiceSlice";
+import { startEditInvoice, trashInvoice } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
 import { useState } from "react";
@@ -26,8 +26,8 @@ export const InvoiceDetailPage = () => {
   };
 
   const handleConfirmDelete = () => {
-    // TODO: 削除機能の実装
-    console.log('削除処理を実装予定');
+    dispatch(trashInvoice(invoice!.id));
+    dispatch(setCurrentPage(Page.invoiceList));
     setShowDeleteModal(false);
   };
 
@@ -123,9 +123,6 @@ export const InvoiceDetailPage = () => {
           <p className="text-muted">
             請求書番号: {invoice?.invoiceNumber}<br/>
             顧客名: {invoice?.customerName}
-          </p>
-          <p className="text-danger small">
-            ※この操作は取り消せません。
           </p>
         </Modal.Body>
         <Modal.Footer>
