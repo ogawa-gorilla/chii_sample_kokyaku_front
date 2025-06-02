@@ -6,7 +6,7 @@ export const Page = {
   invoiceDetail: 'invoiceDetail',
   invoiceCreate: 'invoiceCreate',
   invoiceEdit: 'invoiceEdit',
-  trash: 'deletedItems'
+  trash: 'trash'
 } as const;
 
 export type Page = typeof Page[keyof typeof Page];

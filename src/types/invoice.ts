@@ -8,6 +8,7 @@ export interface Invoice {
   amount: number;
   status: InvoiceStatus;
   invoiceNumber: string;
+  deletedAt?: string;
 }
 
 export const defaultInvoice = (): Invoice => {
@@ -20,7 +21,7 @@ export const defaultInvoice = (): Invoice => {
     date: '',
     amount: 0,
     status: InvoiceStatus.UNPAID,
-    invoiceNumber: '',
+    invoiceNumber: ''
   }
 }
 

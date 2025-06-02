@@ -10,6 +10,7 @@ import { InvoiceCreatePage } from "./invoices/InvoiceCreatePage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
 import { InvoiceEditPage } from "./invoices/InvoiceEditPage";
 import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
+import { InvoiceTrashIndexPage } from "./invoices/InvoiceTrashIndexPage";
 
 const showPage = (currentPage: Page) => {
   switch (currentPage) {
@@ -27,6 +28,8 @@ const showPage = (currentPage: Page) => {
       return <InvoiceCreatePage />;
     case Page.invoiceEdit:
       return <InvoiceEditPage />;
+    case Page.trash:
+      return <InvoiceTrashIndexPage />;
   }
 }
 
