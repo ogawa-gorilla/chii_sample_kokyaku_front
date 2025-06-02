@@ -1,4 +1,7 @@
+import { useAppDispatch } from '@/hooks';
+import { setCurrentPage } from '@/store/navigationSlice';
 import { Customer } from '@/types/customer';
+import { Page } from '@/types/page';
 import { useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
 
@@ -11,6 +14,7 @@ interface CustomerDetailActionBarProps {
 export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: CustomerDetailActionBarProps) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
+  const dispatch = useAppDispatch();
 
   const handleDelete = () => {
     if (deleteConfirmText === '削除する') {
@@ -23,25 +27,41 @@ export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: 
     setDeleteConfirmText('');
   };
 
+  const handleSearchInvoices = () => {
+    // TODO: 請求書一覧画面に遷移し、この顧客の請求書を検索する
+    dispatch(setCurrentPage(Page.invoiceList));
+  };
+
   return (
     <>
       <div className="action-bar">
         <Container>
           <div className="action-buttons">
-            <Button 
-              variant="primary"
-              className="action-button"
-              onClick={onEdit}
-            >
-              編集
-            </Button>
-            <Button 
-              variant="danger"
-              className="action-button"
-              onClick={() => setShowDeleteConfirm(true)}
-            >
-              削除
-            </Button>
+            <div className="top-row">
+              <Button 
+                variant="primary"
+                className="action-button"
+                onClick={onEdit}
+              >
+                編集
+              </Button>
+              <Button 
+                variant="danger"
+                className="action-button"
+                onClick={() => setShowDeleteConfirm(true)}
+              >
+                削除
+              </Button>
+            </div>
+            <div className="bottom-row">
+              <Button 
+                variant="info"
+                className="action-button"
+                onClick={handleSearchInvoices}
+              >
+                この顧客の請求書を検索
+              </Button>
+            </div>
           </div>
         </Container>
       </div>

@@ -78,8 +78,17 @@ export default function CustomerDetailPage() {
             padding: 0.8rem;
           }
           .action-buttons {
-            display: flex;
+            display: grid;
+            grid-template-rows: auto auto;
             gap: 1rem;
+          }
+          .action-buttons .top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+          }
+          .action-buttons .bottom-row {
+            grid-column: 1 / -1;
           }
           .delete-button {
             background-color: #dc3545;
