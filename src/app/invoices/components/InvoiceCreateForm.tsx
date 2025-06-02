@@ -1,4 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { startNewCustomer } from "@/store/features/customerSlice";
 import { updateInvoiceDraft } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
@@ -56,6 +57,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
   };
 
   const handleCreateCustomer = () => {
+    dispatch(startNewCustomer());
     dispatch(setCurrentPage(Page.customerDetail));
   };
 
