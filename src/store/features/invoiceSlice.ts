@@ -1,9 +1,11 @@
 import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 interface InvoiceState {
   invoices: Invoice[];
   selectedInvoiceId: string | null;
+  searchText: string;
 }
 
 const initialState: InvoiceState = {
@@ -110,6 +112,7 @@ const initialState: InvoiceState = {
     }
   ],
   selectedInvoiceId: null,
+  searchText: "",
 }
 
 export const invoiceSlice = createSlice({
@@ -118,10 +121,28 @@ export const invoiceSlice = createSlice({
   reducers: {
     setSelectedInvoice: (state, action: PayloadAction<string>) => {
       state.selectedInvoiceId = action.payload;
+    },
+    setSearchText: (state, action: PayloadAction<string>) => {
+      state.searchText = action.payload;
     }
   }
 })
 
-export const { setSelectedInvoice } = invoiceSlice.actions;
+export const { setSelectedInvoice, setSearchText } = invoiceSlice.actions;
+
+// セレクター: フィルタリングされた請求書リストを返す
+export const selectFilteredInvoices = (state: RootState) => {
+  const searchText = state.invoice.searchText.toLowerCase();
+  
+  if (!searchText) {
+    return state.invoice.invoices;
+  }
+
+  return state.invoice.invoices.filter(invoice => 
+    invoice.customerName.toLowerCase().includes(searchText) ||
+    invoice.company.toLowerCase().includes(searchText) ||
+    invoice.invoiceNumber.toLowerCase().includes(searchText)
+  );
+};
 
 export default invoiceSlice.reducer;

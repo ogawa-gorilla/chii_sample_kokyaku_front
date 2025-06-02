@@ -1,9 +1,21 @@
 'use client';
 
+import { useAppDispatch } from "@/hooks";
+import { setSearchText } from "@/store/features/invoiceSlice";
+import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
 export const InvoiceIndexPage = () => {
+  const dispatch = useAppDispatch();
+  const [localSearchText, setLocalSearchText] = useState("");
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const text = e.target.value;
+    setLocalSearchText(text);
+    dispatch(setSearchText(text));
+  };
+
   return (
     <div>
       <style>{`
@@ -35,6 +47,8 @@ export const InvoiceIndexPage = () => {
               <Form.Control 
                 type="text" 
                 placeholder="名前・会社名・番号で検索"
+                value={localSearchText}
+                onChange={handleSearch}
               />
             </Form>
             <Form>
