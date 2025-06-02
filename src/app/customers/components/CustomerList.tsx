@@ -19,6 +19,7 @@ export const CustomerList = () => {
           <CustomerCard
             id={customer.id}
             name={customer.name}
+            nameReading={customer.nameReading}
             phoneNumber={customer.phoneNumber}
             company={customer.company}
         />
