@@ -1,5 +1,5 @@
+import { Customer } from '@/types/customer';
 import { Card } from 'react-bootstrap';
-import { Customer } from '../../../types/customer';
 
 interface CustomerDetailCardProps {
   customer: Customer;

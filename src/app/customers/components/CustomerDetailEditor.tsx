@@ -1,7 +1,7 @@
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { updateDraft } from '@/store/features/customerSlice';
+import { Customer } from '@/types/customer';
 import { Card, Form } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { updateDraft } from '../../../store/features/customerSlice';
-import { Customer } from '../../../types/customer';
 
 interface CustomerDetailEditorProps {
   customer: Customer;

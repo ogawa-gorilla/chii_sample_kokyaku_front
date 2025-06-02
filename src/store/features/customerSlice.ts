@@ -1,5 +1,5 @@
+import { Customer } from '@/types/customer';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Customer } from '../../types/customer';
 
 interface CustomerState {
   customers: Customer[];

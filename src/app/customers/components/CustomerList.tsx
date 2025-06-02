@@ -1,8 +1,8 @@
 'use client';
 
+import { useAppSelector } from "@/hooks";
+import { selectFilteredCustomers } from "@/store/features/customerSlice";
 import { Col, Row } from "react-bootstrap";
-import { useAppSelector } from "../../../hooks";
-import { selectFilteredCustomers } from "../../../store/features/customerSlice";
 import { CustomerCard } from "./CustomerCard";
 
 export const CustomerList = () => {

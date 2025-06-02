@@ -1,8 +1,8 @@
 'use client';
 
+import { useAppSelector } from "@/hooks";
 import { Button, Container } from "react-bootstrap";
 import { InvoiceDetailCard } from "./components/InvoiceDetailCard";
-import { useAppSelector } from "../../hooks";
 
 export const InvoiceDetailPage = () => {
 

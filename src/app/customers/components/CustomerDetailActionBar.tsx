@@ -1,6 +1,6 @@
+import { Customer } from '@/types/customer';
 import { useState } from 'react';
 import { Button, Container, Form, Modal } from 'react-bootstrap';
-import { Customer } from '../../../types/customer';
 
 interface CustomerDetailActionBarProps {
   customer: Customer;

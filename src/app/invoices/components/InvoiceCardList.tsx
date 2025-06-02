@@ -1,6 +1,6 @@
-import { Row, Col } from "react-bootstrap";
+import { useAppSelector } from "@/hooks";
+import { Col, Row } from "react-bootstrap";
 import { InvoiceCard } from "./InvoiceCard";
-import { useAppSelector } from "../../../hooks";
 
 export const InvoiceCardList = () => {
 

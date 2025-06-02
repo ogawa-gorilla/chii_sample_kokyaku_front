@@ -1,9 +1,9 @@
+import { useAppDispatch } from '@/hooks';
+import { setSelectedCustomer } from '@/store/features/customerSlice';
+import { setCurrentPage } from '@/store/navigationSlice';
+import { Page } from '@/types/page';
 import { FC } from 'react';
-import { Button, Col } from 'react-bootstrap';
-import { useAppDispatch } from '../../../hooks';
-import { Page } from '../../../types/page';
-import { setCurrentPage } from '../../../store/navigationSlice';
-import { setSelectedCustomer } from '../../../store/features/customerSlice';
+import { Button } from 'react-bootstrap';
 
 interface CustomerCardProps {
   id: string;

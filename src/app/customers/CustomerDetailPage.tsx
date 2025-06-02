@@ -1,10 +1,10 @@
 'use client';
 
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { deleteCustomer, saveDraft, startEditing } from '@/store/features/customerSlice';
+import { setCurrentPage } from '@/store/navigationSlice';
+import { Page } from '@/types/page';
 import { Button, Container } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { deleteCustomer, saveDraft, startEditing } from '../../store/features/customerSlice';
-import { setCurrentPage } from '../../store/navigationSlice';
-import { Page } from '../../types/page';
 import CustomerDetailActionBar from './components/CustomerDetailActionBar';
 import CustomerDetailCard from './components/CustomerDetailCard';
 import CustomerDetailEditor from './components/CustomerDetailEditor';

@@ -1,5 +1,5 @@
+import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Button, Card } from "react-bootstrap";
-import { Invoice, InvoiceStatus } from "../../../types/invoice";
 
 interface InvoiceDetailCardProps {
   invoice: Invoice;

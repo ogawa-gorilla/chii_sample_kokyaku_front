@@ -1,7 +1,7 @@
 'use client';
 
-import { useAppSelector } from "../hooks";
-import { Page } from "../types/page";
+import { useAppSelector } from "@/hooks";
+import { Page } from "@/types/page";
 import { Footer } from "./components/common/Footer";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import CustomerIndexPage from "./customers/CustomerIndexPage";

@@ -1,9 +1,9 @@
+import { Providers } from "@/store/provider";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Providers } from "../store/provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

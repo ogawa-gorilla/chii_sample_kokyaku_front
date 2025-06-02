@@ -1,8 +1,8 @@
 'use client';
 
+import { useAppSelector } from '@/hooks';
+import { Page } from '@/types/page';
 import { FC } from 'react';
-import { useAppSelector } from '../../../hooks';
-import { Page } from '../../../types/page';
 import { FooterButton } from './FooterButton';
 
 const Tab = {

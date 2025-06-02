@@ -1,6 +1,6 @@
+import { useAppDispatch } from '@/hooks';
+import { cancelEditing } from '@/store/features/customerSlice';
 import { Button, Container } from 'react-bootstrap';
-import { useAppDispatch } from '../../../hooks';
-import { cancelEditing } from '../../../store/features/customerSlice';
 
 interface CustomerDetailEditorActionBarProps {
   onSubmit: (e: React.FormEvent) => void;

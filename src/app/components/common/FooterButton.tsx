@@ -1,7 +1,7 @@
+import { useAppDispatch } from '@/hooks';
+import { setCurrentPage } from '@/store/navigationSlice';
+import { Page } from '@/types/page';
 import { FC } from 'react';
-import { Page } from '../../../types/page';
-import { useAppDispatch } from '../../../hooks';
-import { setCurrentPage } from '../../../store/navigationSlice';
 
 interface FooterButtonProps {
   icon: string;

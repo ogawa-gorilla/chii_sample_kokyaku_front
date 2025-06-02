@@ -1,9 +1,9 @@
-import { Card, Button } from "react-bootstrap"
-import { setCurrentPage } from "../../../store/navigationSlice"
-import { Page } from "../../../types/page"
-import { useAppDispatch } from "../../../hooks";
-import { Invoice, InvoiceStatus } from "../../../types/invoice";
-import { setSelectedInvoice } from "../../../store/features/invoiceSlice";
+import { useAppDispatch } from "@/hooks";
+import { setSelectedInvoice } from "@/store/features/invoiceSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
+import { Invoice, InvoiceStatus } from "@/types/invoice";
+import { Page } from "@/types/page";
+import { Button, Card } from "react-bootstrap";
 
 interface InvoiceCardProps {
   invoice: Invoice;
