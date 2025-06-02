@@ -201,9 +201,17 @@ export const {
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
   const query = state.customer.searchQuery;
   const readingQuery = normalizeForSearch(state.customer.searchQuery);
-  if (!query) return state.customer.customers;
   
-  return state.customer.customers.filter(customer => 
+  let customers = state.customer.customers;
+  
+  // 更新日の降順でソート
+  customers = [...customers].sort((a, b) => 
+    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+  );
+  
+  if (!query) return customers;
+  
+  return customers.filter(customer => 
     customer.name.includes(query) ||
     normalizeForSearch(customer.nameReading).includes(readingQuery) ||
     (customer.company && customer.company.includes(query))
