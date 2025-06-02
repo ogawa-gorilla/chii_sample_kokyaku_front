@@ -11,6 +11,56 @@ interface InvoiceState {
 const initialState: InvoiceState = {
   invoices: [
     {
+      id: "11",
+      customerId: '2', // 鈴木 花子 - 東和システム株式会社
+      customerName: '鈴木 花子',
+      company: '東和システム株式会社',
+      date: '2024/02/05',
+      amount: 220000,
+      status: InvoiceStatus.PAID,
+      invoiceNumber: '240205-001',
+    },
+    {
+      id: "12",
+      customerId: '1', // 山田 太郎 - 丸紅建設株式会社
+      customerName: '山田 太郎',
+      company: '丸紅建設株式会社',
+      date: '2024/02/10',
+      amount: 180000,
+      status: InvoiceStatus.PAID,
+      invoiceNumber: '240210-001',
+    },
+    {
+      id: "13",
+      customerId: '4', // 田中 美咲 - 大和物産株式会社
+      customerName: '田中 美咲',
+      company: '大和物産株式会社',
+      date: '2024/02/15',
+      amount: 340000,
+      status: InvoiceStatus.PAID,
+      invoiceNumber: '240215-001',
+    },
+    {
+      id: "14",
+      customerId: '9', // 中村 大輔 - 日本メディカルサービス株式会社
+      customerName: '中村 大輔',
+      company: '日本メディカルサービス株式会社',
+      date: '2024/02/20',
+      amount: 260000,
+      status: InvoiceStatus.PAID,
+      invoiceNumber: '240220-001',
+    },
+    {
+      id: "15",
+      customerId: '8', // 小林 さくら - 東和システム株式会社
+      customerName: '小林 さくら',
+      company: '東和システム株式会社',
+      date: '2024/02/25',
+      amount: 190000,
+      status: InvoiceStatus.PAID,
+      invoiceNumber: '240225-001',
+    },
+    {
       id: "1",
       customerId: '1', // 山田 太郎 - 丸紅建設株式会社
       customerName: '山田 太郎',
