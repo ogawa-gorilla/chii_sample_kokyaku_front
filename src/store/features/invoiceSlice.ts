@@ -247,6 +247,12 @@ export const invoiceSlice = createSlice({
     },
     createInvoice: (state, action: PayloadAction<Invoice>) => {
       state.invoices.push(action.payload);
+    },
+    startEditInvoice: (state, action: PayloadAction<string>) => {
+      const invoice = state.invoices.find(invoice => invoice.id === action.payload);
+      if (invoice) {
+        state.invoiceDraft = { ...invoice };
+      }
     }
   }
 })
@@ -261,7 +267,8 @@ export const {
   resetSearchConditions,
   startNewInvoice,
   updateInvoiceDraft,
-  createInvoice
+  createInvoice,
+  startEditInvoice
 } = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す

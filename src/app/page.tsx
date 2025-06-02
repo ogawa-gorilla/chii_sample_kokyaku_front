@@ -8,6 +8,7 @@ import CustomerIndexPage from "./customers/CustomerIndexPage";
 import HomePage from "./customers/HomePage";
 import { InvoiceCreatePage } from "./invoices/InvoiceCreatePage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
+import { InvoiceEditPage } from "./invoices/InvoiceEditPage";
 import { InvoiceIndexPage } from "./invoices/InvoiceIndexPage";
 
 const showPage = (currentPage: Page) => {
@@ -24,6 +25,8 @@ const showPage = (currentPage: Page) => {
       return <InvoiceDetailPage />;
     case Page.invoiceCreate:
       return <InvoiceCreatePage />;
+    case Page.invoiceEdit:
+      return <InvoiceEditPage />;
   }
 }
 

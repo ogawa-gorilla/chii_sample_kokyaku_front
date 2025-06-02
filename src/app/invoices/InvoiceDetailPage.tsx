@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { startEditInvoice } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
 import { Button, Container } from "react-bootstrap";
@@ -14,7 +15,8 @@ export const InvoiceDetailPage = () => {
   );
 
   const handleEdit = () => {
-    // TODO: 編集機能の実装
+    dispatch(startEditInvoice(invoice!.id));
+    dispatch(setCurrentPage(Page.invoiceEdit));
   };
 
   const handleDelete = () => {
