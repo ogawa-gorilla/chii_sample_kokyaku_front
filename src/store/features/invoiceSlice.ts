@@ -6,6 +6,8 @@ interface InvoiceState {
   invoices: Invoice[];
   selectedInvoiceId: string | null;
   searchText: string;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: InvoiceState = {
@@ -163,6 +165,8 @@ const initialState: InvoiceState = {
   ],
   selectedInvoiceId: null,
   searchText: "",
+  loading: false,
+  error: null,
 }
 
 export const invoiceSlice = createSlice({
@@ -184,14 +188,17 @@ export const { setSelectedInvoice, setSearchText } = invoiceSlice.actions;
 export const selectFilteredInvoices = (state: RootState) => {
   const searchText = state.invoice.searchText.toLowerCase();
   
-  if (!searchText) {
-    return state.invoice.invoices;
-  }
+  const filteredInvoices = !searchText 
+    ? state.invoice.invoices
+    : state.invoice.invoices.filter(invoice => 
+        invoice.customerName.toLowerCase().includes(searchText) ||
+        invoice.company.toLowerCase().includes(searchText) ||
+        invoice.invoiceNumber.toLowerCase().includes(searchText)
+      );
 
-  return state.invoice.invoices.filter(invoice => 
-    invoice.customerName.toLowerCase().includes(searchText) ||
-    invoice.company.toLowerCase().includes(searchText) ||
-    invoice.invoiceNumber.toLowerCase().includes(searchText)
+  // 日付でソート
+  return [...filteredInvoices].sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 };
 
