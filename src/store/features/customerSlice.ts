@@ -217,10 +217,8 @@ const sortCustomers = (customers: Customer[], sortOrder: CustomerSortOrder): Cus
       return sorted.sort((a, b) => a.nameReading.localeCompare(b.nameReading, 'ja'));
     case 'name_desc':
       return sorted.sort((a, b) => b.nameReading.localeCompare(a.nameReading, 'ja'));
-    case 'company_asc':
+    case 'company':
       return sorted.sort((a, b) => (a.company || '').localeCompare(b.company || '', 'ja'));
-    case 'company_desc':
-      return sorted.sort((a, b) => (b.company || '').localeCompare(a.company || '', 'ja'));
     default:
       return sorted;
   }
