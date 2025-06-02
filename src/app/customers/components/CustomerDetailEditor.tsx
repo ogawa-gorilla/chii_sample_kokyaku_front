@@ -39,7 +39,7 @@ export default function CustomerDetailEditor({ originalCustomer: originalCustome
         <Form onSubmit={onSubmit}>
           <Form.Group className="mb-3">
             <Form.Label className={getLabelClassName('name')}>
-              {getLabelText('name', '名前')}
+              {getLabelText('name', '名前')} <span className="text-danger">※必須</span>
             </Form.Label>
             <Form.Control
               type="text"
@@ -51,7 +51,7 @@ export default function CustomerDetailEditor({ originalCustomer: originalCustome
 
           <Form.Group className="mb-3">
             <Form.Label className={getLabelClassName('nameReading')}>
-              {getLabelText('nameReading', 'フリガナ')}
+              {getLabelText('nameReading', 'フリガナ')} <span className="text-danger">※必須</span>
             </Form.Label>
             <Form.Control
               type="text"
@@ -63,7 +63,7 @@ export default function CustomerDetailEditor({ originalCustomer: originalCustome
 
           <Form.Group className="mb-3">
             <Form.Label className={getLabelClassName('phoneNumber')}>
-              {getLabelText('phoneNumber', '電話番号')}
+              {getLabelText('phoneNumber', '電話番号')} <span className="text-danger">※必須</span>
             </Form.Label>
             <Form.Control
               type="tel"
@@ -82,6 +82,7 @@ export default function CustomerDetailEditor({ originalCustomer: originalCustome
               value={draftCustomer.company}
               onChange={(e) => handleChange('company', e.target.value)}
               placeholder="未設定"
+              required={false}
             />
           </Form.Group>
         </Form>
