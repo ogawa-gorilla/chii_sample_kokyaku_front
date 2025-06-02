@@ -3,33 +3,14 @@ import { updateInvoiceDraft } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
-import { normalizeForSearch } from "@/utils/japanese";
 import { Button, Container, Form } from "react-bootstrap";
-import Select, { components, FilterOptionOption } from 'react-select';
-
-interface CustomerOption {
-  value: string;
-  label: string;
-  nameReading: string;
-  company?: string;
-}
+import Select, { components } from 'react-select';
+import { CustomerSelect } from "./CustomerSelect";
 
 interface InvoiceCreateFormProps {
   invoice: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
-
-const CustomOption = ({ children, ...props }: any) => {
-  const { nameReading, company } = props.data;
-  return (
-    <components.Option {...props}>
-      <div>
-        <div>{children}</div>
-        <div className="text-muted small">{company || '会社名なし'}</div>
-      </div>
-    </components.Option>
-  );
-};
 
 const StatusOption = ({ children, ...props }: any) => {
   const bgClass = props.data.value === InvoiceStatus.PAID ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
@@ -55,21 +36,12 @@ const StatusSingleValue = ({ children, ...props }: any) => {
 
 export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
   const dispatch = useAppDispatch();
-  const customers = useAppSelector(state => state.customer.customers);
   const invoiceDraft = useAppSelector(state => state.invoice.invoiceDraft);
+  const customers = useAppSelector(state => state.customer.customers);
 
   if (!invoiceDraft) {
     return null;
   }
-
-  const customerOptions: CustomerOption[] = customers.map(customer => ({
-    value: customer.id,
-    label: `${customer.name} (${customer.nameReading})`,
-    nameReading: customer.nameReading,
-    company: customer.company
-  }));
-
-  const selectedCustomer = customerOptions.find(option => option.value === invoiceDraft?.customerId);
 
   const statusOptions = [
     { value: InvoiceStatus.UNPAID, label: '未払い' },
@@ -87,17 +59,8 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
     dispatch(setCurrentPage(Page.customerDetail));
   };
 
-  const filterCustomerOption = (
-    option: FilterOptionOption<CustomerOption>,
-    inputValue: string
-  ) => {
-    const searchText = normalizeForSearch(inputValue.toLowerCase());
-    const nameMatch = option.label.toLowerCase().includes(searchText);
-    const nameReadingMatch = normalizeForSearch(option.data.nameReading.toLowerCase()).includes(normalizeForSearch(searchText));
-    const companyMatch = option.data.company ? 
-      option.data.company.toLowerCase().includes(searchText) : false;
-    
-    return nameMatch || nameReadingMatch || companyMatch;
+  const handleCustomerChange = (customerId: string) => {
+    dispatch(updateInvoiceDraft({ ...invoiceDraft, customerId }));
   };
 
   return (
@@ -134,41 +97,12 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
           </div>
           <div className="mb-3">
             <Form.Label>顧客</Form.Label>
-            <div className="d-flex gap-2">
-              <div style={{ flex: 1 }}>
-                <Select
-                  value={selectedCustomer}
-                  onChange={(option) => updateInvoiceDraft({ ...invoiceDraft, customerId: option?.value || '' })}
-                  options={customerOptions}
-                  components={{ Option: CustomOption }}
-                  filterOption={filterCustomerOption}
-                  isClearable
-                  placeholder="顧客を検索..."
-                  noOptionsMessage={() => "該当する顧客がいません"}
-                  styles={{
-                    control: (base, state) => ({
-                      ...base,
-                      borderColor: state.isFocused ? '#80bdff' : '#ced4da',
-                      boxShadow: state.isFocused ? '0 0 0 0.2rem rgba(0,123,255,.25)' : 'none',
-                      '&:hover': {
-                        borderColor: state.isFocused ? '#80bdff' : '#ced4da'
-                      }
-                    }),
-                    option: (base) => ({
-                      ...base,
-                      padding: '8px 12px'
-                    })
-                  }}
-                />
-              </div>
-              <Button
-                variant="outline-primary"
-                size="sm"
-                onClick={handleCreateCustomer}
-              >
-                <i className="bi bi-plus"></i> 新規顧客
-              </Button>
-            </div>
+            <CustomerSelect
+              customers={customers}
+              selectedCustomerId={invoiceDraft.customerId}
+              onCustomerChange={handleCustomerChange}
+              onCreateCustomer={handleCreateCustomer}
+            />
           </div>
 
           <div className="mb-3">
@@ -207,7 +141,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
             <Form.Label>ステータス</Form.Label>
             <Select
               value={selectedStatus}
-              onChange={(option) => updateInvoiceDraft({ ...invoiceDraft, status: option?.value || InvoiceStatus.UNPAID })}
+              onChange={(option) => dispatch(updateInvoiceDraft({ ...invoiceDraft, status: option?.value || InvoiceStatus.UNPAID }))}
               options={statusOptions}
               components={{
                 Option: StatusOption,
