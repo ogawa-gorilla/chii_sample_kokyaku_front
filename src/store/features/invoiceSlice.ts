@@ -232,19 +232,43 @@ export const {
 export const selectFilteredInvoices = (state: RootState) => {
   const searchText = state.invoice.searchText.toLowerCase();
   const customerNameReading = normalizeForSearch(state.invoice.searchText);
+  const showUnpaidOnly = state.invoice.showUnpaidOnly;
+  const startMonth = state.invoice.startMonth;
+  const endMonth = state.invoice.endMonth;
   
-  const filteredInvoices = !searchText 
-    ? state.invoice.invoices
-    : state.invoice.invoices.filter(invoice => 
-        invoice.customerName.toLowerCase().includes(searchText) ||
-        invoice.customerReading.toLowerCase().includes(normalizeForSearch(searchText)) ||
-        invoice.company.toLowerCase().includes(searchText) ||
-        invoice.invoiceNumber.toLowerCase().includes(searchText)
-      );
+  let filteredInvoices = state.invoice.invoices;
 
-  // 日付でソート
+  // テキスト検索フィルター
+  if (searchText) {
+    filteredInvoices = filteredInvoices.filter(invoice => 
+      invoice.customerName.toLowerCase().includes(searchText) ||
+      invoice.customerReading.toLowerCase().includes(normalizeForSearch(searchText)) ||
+      invoice.company.toLowerCase().includes(searchText) ||
+      invoice.invoiceNumber.toLowerCase().includes(searchText)
+    );
+  }
+
+  // 未払いのみフィルター
+  if (showUnpaidOnly) {
+    filteredInvoices = filteredInvoices.filter(invoice => 
+      invoice.status === InvoiceStatus.UNPAID
+    );
+  }
+
+  // 日付フィルター
+  if (startMonth && endMonth) {
+    const startDate = new Date(startMonth + '-01');
+    const endDate = new Date(endMonth + '-31'); // 月末まで含める
+    
+    filteredInvoices = filteredInvoices.filter(invoice => {
+      const invoiceDate = new Date(invoice.date.replace('/', '-'));
+      return invoiceDate >= startDate && invoiceDate <= endDate;
+    });
+  }
+
+  // 日付でソート（新しい順）
   return [...filteredInvoices].sort((a, b) => 
-    new Date(b.date).getTime() - new Date(a.date).getTime()
+    new Date(b.date.replace('/', '-')).getTime() - new Date(a.date.replace('/', '-')).getTime()
   );
 };
 
