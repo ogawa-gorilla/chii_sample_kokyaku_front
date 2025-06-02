@@ -1,11 +1,27 @@
+import { useAppDispatch } from '@/hooks';
+import { setCurrentPage } from '@/store/navigationSlice';
 import { Customer } from '@/types/customer';
-import { Card } from 'react-bootstrap';
+import { Page } from '@/types/page';
+import { Button, Card, Container } from 'react-bootstrap';
 
 interface CustomerDetailCardProps {
-  customer: Customer;
+  customer?: Customer;
 }
 
 export default function CustomerDetailCard({ customer }: CustomerDetailCardProps) {
+  const dispatch = useAppDispatch();
+
+  if (!customer) {
+    return (
+      <Container className="mt-4">
+        <div>顧客が見つかりませんでした。</div>
+        <Button onClick={() => dispatch(setCurrentPage(Page.customerList))}>
+          戻る
+        </Button>
+      </Container>
+    );
+  }
+
   return (
     <Card className="mb-3">
       <Card.Body>

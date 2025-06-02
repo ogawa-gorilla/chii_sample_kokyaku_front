@@ -32,17 +32,6 @@ export default function CustomerDetailPage() {
     dispatch(saveDraft());
   };
 
-  if (!customer) {
-    return (
-      <Container className="mt-4">
-        <div>顧客が見つかりませんでした。</div>
-        <Button onClick={() => dispatch(setCurrentPage(Page.customerList))}>
-          戻る
-        </Button>
-      </Container>
-    );
-  }
-
   return (
     <div className="page-container">
       <style>
@@ -130,7 +119,7 @@ export default function CustomerDetailPage() {
         <Container>
           {isEditing ? (
             <CustomerDetailEditor 
-              customer={customer}
+              originalCustomer={customer}
               onSubmit={handleSubmit}
             />
           ) : (
@@ -142,7 +131,7 @@ export default function CustomerDetailPage() {
         <CustomerDetailEditorActionBar onSubmit={handleSubmit} />
       ) : (
         <CustomerDetailActionBar 
-          customer={customer}
+          customer={customer!}
           onDelete={handleDelete}
           onEdit={handleEdit}
         />

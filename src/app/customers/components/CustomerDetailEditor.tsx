@@ -4,11 +4,11 @@ import { Customer } from '@/types/customer';
 import { Card, Form } from 'react-bootstrap';
 
 interface CustomerDetailEditorProps {
-  customer: Customer;
+  originalCustomer?: Customer;
   onSubmit: (e: React.FormEvent) => void;
 }
 
-export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDetailEditorProps) {
+export default function CustomerDetailEditor({ originalCustomer: originalCustomer, onSubmit }: CustomerDetailEditorProps) {
   const dispatch = useAppDispatch();
   const draftCustomer = useAppSelector(state => state.customer.draftCustomer);
 
@@ -19,7 +19,10 @@ export default function CustomerDetailEditor({ customer, onSubmit }: CustomerDet
   if (!draftCustomer) return null;
 
   const isFieldChanged = (field: keyof Customer) => {
-    return draftCustomer[field] !== customer[field];
+    if (!originalCustomer){
+      return draftCustomer[field] !== '';
+    }
+    return draftCustomer[field] !== originalCustomer[field];
   };
 
   const getLabelClassName = (field: keyof Customer) => {

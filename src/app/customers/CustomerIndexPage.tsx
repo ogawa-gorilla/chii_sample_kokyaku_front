@@ -1,7 +1,9 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setSearchQuery } from "@/store/features/customerSlice";
+import { setSearchQuery, startNewCustomer } from "@/store/features/customerSlice";
+import { setCurrentPage } from "@/store/navigationSlice";
+import { Page } from "@/types/page";
 import { Button, Container, Form } from "react-bootstrap";
 import { CustomerList } from "./components/CustomerList";
 
@@ -11,6 +13,11 @@ export default function CustomerIndexPage () {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
+  };
+
+  const handleNewCustomer = () => {
+    dispatch(startNewCustomer());
+    dispatch(setCurrentPage(Page.customerDetail));
   };
 
   return (
@@ -37,7 +44,7 @@ export default function CustomerIndexPage () {
       <div className="fixed-header-container">
         <nav className="navbar">
           <span className="navbar-brand mb-0 h5">顧客一覧</span>
-          <Button size="sm" variant="primary">＋新規登録</Button>
+          <Button size="sm" variant="primary" onClick={handleNewCustomer}>＋新規登録</Button>
         </nav>
         <div className="search-area">
           <Container>
