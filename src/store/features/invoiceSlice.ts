@@ -12,6 +12,7 @@ interface InvoiceState {
   showUnpaidOnly: boolean;
   startMonth: string;
   endMonth: string;
+  sortOrder: 'asc' | 'desc';
 }
 
 const initialState: InvoiceState = {
@@ -188,7 +189,8 @@ const initialState: InvoiceState = {
   error: null,
   showUnpaidOnly: false,
   startMonth: "2024-03",
-  endMonth: "2024-03"
+  endMonth: "2024-03",
+  sortOrder: 'desc'
 }
 
 export const invoiceSlice = createSlice({
@@ -210,6 +212,9 @@ export const invoiceSlice = createSlice({
     setEndMonth: (state, action: PayloadAction<string>) => {
       state.endMonth = action.payload;
     },
+    setSortOrder: (state, action: PayloadAction<'asc' | 'desc'>) => {
+      state.sortOrder = action.payload;
+    },
     resetSearchConditions: (state) => {
       state.searchText = "";
       state.showUnpaidOnly = false;
@@ -225,6 +230,7 @@ export const {
   setShowUnpaidOnly,
   setStartMonth,
   setEndMonth,
+  setSortOrder,
   resetSearchConditions 
 } = invoiceSlice.actions;
 
@@ -235,6 +241,7 @@ export const selectFilteredInvoices = (state: RootState) => {
   const showUnpaidOnly = state.invoice.showUnpaidOnly;
   const startMonth = state.invoice.startMonth;
   const endMonth = state.invoice.endMonth;
+  const sortOrder = state.invoice.sortOrder;
   
   let filteredInvoices = state.invoice.invoices;
 
@@ -266,10 +273,16 @@ export const selectFilteredInvoices = (state: RootState) => {
     });
   }
 
-  // 日付でソート（新しい順）
-  return [...filteredInvoices].sort((a, b) => 
-    new Date(b.date.replace('/', '-')).getTime() - new Date(a.date.replace('/', '-')).getTime()
-  );
+  // 日付でソート
+  filteredInvoices = [...filteredInvoices].sort((a, b) => {
+    const dateA = new Date(a.date.replace('/', '-'));
+    const dateB = new Date(b.date.replace('/', '-'));
+    return sortOrder === 'asc' 
+      ? dateA.getTime() - dateB.getTime()
+      : dateB.getTime() - dateA.getTime();
+  });
+
+  return filteredInvoices;
 };
 
 export default invoiceSlice.reducer;

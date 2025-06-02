@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setEndMonth, setSearchText, setShowUnpaidOnly, setStartMonth } from "@/store/features/invoiceSlice";
+import { setEndMonth, setSearchText, setShowUnpaidOnly, setSortOrder, setStartMonth } from "@/store/features/invoiceSlice";
 import { Button, Container, Form } from "react-bootstrap";
 import { InvoiceCardList } from "./components/InvoiceCardList";
 
@@ -11,9 +11,14 @@ export const InvoiceIndexPage = () => {
   const showUnpaidOnly = useAppSelector(state => state.invoice.showUnpaidOnly);
   const startMonth = useAppSelector(state => state.invoice.startMonth);
   const endMonth = useAppSelector(state => state.invoice.endMonth);
+  const sortOrder = useAppSelector(state => state.invoice.sortOrder);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchText(e.target.value));
+  };
+
+  const toggleSortOrder = () => {
+    dispatch(setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'));
   };
 
   return (
@@ -25,16 +30,20 @@ export const InvoiceIndexPage = () => {
           border-bottom: 1px solid #eee;
         }
         .main-content {
-          padding-top: 200px;
+          padding-top: 240px;
           padding-bottom: 80px;
         }
         .month-picker-container {
           display: flex;
           align-items: center;
           gap: 0.5rem;
+          margin-bottom: 0.5rem;
         }
         .month-picker {
           width: 140px;
+        }
+        .sort-button {
+          display: block;
         }
         `}
       </style>
@@ -79,6 +88,14 @@ export const InvoiceIndexPage = () => {
                   className="month-picker"
                 />
               </div>
+              <Button 
+                variant="outline-secondary" 
+                size="sm"
+                onClick={toggleSortOrder}
+                className="sort-button"
+              >
+                {sortOrder === 'asc' ? '▲ 古い順' : '▼ 新しい順'}
+              </Button>
             </Form>
           </Container>
         </div>
