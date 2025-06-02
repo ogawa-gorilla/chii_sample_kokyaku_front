@@ -9,7 +9,7 @@ const Tab = {
   home: 'home',
   customer: 'customer',
   invoice: 'invoice',
-  help: 'help',
+  trash: 'trash',
 }
 
 type Tab = typeof Tab[keyof typeof Tab];
@@ -18,8 +18,10 @@ const footerButtons = (currentPage: Page) => {
   var tab: Tab;
   if (currentPage === Page.customerList || currentPage === Page.customerDetail) {
     tab = Tab.customer
-  } else if (currentPage === Page.invoiceList || currentPage === Page.invoiceDetail) {
+  } else if (currentPage === Page.invoiceList || currentPage === Page.invoiceDetail || currentPage === Page.invoiceEdit || currentPage === Page.invoiceCreate) {
     tab = Tab.invoice
+  } else if (currentPage === Page.trash) {
+    tab = Tab.trash
   } else {
     tab = Tab.home
   }
@@ -29,6 +31,7 @@ return(
     <FooterButton icon={<i className="bi bi-house-door-fill fs-5"></i>} label="ホーム" isActive={tab === Tab.home} pageTo={Page.home} />
     <FooterButton icon={<i className="bi bi-people-fill fs-5"></i>} label="顧客" isActive={tab === Tab.customer} pageTo={Page.customerList} />
     <FooterButton icon={<i className="bi bi-file-text-fill fs-5"></i>} label="請求書" isActive={tab === Tab.invoice} pageTo={Page.invoiceList} />
+    <FooterButton icon={<i className="bi bi-trash fs-5"></i>} label="ごみ箱" isActive={tab === Tab.trash} pageTo={Page.trash} />
   </div>
 )
 }
