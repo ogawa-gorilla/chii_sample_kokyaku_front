@@ -25,7 +25,7 @@ const footerButtons = (currentPage: Page) => {
   }
 
 return(
-  <div className="fixed-footer d-flex justify-content-around py-2">
+  <div className="fixed-footer d-flex py-2">
     <FooterButton icon="🏠" label="ホーム" isActive={tab === Tab.home} pageTo={Page.home} />
     <FooterButton icon="👤" label="顧客" isActive={tab === Tab.customer} pageTo={Page.customerList} />
     <FooterButton icon="🧾" label="請求書" isActive={tab === Tab.invoice} pageTo={Page.invoiceList} />
@@ -48,6 +48,9 @@ export const Footer: FC = () => {
             background: white;
             box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
             z-index: 900;
+          }
+          .fixed-footer > div {
+            flex: 1;
           }
           .fixed-footer a {
             text-decoration: none;
