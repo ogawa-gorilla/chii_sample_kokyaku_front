@@ -40,6 +40,7 @@ export const InvoiceCard = (props: InvoiceCardProps) => {
             <div className="d-flex justify-content-between align-items-start">
               <div>
                 <div className="invoice-title">{props.invoice.customerName}</div>
+                <div className="text-muted small">{props.invoice.customerReading}</div>
                 <div className="invoice-meta">{props.invoice.company}</div>
                 <div className="invoice-meta">請求日：{props.invoice.date}</div>
                 <div className="invoice-meta">請求番号：{props.invoice.invoiceNumber}</div>
