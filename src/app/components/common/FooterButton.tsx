@@ -1,10 +1,10 @@
 import { useAppDispatch } from '@/hooks';
 import { setCurrentPage } from '@/store/navigationSlice';
 import { Page } from '@/types/page';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 
 interface FooterButtonProps {
-  icon: string;
+  icon: ReactNode;
   label: string;
   pageTo: Page;
   isActive?: boolean;

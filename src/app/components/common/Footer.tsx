@@ -26,9 +26,9 @@ const footerButtons = (currentPage: Page) => {
 
 return(
   <div className="fixed-footer d-flex py-2">
-    <FooterButton icon="🏠" label="ホーム" isActive={tab === Tab.home} pageTo={Page.home} />
-    <FooterButton icon="👤" label="顧客" isActive={tab === Tab.customer} pageTo={Page.customerList} />
-    <FooterButton icon="🧾" label="請求書" isActive={tab === Tab.invoice} pageTo={Page.invoiceList} />
+    <FooterButton icon={<i className="bi bi-house-door-fill fs-5"></i>} label="ホーム" isActive={tab === Tab.home} pageTo={Page.home} />
+    <FooterButton icon={<i className="bi bi-people-fill fs-5"></i>} label="顧客" isActive={tab === Tab.customer} pageTo={Page.customerList} />
+    <FooterButton icon={<i className="bi bi-file-text-fill fs-5"></i>} label="請求書" isActive={tab === Tab.invoice} pageTo={Page.invoiceList} />
   </div>
 )
 }
