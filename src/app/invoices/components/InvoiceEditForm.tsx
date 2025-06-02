@@ -31,6 +31,28 @@ const CustomOption = ({ children, ...props }: any) => {
   );
 };
 
+const StatusOption = ({ children, ...props }: any) => {
+  const bgClass = props.data.value === InvoiceStatus.PAID ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
+  return (
+    <components.Option {...props}>
+      <div className={bgClass} style={{ margin: '-8px -12px', padding: '8px 12px' }}>
+        {children}
+      </div>
+    </components.Option>
+  );
+};
+
+const StatusSingleValue = ({ children, ...props }: any) => {
+  const bgClass = props.data.value === InvoiceStatus.PAID ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
+  return (
+    <components.SingleValue {...props}>
+      <div className={bgClass} style={{ margin: '-4px -8px', padding: '4px 8px', borderRadius: '4px' }}>
+        {children}
+      </div>
+    </components.SingleValue>
+  );
+};
+
 export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => {
   const dispatch = useAppDispatch();
   const [isEditing, setIsEditing] = useState(false);
@@ -51,6 +73,13 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
   }));
 
   const selectedCustomer = customerOptions.find(option => option.value === formData.customerId);
+
+  const statusOptions = [
+    { value: InvoiceStatus.UNPAID, label: '未払い' },
+    { value: InvoiceStatus.PAID, label: '支払い済み' }
+  ];
+
+  const selectedStatus = statusOptions.find(option => option.value === formData.status);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,13 +110,29 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
           <h6 className="card-title mb-3">支払い状況</h6>
           <div className="mb-3">
             <Form.Label>ステータス</Form.Label>
-            <Form.Select
-              value={formData.status}
-              onChange={(e) => setFormData({ ...formData, status: e.target.value as InvoiceStatus })}
-            >
-              <option value={InvoiceStatus.UNPAID}>未払い</option>
-              <option value={InvoiceStatus.PAID}>支払い済み</option>
-            </Form.Select>
+            <Select
+              value={selectedStatus}
+              onChange={(option) => setFormData({ ...formData, status: option?.value || InvoiceStatus.UNPAID })}
+              options={statusOptions}
+              components={{
+                Option: StatusOption,
+                SingleValue: StatusSingleValue
+              }}
+              styles={{
+                control: (base) => ({
+                  ...base,
+                  minHeight: '38px'
+                }),
+                option: (base) => ({
+                  ...base,
+                  padding: 0
+                }),
+                singleValue: (base) => ({
+                  ...base,
+                  padding: 0
+                })
+              }}
+            />
           </div>
         </div>
       </div>

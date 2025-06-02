@@ -1,17 +1,13 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { useAppSelector } from "@/hooks";
 import { Container } from "react-bootstrap";
 import { InvoiceEditForm } from "./components/InvoiceEditForm";
 
 export const InvoiceEditPage = () => {
-  const dispatch = useAppDispatch();
   const selectedInvoiceId = useAppSelector(state => state.invoice.selectedInvoiceId);
   const invoice = useAppSelector(state => 
     state.invoice.invoices.find(c => c.id === selectedInvoiceId)
-  );
-  const customerExists = useAppSelector(state => 
-    state.customer.customers.some(c => c.id === invoice?.customerId)
   );
 
   return (
