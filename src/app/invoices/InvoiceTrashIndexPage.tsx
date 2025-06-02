@@ -1,36 +1,11 @@
 'use client';
 
-import { useAppDispatch } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { Container } from "react-bootstrap";
-import { DeletedInvoiceCard, TrashedInvoice } from "./components/DeletedInvoiceCard";
+import { DeletedInvoiceCard } from "./components/DeletedInvoiceCard";
 
 export const InvoiceTrashIndexPage = () => {
   const dispatch = useAppDispatch();
-
-  // モックデータ（削除日時降順でソート済み）
-  const trashedInvoices: TrashedInvoice[] = [
-    {
-      id: "1",
-      invoiceNumber: "INV-2024-001",
-      customerName: "株式会社サンプル",
-      amount: 120000,
-      deletedAt: new Date("2024-01-15T10:30:00")
-    },
-    {
-      id: "2", 
-      invoiceNumber: "INV-2024-002",
-      customerName: "テスト商事株式会社",
-      amount: 85000,
-      deletedAt: new Date("2024-01-14T15:20:00")
-    },
-    {
-      id: "3",
-      invoiceNumber: "INV-2024-003", 
-      customerName: "例示企業合同会社",
-      amount: 95000,
-      deletedAt: new Date("2024-01-13T09:45:00")
-    }
-  ];
 
   const handleRestore = (id: string) => {
     console.log(`請求書 ${id} を復元`);
@@ -41,6 +16,8 @@ export const InvoiceTrashIndexPage = () => {
     console.log(`請求書 ${id} を完全削除`);
     // TODO: 完全削除処理の実装
   };
+
+  const trashedInvoices = useAppSelector(state => state.invoice.trashedInvoices);
 
   return (
     <div>
@@ -77,8 +54,6 @@ export const InvoiceTrashIndexPage = () => {
           <span className="navbar-brand mb-0 h5">ごみ箱</span>
         </nav>
       </div>
-      
-
       
       <div className="main-content">
         <div className="info-banner">

@@ -1,16 +1,9 @@
+import { Invoice } from "@/types/invoice";
 import { Button } from "react-bootstrap";
 
-// 削除されたアイテムの型定義
-export interface TrashedInvoice {
-  id: string;
-  invoiceNumber: string;
-  customerName: string;
-  amount: number;
-  deletedAt: Date;
-}
 
 interface DeletedInvoiceCardProps {
-  invoice: TrashedInvoice;
+  invoice: Invoice;
   onRestore: (id: string) => void;
   onPermanentDelete: (id: string) => void;
 }
@@ -27,23 +20,13 @@ export const DeletedInvoiceCard = ({
     }).format(amount);
   };
 
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('ja-JP', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  };
-
   return (
     <div className="col-12 mb-3">
       <div className="card h-100">
         <div className="card-body">
           <div className="d-flex justify-content-between align-items-start mb-2">
             <h6 className="card-title mb-0">{invoice.invoiceNumber}</h6>
-            <small className="text-muted">削除日時：{formatDate(invoice.deletedAt)}</small>
+            <small className="text-muted">削除日時：{(invoice.deletedAt) ?invoice.deletedAt : '不明'}</small>
           </div>
           <div className="row align-items-center">
             <div className="col-md-8">
