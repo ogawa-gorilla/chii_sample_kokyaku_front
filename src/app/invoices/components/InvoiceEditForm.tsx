@@ -64,7 +64,17 @@ export const InvoiceEditForm = (props: InvoiceEditFormProps) => {
           </div>
           <div className="mb-3">
             <Form.Label>顧客</Form.Label>
-            
+            <div className="border rounded p-3 bg-light">
+              <div className="mb-2">
+                <strong>名前:</strong> {props.invoiceDraft.customerName}
+              </div>
+              <div className="mb-2">
+                <strong>フリガナ:</strong> {props.invoiceDraft.customerReading}
+              </div>
+              <div>
+                <strong>会社名:</strong> {props.invoiceDraft.company}
+              </div>
+            </div>
           </div>
 
           <div className="mb-3">
