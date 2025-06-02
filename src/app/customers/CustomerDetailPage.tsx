@@ -77,7 +77,9 @@ export default function CustomerDetailPage() {
             gap: 1rem;
           }
           .action-buttons .bottom-row {
-            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
           }
           .delete-button {
             background-color: #dc3545;

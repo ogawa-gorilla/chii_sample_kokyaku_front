@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/hooks';
-import { resetSearchConditions, setSearchText } from '@/store/features/invoiceSlice';
+import { resetSearchConditions, setSearchText, startNewInvoice, updateInvoiceDraft } from '@/store/features/invoiceSlice';
 import { setCurrentPage } from '@/store/navigationSlice';
 import { Customer } from '@/types/customer';
 import { Page } from '@/types/page';
@@ -21,6 +21,14 @@ export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: 
     if (deleteConfirmText === '削除する') {
       onDelete(customer.id);
     }
+  };
+
+  const handleCreateInvoice = () => {
+    dispatch(startNewInvoice());
+    dispatch(setCurrentPage(Page.invoiceCreate));
+    setTimeout(() => {
+      dispatch(updateInvoiceDraft({ customerId: customer.id, customerName: customer.name, customerReading: customer.nameReading, company: customer.company }));
+    }, 0);
   };
 
   const handleCloseModal = () => {
@@ -63,7 +71,14 @@ export default function CustomerDetailActionBar({ customer, onDelete, onEdit }: 
                 className="action-button"
                 onClick={handleSearchInvoices}
               >
-                この顧客の請求書を検索
+                請求書検索
+              </Button>
+              <Button 
+                variant="success"
+                className="action-button"
+                onClick={handleCreateInvoice}
+              >
+                新規請求書
               </Button>
             </div>
           </div>
