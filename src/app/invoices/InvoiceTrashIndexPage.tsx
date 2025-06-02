@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
+import { permanentDeleteInvoice } from "@/store/features/invoiceSlice";
 import { Container } from "react-bootstrap";
 import { DeletedInvoiceCard } from "./components/DeletedInvoiceCard";
 
@@ -13,8 +14,7 @@ export const InvoiceTrashIndexPage = () => {
   };
 
   const handlePermanentDelete = (id: string) => {
-    console.log(`請求書 ${id} を完全削除`);
-    // TODO: 完全削除処理の実装
+    dispatch(permanentDeleteInvoice(id));
   };
 
   const trashedInvoices = useAppSelector(state => 
