@@ -4,17 +4,31 @@ import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
 import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 interface CustomerOption {
   value: string;
   label: string;
+  nameReading: string;
+  company?: string;
 }
 
 interface InvoiceEditFormProps {
   invoice: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
+
+const CustomOption = ({ children, ...props }: any) => {
+  const { nameReading, company } = props.data;
+  return (
+    <components.Option {...props}>
+      <div>
+        <div>{children}</div>
+        <div className="text-muted small">{company || '会社名なし'}</div>
+      </div>
+    </components.Option>
+  );
+};
 
 export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => {
   const dispatch = useAppDispatch();
@@ -30,7 +44,9 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
 
   const customerOptions: CustomerOption[] = customers.map(customer => ({
     value: customer.id,
-    label: `${customer.name} (${customer.nameReading})`
+    label: `${customer.name} (${customer.nameReading})`,
+    nameReading: customer.nameReading,
+    company: customer.company
   }));
 
   const selectedCustomer = customerOptions.find(option => option.value === formData.customerId);
@@ -68,6 +84,7 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
                   value={selectedCustomer}
                   onChange={(option) => setFormData({ ...formData, customerId: option?.value || '' })}
                   options={customerOptions}
+                  components={{ Option: CustomOption }}
                   isClearable
                   placeholder="顧客を検索..."
                   noOptionsMessage={() => "該当する顧客がいません"}
@@ -79,6 +96,10 @@ export const InvoiceEditForm = ({ invoice, onSubmit }: InvoiceEditFormProps) => 
                       '&:hover': {
                         borderColor: state.isFocused ? '#80bdff' : '#ced4da'
                       }
+                    }),
+                    option: (base) => ({
+                      ...base,
+                      padding: '8px 12px'
                     })
                   }}
                 />
