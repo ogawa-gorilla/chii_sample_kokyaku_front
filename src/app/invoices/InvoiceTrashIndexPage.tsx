@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { permanentDeleteInvoice } from "@/store/features/invoiceSlice";
+import { permanentDeleteInvoice, restoreInvoice } from "@/store/features/invoiceSlice";
 import { useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { DeletedInvoiceCard } from "./components/DeletedInvoiceCard";
@@ -12,8 +12,7 @@ export const InvoiceTrashIndexPage = () => {
   const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null);
 
   const handleRestore = (id: string) => {
-    console.log(`請求書 ${id} を復元`);
-    // TODO: 復元処理の実装
+    dispatch(restoreInvoice(id));
   };
 
   const handlePermanentDelete = (id: string) => {

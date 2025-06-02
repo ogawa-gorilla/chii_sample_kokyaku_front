@@ -272,6 +272,12 @@ export const invoiceSlice = createSlice({
     permanentDeleteInvoice: (state, action: PayloadAction<string>) => {
       const targetIndex = state.trashedInvoices.findIndex(invoice => invoice.id === action.payload);
       state.trashedInvoices.splice(targetIndex, 1);
+    },
+    restoreInvoice: (state, action: PayloadAction<string>) => {
+      const targetIndex = state.trashedInvoices.findIndex(invoice => invoice.id === action.payload);
+      const invoice = state.trashedInvoices[targetIndex];
+      state.invoices.push(invoice);
+      state.trashedInvoices.splice(targetIndex, 1);
     }
   }
 })
@@ -290,7 +296,8 @@ export const {
   startEditInvoice,
   saveInvoice,
   trashInvoice,
-  permanentDeleteInvoice
+  permanentDeleteInvoice,
+  restoreInvoice
 } = invoiceSlice.actions;
 
 // セレクター: フィルタリングされた請求書リストを返す
