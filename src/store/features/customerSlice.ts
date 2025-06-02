@@ -1,4 +1,4 @@
-import { Customer } from '@/types/customer';
+import { Customer, CustomerSortOrder } from '@/types/customer';
 import { normalizeForSearch } from '@/utils/japanese';
 import { generateUUID } from '@/utils/uuid';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -11,6 +11,7 @@ interface CustomerState {
   selectedCustomerId: string;
   editing: boolean;
   draftCustomer: Customer | null;
+  sortOrder: CustomerSortOrder;
 }
 
 const initialState: CustomerState = {
@@ -112,6 +113,7 @@ const initialState: CustomerState = {
   selectedCustomerId: '',
   editing: false,
   draftCustomer: null,
+  sortOrder: 'updatedAt_desc',
 };
 
 export const customerSlice = createSlice({
@@ -183,7 +185,10 @@ export const customerSlice = createSlice({
         state.editing = false;
         state.draftCustomer = null;
       }
-    }
+    },
+    setSortOrder: (state, action: PayloadAction<CustomerSortOrder>) => {
+      state.sortOrder = action.payload;
+    },
   },
 });
 
@@ -195,8 +200,30 @@ export const {
   cancelEditing,
   updateDraft,
   saveDraft,
-  startNewCustomer
+  startNewCustomer,
+  setSortOrder
 } = customerSlice.actions;
+
+const sortCustomers = (customers: Customer[], sortOrder: CustomerSortOrder): Customer[] => {
+  const sorted = [...customers];
+  
+  switch (sortOrder) {
+    case 'updatedAt_desc':
+      return sorted.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+    case 'updatedAt_asc':
+      return sorted.sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime());
+    case 'name_asc':
+      return sorted.sort((a, b) => a.nameReading.localeCompare(b.nameReading, 'ja'));
+    case 'name_desc':
+      return sorted.sort((a, b) => b.nameReading.localeCompare(a.nameReading, 'ja'));
+    case 'company_asc':
+      return sorted.sort((a, b) => (a.company || '').localeCompare(b.company || '', 'ja'));
+    case 'company_desc':
+      return sorted.sort((a, b) => (b.company || '').localeCompare(a.company || '', 'ja'));
+    default:
+      return sorted;
+  }
+};
 
 export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
   const query = state.customer.searchQuery;
@@ -204,18 +231,17 @@ export const selectFilteredCustomers = (state: { customer: CustomerState }) => {
   
   let customers = state.customer.customers;
   
-  // 更新日の降順でソート
-  customers = [...customers].sort((a, b) => 
-    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-  );
+  // 検索フィルタリングを適用
+  if (query) {
+    customers = customers.filter(customer => 
+      customer.name.includes(query) ||
+      normalizeForSearch(customer.nameReading).includes(readingQuery) ||
+      (customer.company && customer.company.includes(query))
+    );
+  }
   
-  if (!query) return customers;
-  
-  return customers.filter(customer => 
-    customer.name.includes(query) ||
-    normalizeForSearch(customer.nameReading).includes(readingQuery) ||
-    (customer.company && customer.company.includes(query))
-  );
+  // ソート順を適用
+  return sortCustomers(customers, state.customer.sortOrder);
 };
 
 export const getSelectedCustomer = (state: { customer: CustomerState }): Customer | undefined => {
