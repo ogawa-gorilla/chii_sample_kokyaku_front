@@ -5,35 +5,13 @@ import { setCurrentPage } from "@/store/navigationSlice";
 import { Invoice, InvoiceStatus } from "@/types/invoice";
 import { Page } from "@/types/page";
 import { Button, Container, Form } from "react-bootstrap";
-import Select, { components } from 'react-select';
 import { CustomerSelect } from "./CustomerSelect";
+import { StatusSelect } from "./StatusSelect";
 
 interface InvoiceCreateFormProps {
   invoice: Invoice;
   onSubmit: (data: Partial<Invoice>) => void;
 }
-
-const StatusOption = ({ children, ...props }: any) => {
-  const bgClass = props.data.value === InvoiceStatus.PAID ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
-  return (
-    <components.Option {...props}>
-      <div className={bgClass} style={{ margin: '-8px -12px', padding: '8px 12px' }}>
-        {children}
-      </div>
-    </components.Option>
-  );
-};
-
-const StatusSingleValue = ({ children, ...props }: any) => {
-  const bgClass = props.data.value === InvoiceStatus.PAID ? 'bg-success bg-opacity-10' : 'bg-warning bg-opacity-10';
-  return (
-    <components.SingleValue {...props}>
-      <div className={bgClass} style={{ margin: '-4px -8px', padding: '4px 8px', borderRadius: '4px' }}>
-        {children}
-      </div>
-    </components.SingleValue>
-  );
-};
 
 export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
   const dispatch = useAppDispatch();
@@ -43,13 +21,6 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
   if (!invoiceDraft) {
     return null;
   }
-
-  const statusOptions = [
-    { value: InvoiceStatus.UNPAID, label: '未払い' },
-    { value: InvoiceStatus.PAID, label: '支払い済み' }
-  ];
-
-  const selectedStatus = statusOptions.find(option => option.value === invoiceDraft?.status);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,6 +34,10 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
 
   const handleCustomerChange = (customerId: string) => {
     dispatch(updateInvoiceDraft({ ...invoiceDraft, customerId }));
+  };
+
+  const handleStatusChange = (status: InvoiceStatus) => {
+    dispatch(updateInvoiceDraft({ ...invoiceDraft, status }));
   };
 
   return (
@@ -141,28 +116,9 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
           <h6 className="card-title mb-3">支払い状況</h6>
           <div className="mb-3">
             <Form.Label>ステータス</Form.Label>
-            <Select
-              value={selectedStatus}
-              onChange={(option) => dispatch(updateInvoiceDraft({ ...invoiceDraft, status: option?.value || InvoiceStatus.UNPAID }))}
-              options={statusOptions}
-              components={{
-                Option: StatusOption,
-                SingleValue: StatusSingleValue
-              }}
-              styles={{
-                control: (base) => ({
-                  ...base,
-                  minHeight: '38px'
-                }),
-                option: (base) => ({
-                  ...base,
-                  padding: 0
-                }),
-                singleValue: (base) => ({
-                  ...base,
-                  padding: 0
-                })
-              }}
+            <StatusSelect
+              selectedStatus={invoiceDraft.status}
+              onStatusChange={handleStatusChange}
             />
           </div>
         </div>
