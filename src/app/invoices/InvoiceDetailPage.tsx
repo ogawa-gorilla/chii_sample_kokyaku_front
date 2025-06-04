@@ -35,6 +35,11 @@ export const InvoiceDetailPage = () => {
     setShowDeleteModal(false);
   };
 
+  const handleSaveWordTemplate = () => {
+    // TODO: Word テンプレート保存機能を実装
+    console.log('Word テンプレート保存');
+  };
+
   if (!invoice) {
     return (
       <Container className="mt-4">
@@ -64,6 +69,7 @@ export const InvoiceDetailPage = () => {
         .action-buttons {
           display: grid;
           grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto auto;
           gap: 1rem;
         }
         .action-button {
@@ -77,6 +83,15 @@ export const InvoiceDetailPage = () => {
         .delete-button:hover {
           background-color: #c82333;
           border-color: #bd2130;
+        }
+        .word-template-button {
+          grid-column: 1 / -1;
+          background-color: #28a745;
+          border-color: #28a745;
+        }
+        .word-template-button:hover {
+          background-color: #218838;
+          border-color: #1e7e34;
         }
         `}
       </style>
@@ -108,6 +123,13 @@ export const InvoiceDetailPage = () => {
               onClick={handleDelete}
             >
               削除
+            </Button>
+            <Button 
+              variant="success"
+              className="action-button word-template-button"
+              onClick={handleSaveWordTemplate}
+            >
+              請求書テンプレートを保存
             </Button>
           </div>
         </Container>
