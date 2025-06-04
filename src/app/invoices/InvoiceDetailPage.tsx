@@ -4,9 +4,12 @@ import { useAppDispatch, useAppSelector } from "@/hooks";
 import { startEditInvoice, trashInvoice } from "@/store/features/invoiceSlice";
 import { setCurrentPage } from "@/store/navigationSlice";
 import { Page } from "@/types/page";
-import { useState } from "react";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useRef, useState } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { InvoiceDetailCard } from "./components/InvoiceDetailCard";
+import InvoiceDownloader from "./components/InvoiceDownloader";
 
 export const InvoiceDetailPage = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +18,7 @@ export const InvoiceDetailPage = () => {
     state.invoice.invoices.find(c => c.id === selectedInvoiceId)
   );
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const invoiceRef = useRef<HTMLDivElement>(null);
 
   const handleEdit = () => {
     dispatch(startEditInvoice(invoice!.id));
@@ -25,6 +29,21 @@ export const InvoiceDetailPage = () => {
     setShowDeleteModal(true);
   };
 
+  const handleDownloadPDF = async () => {
+    const element = invoiceRef.current;
+    if (!element) return;
+
+    const canvas = await html2canvas(element, { scale: 2 });
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(`請求書_${invoice?.invoiceNumber}_${invoice?.company}_${invoice?.customerName}.pdf`);
+  };
+
   const handleConfirmDelete = () => {
     dispatch(trashInvoice(invoice!.id));
     dispatch(setCurrentPage(Page.invoiceList));
@@ -33,11 +52,6 @@ export const InvoiceDetailPage = () => {
 
   const handleCancelDelete = () => {
     setShowDeleteModal(false);
-  };
-
-  const handleSaveWordTemplate = () => {
-    // TODO: Word テンプレート保存機能を実装
-    console.log('Word テンプレート保存');
   };
 
   if (!invoice) {
@@ -95,6 +109,7 @@ export const InvoiceDetailPage = () => {
         }
         `}
       </style>
+      <InvoiceDownloader ref={invoiceRef} invoice={invoice}/>
       <div className="fixed-header-container">
           <nav className="navbar">
             <Button variant="primary" size="sm" onClick={() => dispatch(setCurrentPage(Page.invoiceList))}>
@@ -127,7 +142,7 @@ export const InvoiceDetailPage = () => {
             <Button 
               variant="success"
               className="action-button word-template-button"
-              onClick={handleSaveWordTemplate}
+              onClick={handleDownloadPDF}
             >
               請求書テンプレートを保存
             </Button>
