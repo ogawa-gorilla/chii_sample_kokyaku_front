@@ -72,7 +72,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
             <h6 className="card-title mb-0">基本情報</h6>
           </div>
           <div className="mb-3">
-            <Form.Label>顧客</Form.Label>
+            <Form.Label>顧客<span className="text-danger">※必須</span></Form.Label>
             <CustomerSelect
               customers={customers}
               selectedCustomerId={invoiceDraft.customerId}
@@ -82,7 +82,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
           </div>
 
           <div className="mb-3">
-            <Form.Label>請求日</Form.Label>
+            <Form.Label>請求日<span className="text-danger">※必須</span></Form.Label>
             <Form.Control
               type="date"
               value={invoiceDraft.date.split('/').join('-')}
@@ -91,7 +91,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
           </div>
 
           <div className="mb-3">
-            <Form.Label>請求番号</Form.Label>
+            <Form.Label>請求番号<span className="text-danger">※必須</span></Form.Label>
             <Form.Control
               type="text"
               value={invoiceDraft.invoiceNumber}
@@ -100,7 +100,7 @@ export const InvoiceCreateForm = ({ onSubmit }: InvoiceCreateFormProps) => {
           </div>
 
           <div className="mb-3">
-            <Form.Label>金額</Form.Label>
+            <Form.Label>金額<span className="text-danger">※必須</span></Form.Label>
             <Form.Control
               type="number"
               value={invoiceDraft.amount}
