@@ -144,7 +144,7 @@ export const InvoiceDetailPage = () => {
               className="action-button word-template-button"
               onClick={handleDownloadPDF}
             >
-              請求書テンプレートを保存
+              請求書テンプレートをダウンロード
             </Button>
           </div>
         </Container>

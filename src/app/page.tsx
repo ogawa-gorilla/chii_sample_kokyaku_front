@@ -5,7 +5,7 @@ import { Page } from "@/types/page";
 import { Footer } from "./components/common/Footer";
 import CustomerDetailPage from "./customers/CustomerDetailPage";
 import CustomerIndexPage from "./customers/CustomerIndexPage";
-import HomePage from "./customers/HomePage";
+import HomePage from "./HomePage";
 import { InvoiceCreatePage } from "./invoices/InvoiceCreatePage";
 import { InvoiceDetailPage } from "./invoices/InvoiceDetailPage";
 import { InvoiceEditPage } from "./invoices/InvoiceEditPage";
