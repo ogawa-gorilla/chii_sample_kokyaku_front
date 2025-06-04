@@ -73,13 +73,19 @@ export const InvoiceIndexPage = () => {
               />
             </Form>
             <Form>
-              <Form.Check 
-                className="mt-2 mb-2" 
-                type="checkbox" 
-                label="未払いのみ表示" 
-                checked={showUnpaidOnly}
-                onChange={(e) => dispatch(setShowUnpaidOnly(e.target.checked))}
-              />
+              <div 
+                className="mt-2 mb-2 d-flex align-items-center" 
+                style={{ cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => dispatch(setShowUnpaidOnly(!showUnpaidOnly))}
+              >
+                <Form.Check 
+                  type="checkbox" 
+                  checked={showUnpaidOnly}
+                  onChange={() => {}}
+                  style={{ pointerEvents: 'none' }}
+                />
+                <span className="ms-2">未払いのみ表示</span>
+              </div>
             </Form>
             <Form>
               <div className="month-picker-container">
