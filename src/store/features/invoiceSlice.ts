@@ -2,6 +2,7 @@ import { Invoice, InvoiceStatus } from '@/types/invoice'
 import { formatDate } from '@/utils/date'
 import { normalizeForSearch } from '@/utils/japanese'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import dayjs from 'dayjs'
 import { RootState } from '../store'
 
 interface InvoiceState {
@@ -353,23 +354,21 @@ export const selectFilteredInvoices = (state: RootState) => {
     // 日付フィルター
     if (startMonth && endMonth) {
         console.log(startMonth, endMonth)
-        const startDate = new Date(startMonth + '-01')
-        const endDate = new Date(endMonth + '-31') // 月末まで含める
+        const startDate = dayjs(startMonth + '-01').toDate()
+        const endDate = dayjs(endMonth + '-31').toDate() // 月末まで含める
         console.log(startDate, endDate)
 
         filteredInvoices = filteredInvoices.filter((invoice) => {
-            const invoiceDate = new Date(invoice.date.replace('/', '-'))
+            const invoiceDate = dayjs(invoice.date.replace('/', '-')).toDate()
             return invoiceDate >= startDate && invoiceDate <= endDate
         })
     }
 
     // 日付でソート
     filteredInvoices = [...filteredInvoices].sort((a, b) => {
-        const dateA = new Date(a.date.replace('/', '-'))
-        const dateB = new Date(b.date.replace('/', '-'))
-        return sortOrder === 'asc'
-            ? dateA.getTime() - dateB.getTime()
-            : dateB.getTime() - dateA.getTime()
+        const dateA = dayjs(a.date.replace('/', '-'))
+        const dateB = dayjs(b.date.replace('/', '-'))
+        return sortOrder === 'asc' ? dateA.diff(dateB) : dateB.diff(dateA)
     })
 
     return filteredInvoices
